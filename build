@@ -1,0 +1,23 @@
+#!/bin/bash
+
+BOOK=rpim
+
+PATH=./slatex:$PATH
+export PATH
+
+TEXINPUTS=./:$TEXINPUTS
+TEXINPUTS=./scmxlate:$TEXINPUTS
+TEXINPUTS=./slatex:$TEXINPUTS
+export TEXINPUTS
+
+rm -f .qq*
+rm -f .old*
+rm -f .Z*
+bibtex $BOOK
+./xeslatex $BOOK.tex
+bibtex $BOOK
+./xeslatex $BOOK.tex
+bibtex $BOOK
+./xeslatex $BOOK.tex
+bibtex $BOOK
+printf "\a"
