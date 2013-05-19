@@ -5,7 +5,13 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{ccicons}
-\usepackage[cspex,bbgreekl]{mathbbol}
+
+% Careful: mathbbol apparently doesn't like 11pt
+% The stmryrd error about 11pt is actually caused by mathbbol
+% See http://www.latex-community.org/forum/viewtopic.php?f=4&t=2099
+% 10pt or 12pt are apparently okay, though.
+%\usepackage[cspex,bbgreekl]{mathbbol}
+
 \usepackage{slatex}
 \usepackage{stmaryrd}
 \usepackage{url}
@@ -24,10 +30,11 @@
 \ccLogo
 \ccAttribution
 %\ccby
+\large
 This work is licensed under a Creative Commons Attribution 3.0 Unported License.
 (CC BY 3.0) \url{http://creativecommons.org/licenses/by/3.0/}
-
 \normalsize
+
 
 \chapter{Acknowledgements}
 \chapter{Preface}
