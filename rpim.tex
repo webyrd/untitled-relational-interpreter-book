@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{ccicons}
+\usepackage{hyperref}
 
 % Careful: mathbbol apparently doesn't like 11pt
 % The stmryrd error about 11pt is actually caused by mathbbol
@@ -14,6 +15,7 @@
 
 \usepackage{slatex}
 \usepackage{stmaryrd}
+\usepackage{textcomp}
 \usepackage{url}
 \usepackage{verbatim}
 
@@ -23,14 +25,22 @@
 \title{Relational Programming in miniKanren}
 \author{William E. Byrd}
 \maketitle
-\tableofcontents
 
 \newpage
+\thispagestyle{empty}
+\large
+\noindent
+\textcopyright~2013 William E. Byrd
+
+\vspace{5mm}
+
 \huge
 \noindent
 \ccLogo
 \ccAttribution
 %\ccby
+
+\vspace{2mm}
 
 \large
 \noindent
@@ -40,6 +50,8 @@ This work is licensed under a Creative Commons Attribution 3.0 Unported License.
 \noindent
 \url{http://creativecommons.org/licenses/by/3.0/}
 \normalsize
+
+\tableofcontents
 
 \chapter{Acknowledgements}
 \chapter{Preface}
@@ -68,6 +80,7 @@ This work is licensed under a Creative Commons Attribution 3.0 Unported License.
 \section{Relational Scheme Interpreter}
 \subsection{Generating Quines}
 \section{Relational CESK Machine}
+\subsection{Static Analysis using the Relational CESK Machine}
 
 \chapter{Type Inference}
 \section{Type Inhabitation}
