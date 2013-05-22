@@ -1,11 +1,35 @@
-\documentclass[11pt]{book}
+\documentclass[onecolumn, 11pt, oneside, openright]{book}
+
+\newcommand{\bookauthor}[0]{William E. Byrd}
+\newcommand{\booktitle}[0]{Relational Programming in miniKanren}
+\newcommand{\bookkeywords}[0]{miniKanren, Relational Programming, Logic Programming}
 
 \usepackage{alltt}
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{ccicons}
-\usepackage{hyperref}
+\usepackage{comment}
+\usepackage[compact]{fancyvrb1}
+\usepackage{fancyvrb}
+\usepackage{float}
+\usepackage{fontspec}
+\usepackage{hanging}
+\usepackage[CJKbookmarks,bookmarks=true,bookmarksopen=true]{hyperref}
+\hypersetup{
+    pdftitle={\booktitle},
+    pdfauthor={\bookauthor},
+    pdfkeywords={\bookkeywords},
+    bookmarksnumbered=true,
+%    pagebackref=true,
+    breaklinks=true,
+    urlcolor=blue,
+    colorlinks=true,
+    citecolor=blue,          %citeref's color
+    linkcolor=blue,
+}
+\usepackage{hyphenat}
+\usepackage{makeidx}
 
 % Careful: mathbbol apparently doesn't like 11pt
 % The stmryrd error about 11pt is actually caused by mathbbol
@@ -13,14 +37,64 @@
 % 10pt or 12pt are apparently okay, though.
 %\usepackage[cspex,bbgreekl]{mathbbol}
 
+\usepackage{microtype}
+\usepackage{multicol,ragged2e}
+\usepackage{natbib}
+\usepackage{rotating}
 \usepackage{slatex}
 \usepackage{stmaryrd}
 \usepackage{textcomp}
+\usepackage[compact]{titlesec}
 \usepackage{url}
 \usepackage{verbatim}
+\usepackage{xltxtra}
+
+\DefineVerbatimEnvironment{code}{Verbatim}{commandchars=\\\{\}}
+\DefineVerbatimEnvironment{Code}{Verbatim} 
+ {baselinestretch=1.1,
+  frame=single,
+  framerule=0.5pt,
+  commandchars=\\\{\}}
+\DefineVerbatimEnvironment{Transcript}{Verbatim}
+ {baselinestretch=1.1,
+  frame=lines,
+  xleftmargin=4em,
+  xrightmargin=4em,
+  framerule=0.5pt,
+  numbers=left,
+  numbersep=.5em,
+  commandchars=\\\{\}}
+
+% Uncomment to use author-date citation format
+\bibpunct();A{},
+\let\cite=\citep
+ 
+\addtolength{\textwidth}{.5in}
+\addtolength{\textheight}{.5in}
+\setlength{\topmargin}{.25in}
+\setlength{\oddsidemargin}{.75in}
+\setlength{\evensidemargin}{.25in}
+ 
+\defschememathescape{$} % $
+\def\schemecodehook{\setlength{\baselineskip}{0.5\baselineskip}}
+\def\schemedisplayspace{\vspace{0.5cm}}
+
+\makeindex
 
 \begin{document}
 \begin{schemeregion}
+\bibliographystyle{abbrvnat}
+
+\frontmatter
+
+\VerbatimFootnotes
+
+\title{\thesistitle{}}
+
+\author{\thesisauthor{}}
+
+\thispagestyle{empty}
+
 
 \title{Relational Programming in miniKanren}
 \author{William E. Byrd}
@@ -55,6 +129,8 @@ This work is licensed under a Creative Commons Attribution 3.0 Unported License.
 
 \chapter{Acknowledgements}
 \chapter{Preface}
+
+\mainmatter
 
 \chapter{Introduction to Relational Programming}
 
@@ -97,6 +173,10 @@ This work is licensed under a Creative Commons Attribution 3.0 Unported License.
 
 \chapter{The Future of Relational Programming}
 \section{Open Problems}
+
+\bibliography{rpim}
+
+\appendix
 
 \end{schemeregion}
 \end{document}
