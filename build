@@ -20,4 +20,5 @@ bibtex $BOOK
 bibtex $BOOK
 ./xeslatex $BOOK.tex
 bibtex $BOOK
+makeindex -c -s $BOOK.ist $BOOK
 printf "\a"

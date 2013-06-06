@@ -1,0 +1,49 @@
+\chapter{Introduction to miniKanren}
+\section{Core miniKanren}
+\section{Constraint Logic Programming}
+\section{Differences between miniKanren and Other Logic Languages}
+
+\chapter{Translating from Scheme to miniKanren}
+\section{A-Normal Form}
+\section{Defunctionalization}
+\section{Pattern Matching}
+
+\chapter{Exploring the Chomsky Hierarchy}
+\section{Regular Expression Matching}
+\section{Deterministic Finite Automata}
+
+\chapter{Relational Exploration of Programming Languages Fundamentals}
+\section{Lexical Scope}
+\section{Relational Program Transformations}
+\subsection{Continuation-Passing Style}
+
+\chapter{Relational Interpreters}
+\section{Relational Scheme Interpreter}
+\subsection{Generating Quines}
+\section{Relational CESK Machine}
+\subsection{Static Analysis using the Relational CESK Machine}
+
+\chapter{Type Inference}
+\section{Type Inhabitation}
+
+\chapter{Probabilistic Logic Programming}
+
+\chapter{Implementing miniKanren}
+\section{Unification}
+\section{An Embedding in Scheme}
+\section{A miniKanren Interpreter}
+\section{A Meta-circular miniKanren Interpreter}
+\section{An Abstract Machine for miniKanren}
+\section{A Relational miniKanren Interpreter}
+
+\chapter{The Future of Relational Programming}
+\section{Open Problems}
+\section{Projects}
+\subsection{Tool Support}
+\subsubsection{Automatic Scheme-to-miniKanren Translation}
+\subsubsection{Debugging Support}
+\subsection{Interpreters}
+\paragraph{Relational Concatenative Interpreter}
+\subsection{Fun Projects}
+\paragraph{Relational 6502 Emulator}
+\paragraph{Relational Atari 2600 Emulator}

@@ -1,179 +1,152 @@
-\documentclass[onecolumn, 11pt, oneside, openright]{book}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file is a modified version of the
+%
+% Tufte-Style Book (Minimal Template)
+% LaTeX Template
+% Version 1.0 (5/1/13)
+%
+% downloaded from: http://www.LaTeXTemplates.com
+%
+% The license for *this LaTeX file only* (and the original template) is:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+% All files for this book, other than this file, and the
+% 'tufte-book.cls' and 'tufte-common.cls' files, are covered under the
+% license: 
+% CC BY 3.0 (http://creativecommons.org/licenses/by/3.0/)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\bookauthor}[0]{William E. Byrd}
-\newcommand{\booktitle}[0]{Relational Programming in miniKanren}
-\newcommand{\bookkeywords}[0]{miniKanren, Relational Programming, Logic Programming}
+\documentclass{tufte-book} % Use the tufte-book class which in turn uses the tufte-common class
 
-\usepackage{alltt}
-\usepackage{amsfonts}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{ccicons}
-\usepackage{comment}
-\usepackage[compact]{fancyvrb1}
-\usepackage{fancyvrb}
-\usepackage{float}
-\usepackage{fontspec}
-\usepackage{hanging}
-\usepackage[CJKbookmarks,bookmarks=true,bookmarksopen=true]{hyperref}
-\hypersetup{
-    pdftitle={\booktitle},
-    pdfauthor={\bookauthor},
-    pdfkeywords={\bookkeywords},
-    bookmarksnumbered=true,
-%    pagebackref=true,
-    breaklinks=true,
-    urlcolor=blue,
-    colorlinks=true,
-    citecolor=blue,          %citeref's color
-    linkcolor=blue,
+\hypersetup{colorlinks} % Comment this line if you don't wish to have colored links
+
+\usepackage{microtype} % Improves character and word spacing
+
+\usepackage{booktabs} % Better horizontal rules in tables
+
+\usepackage{graphicx} % Needed to insert images into the document
+\graphicspath{{graphics/}} % Sets the default location of pictures
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio} % Improves figure scaling
+
+\usepackage{fancyvrb} % Allows customization of verbatim environments
+\fvset{fontsize=\normalsize} % The font size of all verbatim text can be changed here
+
+\newcommand{\hangp}[1]{\makebox[0pt][r]{(}#1\makebox[0pt][l]{)}} % New command to create parentheses around text in tables which take up no horizontal space - this improves column spacing
+\newcommand{\hangstar}{\makebox[0pt][l]{*}} % New command to create asterisks in tables which take up no horizontal space - this improves column spacing
+
+\usepackage{xspace} % Used for printing a trailing space better than using a tilde (~) using the \xspace command
+
+\newcommand{\monthyear}{\ifcase\month\or January\or February\or March\or April\or May\or June\or July\or August\or September\or October\or November\or December\fi\space\number\year} % A command to print the current month and year
+
+\newcommand{\openepigraph}[2]{ % This block sets up a command for printing an epigraph with 2 arguments - the quote and the author
+\begin{fullwidth}
+\sffamily\large
+\begin{doublespace}
+\noindent\allcaps{#1}\\ % The quote
+\noindent\allcaps{#2} % The author
+\end{doublespace}
+\end{fullwidth}
 }
-\usepackage{hyphenat}
-\usepackage{makeidx}
 
-% Careful: mathbbol apparently doesn't like 11pt
-% The stmryrd error about 11pt is actually caused by mathbbol
-% See http://www.latex-community.org/forum/viewtopic.php?f=4&t=2099
-% 10pt or 12pt are apparently okay, though.
-%\usepackage[cspex,bbgreekl]{mathbbol}
+\newcommand{\blankpage}{\newpage\hbox{}\thispagestyle{empty}\newpage} % Command to insert a blank page
 
-\usepackage{microtype}
-\usepackage{multicol,ragged2e}
-\usepackage{natbib}
-\usepackage{rotating}
-\usepackage{slatex}
-\usepackage{stmaryrd}
-\usepackage{textcomp}
-\usepackage[compact]{titlesec}
-\usepackage{url}
-\usepackage{verbatim}
-\usepackage{xltxtra}
+\usepackage{makeidx} % Used to generate the index
+\makeindex % Generate the index which is printed at the end of the document
 
-\DefineVerbatimEnvironment{code}{Verbatim}{commandchars=\\\{\}}
-\DefineVerbatimEnvironment{Code}{Verbatim} 
- {baselinestretch=1.1,
-  frame=single,
-  framerule=0.5pt,
-  commandchars=\\\{\}}
-\DefineVerbatimEnvironment{Transcript}{Verbatim}
- {baselinestretch=1.1,
-  frame=lines,
-  xleftmargin=4em,
-  xrightmargin=4em,
-  framerule=0.5pt,
-  numbers=left,
-  numbersep=.5em,
-  commandchars=\\\{\}}
-
-% Uncomment to use author-date citation format
-\bibpunct();A{},
-\let\cite=\citep
- 
-\addtolength{\textwidth}{.5in}
-\addtolength{\textheight}{.5in}
-\setlength{\topmargin}{.25in}
-\setlength{\oddsidemargin}{.75in}
-\setlength{\evensidemargin}{.25in}
-
-\titlespacing*{\section}{0pt}{*4}{*1.5}
-\titlespacing*{\subsection}{0pt}{*4}{*1.5}
-\titlespacing*{\subsubsection}{0pt}{*4}{*1.5}
-
-\defschememathescape{$} % $
-\def\schemecodehook{\setlength{\baselineskip}{0.5\baselineskip}}
-\def\schemedisplayspace{\vspace{0.5cm}}
-
-\makeindex
+\input{rpim-prelude.tex}
 
 \begin{document}
 \begin{schemeregion}
-\bibliographystyle{abbrvnat}
 
 \frontmatter
 
-\VerbatimFootnotes
-
 \include{halftitle}
 
-\include{blank}
+\blankpage
 
 \include{title}
 
-\include{copyright}
+%----------------------------------------------------------------------------------------
+%	COPYRIGHT PAGE
+%----------------------------------------------------------------------------------------
 
-\include{dedication}
+\newpage
 
-\include{blank}
+\begin{fullwidth}
+~\vfill
+\thispagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+\large
+\noindent
+\textcopyright~2013 William E. Byrd
 
-{
-\setcounter{tocdepth}{1}
-\setlength{\parskip}{0pt}
+\huge
+\noindent
+\ccLogo
+\ccAttribution
+
+\large
+\noindent
+This work is licensed under a Creative Commons Attribution 3.0 Unported License.
+(CC BY 3.0)
+
+\noindent
+\url{http://creativecommons.org/licenses/by/3.0/}
+\normalsize
+\end{fullwidth}
+
+
+%----------------------------------------------------------------------------------------
+%	DEDICATION PAGE
+%----------------------------------------------------------------------------------------
+
+\cleardoublepage
+\begin{fullwidth}
+~\vfill
+\begin{doublespace}
+\noindent\fontsize{18}{22}\selectfont\itshape
+\nohyphenation
+For my H211 students: Indiana University, Fall 2010 \& 2011.
+\end{doublespace}
+\begin{flushright}
+\textit{Learning with always trumps learning from.}
+
+\wspace
+
+---Woodie Flowers
+\end{flushright}
+\vfill
+\vfill
+\end{fullwidth}
+
+
+\blankpage
+
 \tableofcontents
-}
 
-%\include{acknowledgments}
 %\include{preface}
 
 \mainmatter
 
 \include{introduction}
 
+%----------------------------------------------------------------------------------------
+
+\backmatter  % ??? should 'backmatter' come before or after 'appendix'?
 
 \appendix
 
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
 \bibliography{rpim}
+\bibliographystyle{abbrvnat}
+
+%----------------------------------------------------------------------------------------
+
+\printindex % Print the index at the very end of the document
 
 \end{schemeregion}
 \end{document}
-
-%%% outline
-
-\chapter{Introduction to miniKanren}
-\section{Core miniKanren}
-\section{Constraint Logic Programming}
-\section{Differences between miniKanren and Other Logic Languages}
-
-\chapter{Translating from Scheme to miniKanren}
-\section{A-Normal Form}
-\section{Defunctionalization}
-\section{Pattern Matching}
-
-\chapter{Exploring the Chomsky Hierarchy}
-\section{Regular Expression Matching}
-\section{Deterministic Finite Automata}
-
-\chapter{Relational Exploration of Programming Languages Fundamentals}
-\section{Lexical Scope}
-\section{Relational Program Transformations}
-\subsection{Continuation-Passing Style}
-
-\chapter{Relational Interpreters}
-\section{Relational Scheme Interpreter}
-\subsection{Generating Quines}
-\section{Relational CESK Machine}
-\subsection{Static Analysis using the Relational CESK Machine}
-
-\chapter{Type Inference}
-\section{Type Inhabitation}
-
-\chapter{Probabilistic Logic Programming}
-
-\chapter{Implementing miniKanren}
-\section{Unification}
-\section{An Embedding in Scheme}
-\section{A miniKanren Interpreter}
-\section{A Meta-circular miniKanren Interpreter}
-\section{An Abstract Machine for miniKanren}
-\section{A Relational miniKanren Interpreter}
-
-\chapter{The Future of Relational Programming}
-\section{Open Problems}
-\section{Projects}
-\subsection{Tool Support}
-\subsubsection{Automatic Scheme-to-miniKanren Translation}
-\subsubsection{Debugging Support}
-\subsection{Interpreters}
-\paragraph{Relational Concatenative Interpreter}
-\subsection{Fun Projects}
-\paragraph{Relational 6502 Emulator}
-\paragraph{Relational Atari 2600 Emulator}

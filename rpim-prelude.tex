@@ -1,0 +1,46 @@
+\newcommand{\bookauthor}[0]{William E. Byrd}
+\newcommand{\booktitle}[0]{Relational Programming in miniKanren}
+\newcommand{\bookkeywords}[0]{miniKanren, Relational Programming, Logic Programming}
+
+\newcommand{\wspace}{{\vspace{1em}}}
+
+\usepackage{alltt}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{ccicons}
+\usepackage{comment}
+
+\usepackage{float}
+
+% Load Palatino-like fonts
+% from http://tex.stackexchange.com/questions/50586/how-to-use-palatino-like-math-fonts-in-xelatex
+\usepackage{fontspec}
+\usepackage{mathpazo}
+\setmainfont
+     [ BoldFont       = texgyrepagella-bold.otf ,
+       ItalicFont     = texgyrepagella-italic.otf ,
+       BoldItalicFont = texgyrepagella-bolditalic.otf ]
+     {texgyrepagella-regular.otf}
+
+\usepackage{hanging}
+
+% Careful: mathbbol apparently doesn't like 11pt
+% The stmryrd error about 11pt is actually caused by mathbbol
+% See http://www.latex-community.org/forum/viewtopic.php?f=4&t=2099
+% 10pt or 12pt are apparently okay, though.
+%\usepackage[cspex,bbgreekl]{mathbbol}
+
+%\usepackage{natbib}
+
+\usepackage{slatex}
+\usepackage{stmaryrd}
+\usepackage{textcomp}
+
+% Uncomment to use author-date citation format
+%\bibpunct();A{},
+%\let\cite=\citep
+
+\defschememathescape{$} % $
+\def\schemecodehook{\setlength{\baselineskip}{0.5\baselineskip}}
+\def\schemedisplayspace{\vspace{0.5cm}}
