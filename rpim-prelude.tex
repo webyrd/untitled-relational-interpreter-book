@@ -19,12 +19,12 @@
 % Load Palatino-like fonts
 % from http://tex.stackexchange.com/questions/50586/how-to-use-palatino-like-math-fonts-in-xelatex
 \usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX} % makes this a feature for all selected fonts
 \usepackage{mathpazo}
 \setmainfont
      [ BoldFont       = texgyrepagella-bold.otf ,
        ItalicFont     = texgyrepagella-italic.otf ,
-       BoldItalicFont = texgyrepagella-bolditalic.otf,
-       Ligatures      = TeX ] % make sure ``, '', --, ---, etc., work properly
+       BoldItalicFont = texgyrepagella-bolditalic.otf ]
      {texgyrepagella-regular.otf}
 
 \usepackage{hanging}
@@ -45,6 +45,19 @@
 %\bibpunct();A{},
 %\let\cite=\citep
 
+%--------------------------------------------
+
+%%% SLaTeX stuff
+
+% Fake using the Computer Modern font within SLaTeX.
+\newcommand{\cmr}{\fontfamily{lmr}\selectfont}
+
+\def\keywordfont#1{{\cmr{\textbf{#1}}}}
+\def\variablefont#1{{\cmr{\textit{#1}}}}
+\def\constantfont#1{{\cmr{\textsf{#1}}}}
+\let\datafont\constantfont
+
 \defschememathescape{$} % $
 \def\schemecodehook{\setlength{\baselineskip}{0.5\baselineskip}}
-\def\schemedisplayspace{\vspace{0.5cm}}
+
+\setspecialsymbol{lambda}{{\cmr{$\lambda$}}}
