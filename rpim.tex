@@ -16,6 +16,14 @@
 % CC BY 3.0 (http://creativecommons.org/licenses/by/3.0/)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Letterspacing is apparently busted in the latest Tufte template.
+% If you see the error message
+%
+% ! Argument of \MakeTextUppercase has an extra }.
+%
+% you can disable letterspacing by adding [nols]:
+%
+% \documentclass[nols]{tufte-book}
 \documentclass{tufte-book} % Use the tufte-book class which in turn uses the tufte-common class
 
 \hypersetup{colorlinks} % Comment this line if you don't wish to have colored links
@@ -54,6 +62,7 @@
 \makeindex % Generate the index which is printed at the end of the document
 
 \input{rpim-prelude.tex}
+
 
 \begin{document}
 \begin{schemeregion}
