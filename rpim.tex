@@ -28,7 +28,7 @@
 
 \hypersetup{colorlinks} % Comment this line if you don't wish to have colored links
 
-\usepackage{microtype} % Improves character and word spacing
+%\usepackage{microtype} % Improves character and word spacing
 
 \usepackage{booktabs} % Better horizontal rules in tables
 
@@ -68,6 +68,7 @@
 \begin{schemeregion}
 
 \frontmatter
+\pagenumbering{roman} % Tufte-Style Book uses Arabic numbering for front matter
 
 \include{halftitle}
 
@@ -143,6 +144,7 @@ For my H211 students: Indiana University, Fall 2010 \& 2011.
 \include{preface}
 
 \mainmatter
+\pagenumbering{arabic}
 
 \include{introduction}
 
