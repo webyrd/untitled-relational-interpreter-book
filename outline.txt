@@ -47,3 +47,8 @@
 \subsection{Fun Projects}
 \paragraph{Relational 6502 Emulator}
 \paragraph{Relational Atari 2600 Emulator}
+
+
+Meta-interpreters
+
+background chapters on PL theory, etc.
