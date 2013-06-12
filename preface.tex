@@ -1,5 +1,19 @@
 \chapter{Preface}
 
+% what is this book about?
+% TAPL has a paragraph describing at a high level what the book is about
+
+% relational programming
+% the miniKanren language
+% lots of examples
+
+
+
+% why am I writing this book?
+
+% language has changed significantly since TRS.
+% new constraint operators, and a framework for constraint logic programming cKanren.  also, nominal logic programming, tabling, etc.  These topics are too advanced to easily fit into a second edition of TRS, which in MHO should remain focused on traditional logic programming.  Could have The Constrained Schemer could be a little followup, though.
+
 \section{Audience}\label{sec:preface:audience}
 
 \marginnote{\begin{quote}I have attempted to deliver [these lectures] in a spirit that should be recommended to all students embarking on the writing of their PhD theses: imagine that you are explaining your ideas to your former smart, but ignorant, self, at the beginning of your studies!\end{quote}\begin{flushright}\vspace{-1em}---Richard P. Feynman\\\emph{The Feynman Lectures on Computation}\end{flushright}}
@@ -35,6 +49,49 @@ Scheme, the beginning of \emph{Structure and Interpretation of
 
 
 \section{Goals}\label{sec:preface:goals}
+
+% What is the goal of the book?  What do I want the reader to get
+% out of the book, think about, or be able to do after reading?
+
+% An important goal of the book is to make other resources on
+% miniKanren more accessible.  PL-specific terms should be described,
+% or at least the reader should be given very specific pointers to
+% additional, accessible reading.
+
+% Decribe the current state-of-the-art for relational programming in
+% miniKanren.
+
+% Show, in detail, how miniKanren relations can be derived from
+% pure Scheme functions.
+
+% Give many examples of non-trivial relations, show how these programs
+% were derived.  These examples should include non-PL-related
+% relations of wide interest to programmers, such as finite state
+% machines.
+
+% Give examples of good relational style.
+
+% Give a more detailed explanation of the miniKanren implementation than is found in TRS or our academic papers.  Show how to hack the implementation to change the behavior of miniKanren, or add new operators.
+
+% Explain how the constraint solving works, and how to design and implement new constraint domains.
+
+% Explain how to debug miniKanren programs.  lol
+
+% Explain the difference between miniKanren and other related languages, including Prolog, Curry, Mercury, and Oz.
+
+% Describe the open problems in relational programming, and limitations of miniKanren.
+
+% [Optional]
+% Show how to ``play in the mud'' with non-relational features.
+
+% [Optional]
+% Explain design decisions made for miniKanren.
+
+% [Optional]
+% Give a history of miniKanren (with help from Dan and Oleg)
+
+% [Optional]
+% Describe real-world uses of miniKanren.
 
 \newpage
 
@@ -108,10 +165,6 @@ In the margin notes, however, anything goes.
 %%% the claimed contributions.
 
 
-% An important goal of the book is to make other resources on
-% miniKanren more accessible.  PL-specific terms should be described,
-% or at least the reader should be given very specific pointers to
-% additional, accessible reading.
 
 
 %%% I should make sure I have plenty of examples of relational
@@ -122,8 +175,6 @@ In the margin notes, however, anything goes.
 
 % Critical questions that should be answered in the preface:
 
-% What is the goal of the book?  What do I want the reader to get
-% out of the book, think about, or be able to do after reading?
 
 % Who is the intended audience?  (Always keep this in mind...)  For
 % the Little books, the intended reader is a bright but ignorant high
