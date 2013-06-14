@@ -53,28 +53,32 @@ Scheme, the beginning of \emph{Structure and Interpretation of
 % What is the goal of the book?  What do I want the reader to get
 % out of the book, think about, or be able to do after reading?
 
-The goals for this book are several-fold:
+The high-level goals for this book are to make relational programming
+accessible to a broader audience, and to explain the state-of-the-art
+in the design, implementation, and use of the miniKanren language.
+
+Specifically, the book aims to:
 
 \begin{enumerate}
-\item to make relational programming accessible to a broader audience;
-\item to describe the current state of the miniKanren language, and
+\item describe the current state of the miniKanren language, and
   its Constraint Logic Programming (CLP) extensions;
-\item to present a variety of relational programs that exemplify the
+\item present a variety of relational programs that exemplify the
   relational style and introducing important relational idioms;
-\item to explain how to derive miniKanren relations from pure Scheme
+\item explain how to derive miniKanren relations from pure Scheme
   functions, in a systematic manner;
-\item to give a detailed explanation of the latest implementation of
+\item give a detailed explanation of the latest implementation of
   core miniKanren, and to show how to hack the implementation to
   change the behavior of miniKanren, or add new operators;
-\item to explain how constraint solving works in the cKanren
+\item explain how constraint solving works in the cKanren
   Constraint Logic Programming framework, and show how to design and
   implement new constraint domains;
-\item to demonstrate how to debug miniKanren relations;
-\item to explain how miniKanren differs from related languages,
+\item demonstrate how to debug miniKanren relations;
+\item explain how miniKanren differs from related languages,
   including Prolog, Curry, Mercury, and Oz;
-\item to describe important open problems in relational programming, and
+\item describe important open problems in relational programming, and
   limitations of miniKanren;
-\item to\marginnote{Describing these programming languages concepts
+\item explain the rationale behind key design decisions for miniKanren;
+\item \marginnote{Describing these programming languages concepts
   has the important side effect of making accessible the academic
   papers presented on miniKanren.} use relational programming to
   explain important and interesting concepts from programming
