@@ -21,7 +21,10 @@ Such programs represent mathematical relations; we therefore call them \emph{rel
 %
 Relational programming is closely related to relational databases, and can also be seen as an especially pure form of logic programming.
 %
-For writing our relational programs, we use the \emph{miniKanren} family of languages.  miniKanren is designed specifically for relational programming, and makes relational programming easy.
+The perspective taken in this book is somewhat different, and is based on generalizing functions to relations; in other words, this book borrows more from functional programming than from logic programming or relational databases.
+
+
+For writing our relational programs, we use the \emph{miniKanren} family of languages.  miniKanren\marginnote{Information on miniKanren, including links to implementations, can be found at the official miniKanren website: \url{http://minikanren.org/}} has been implemented in Scheme, Racket, Clojure (in the form of David Nolen's excellent {\tt core.logic} library), Ruby, Python, and several other ``host'' languages.  miniKanren is designed specifically for relational programming, and makes relational programming easy.
 
 Okay, that last part is a lie.  Writing relational programs is $\ldots$ tricky, hence this book.  miniKanren does make relational programming \emph{less difficult} than it would be otherwise.  What \emph{is} true is that writing relational programs is extremely interesting, challenging, and fun.  As in, ``I can write a short, non-obfuscated program that will melt your brain'' level of fun.
 
