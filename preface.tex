@@ -59,7 +59,7 @@ of Scheme: \mbox{\scheme|(evalo '((lambda (x) x) 5) val)|} associates
 \scheme|val| with \schemeresult|5|. Of course, we can play more tricks
 with \scheme|evalo|: \mbox{\scheme|(evalo exp '6)|} generates legal
 Scheme expressions that \emph{evaluate} to 6, while
-\marginnote{Douglas Hofstadter coined the term \emph{quine} to describe a program that evaluates to itself, in honor of logician Willard Van Orman Quine (1908--2000). Much more on quines can be found in Doug's amazing book, \emph{GEB}: \cite{GEB79}} \mbox{\scheme|(evalo exp exp)|} generates Scheme expressions that evaluate to themselves.
+\marginnote{Douglas Hofstadter coined the term \emph{quine} to describe a program that evaluates to itself, in honor of logician Willard Van Orman Quine (1908--2000).  Writing quines has long been a favorite hacker activity, and quines are often featured in the The International Obfuscated C Code Contest (\url{http://www.ioccc.org/}). Much more on quines can be found in Doug's amazing book, \emph{GEB}: \cite{GEB79}} \mbox{\scheme|(evalo exp exp)|} generates Scheme expressions that evaluate to themselves.
 
 \newpage
 
