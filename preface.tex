@@ -47,8 +47,16 @@ answers, such as \mbox{\scheme|x = 3|} and \mbox{\scheme|y = 4|}, and
 Finally, we can write \mbox{\scheme|(+o x y z)|}, which enumerates 
 all triples of natural numbers $(x, y, z)$ such that $x + y = z$; 
 here our \scheme|+o| relation produces infinitely many answers.
+%
+Informally, we say that the +o relation can ``run backwards,'' in
+contrast to Scheme's + function, which only can be used in the
+``forwards'' direction.
 
-
+This book will teach you how to write relations that produce
+interesting answers when running both forwards and backwards.  For
+example, you will learn to write a relational interpreter for a subset
+of Scheme: \mbox{\scheme|(evalo '((lambda (x) x) 5) val)|} associates
+\scheme|val| with \schemeresult|5|.
 
 
 
