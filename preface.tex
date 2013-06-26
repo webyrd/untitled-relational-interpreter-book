@@ -39,6 +39,10 @@ We can also write \mbox{\scheme|(+o x y 7)|}, which associates
 \schemeresult|7|; here our \scheme|+o| relation produces multiple
 answers, such as \mbox{\scheme|x = 3|} and \mbox{\scheme|y = 4|}, and
 \mbox{\scheme|x = 0|} and \mbox{\scheme|y = 7|}.
+%
+Finally, we can write \mbox{\scheme|(+o x y z)|}, which enumerates 
+all triples of natural numbers $(x, y, z)$ such that $x + y = z$; 
+here our \scheme|+o| relation produces infinitely many answers.
 
 Relational programming is intimately related to both logic programming
 and relational algebra, the theory behind relational databases.
