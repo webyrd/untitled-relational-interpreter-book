@@ -1,0 +1,5 @@
+for a chapter on extending miniKanren, or maybe on cKanren
+
+We make expand, then defense it.
+White Ra
+
