@@ -18,7 +18,7 @@ This is a book about \emph{relational programming}.
 %
 Just as functional programs model mathematical functions, relational programs model mathematical relations.
 %
-Relational programming is intimately related to both logic programming
+Relational\marginnote{If you know nothing about logic programming, relational algebra, or databases, \emph{don't panic!} Any aspect of these topics necessary to understand the main text will be explained before hand, or in an appendix.} programming is intimately related to both logic programming
 and relational algebra, the theory behind relational databases.
 
 
@@ -30,7 +30,7 @@ For example, consider a two-argument variant of Scheme's addition function, rest
 %
 A relational version of addition, which we'll call \scheme|+o|, takes three arguments:\marginnote{Here we are taking a notational liberty, as \scheme|+o| expects 3 and 4 to be represented as binary, little-endian lists: \mbox{\scheme|(1 1)|} and \mbox{\scheme|(0 0 1)|}, respectively. Zero is represented as the empty list, \scheme|()|.  This numeric representation is extremely flexible, since the lists can contain logic variables---for example, the list \mbox{\scheme|`(1 . ,x)|} represents all odd natural numbers, while \mbox{\scheme|`(0 . ,x)|} represents all positive even naturals.  We can also perform relational arithmetic on built-in Scheme numbers, using \emph{Constraint Logic Programming over Finite Domains}, or \emph{CLP(FD)}; CLP(FD) is faster, but less general, than \scheme|+o| and friends (\scheme|*o|, \scheme|/o|, etc.).} \mbox{\scheme|(+o 3 4 z)|},
 where \scheme|z| is a \emph{logic variable} that represents the result
-of adding the first two arguments of \scheme|+o|. In this case,
+of adding the first two arguments of \scheme|+o|. In this case
 \scheme|z| is associated with \schemeresult|7|.
 %
 More interestingly, we can write \mbox{\scheme|(+o 3 y 7)|}, which
@@ -39,7 +39,7 @@ also performs subtraction.
 %
 We can also write \mbox{\scheme|(+o x y 7)|}, which associates
 \scheme|x| and \scheme|y| with all pairs of natural numbers that sum
-to \schemeresult|7|; in this case, \scheme|+o| produces multiple
+to \schemeresult|7|; in this case \scheme|+o| produces multiple
 answers, including \mbox{\scheme|x = 3|} and \mbox{\scheme|y = 4|}, and
 \mbox{\scheme|x = 0|} and \mbox{\scheme|y = 7|}.
 %
