@@ -1,4 +1,4 @@
-\chapter{Preface}
+\chapter{Preface}\label{sec:preface}
 
 % what is this book about?
 % TAPL has a paragraph describing at a high level what the book is about
@@ -59,7 +59,7 @@ of Scheme: \mbox{\scheme|(evalo '((lambda (x) x) 5) val)|} associates
 \scheme|val| with \schemeresult|5|. Of course, we can play more tricks
 with \scheme|evalo|: \mbox{\scheme|(evalo exp '6)|} generates legal
 Scheme expressions that \emph{evaluate} to 6, while
-\marginnote{Douglas Hofstadter coined the term \emph{quine} to describe a program that evaluates to itself, in honor of logician Willard Van Orman Quine (1908--2000).  Writing quines has long been a favorite hacker activity, and quines are often featured in the The International Obfuscated C Code Contest (\url{http://www.ioccc.org/}). Much more on quines can be found in Doug's delightful book, \emph{GEB}: \cite{GEB79}} \mbox{\scheme|(evalo exp exp)|} generates Scheme expressions that evaluate to themselves.
+\marginnote{Douglas Hofstadter coined the term \emph{quine} to describe a program that evaluates to itself, in honor of logician Willard Van Orman Quine (1908--2000).  Writing quines has long been a favorite hacker activity, and quines are often featured in the The International Obfuscated C Code Contest (\url{http://www.ioccc.org/}). A delightful introduction to quines can be found in Doug's classic, \emph{GEB}: \cite{GEB79}} \mbox{\scheme|(evalo exp exp)|} generates Scheme expressions that evaluate to themselves.
 
 \newpage
 
@@ -109,6 +109,9 @@ Scheme, the beginning of \emph{Structure and Interpretation of
   Computer Programs} should get you up to speed, while \emph{The
   Scheme Programming Language, 4th Edition}\cite{Dybvig:2009:SPL:1618542}\marginnote{(full text at
 \url{http://www.scheme.com/tspl4/})} describes the language in detail.
+
+\section{The Language}\label{sec:preface:language}
+
 
 
 \section{Goals}\label{sec:preface:goals}
