@@ -121,39 +121,43 @@ Scheme, the beginning of \emph{Structure and Interpretation of
 % What is the goal of the book?  What do I want the reader to get
 % out of the book, think about, or be able to do after reading?
 
-The high-level goals for this book are to make relational programming
-accessible to a broader audience, and to explain the state-of-the-art
+The two high-level goals for this book are to {\bf make relational programming
+accessible} to a broader audience, and to {\bf describe the state-of-the-art}
 in the design, implementation, and use of the miniKanren language.
 
-Specifically, this book aims to:
+%% The high-level goals for this book are to make relational programming
+%% accessible to a broader audience, and to explain the state-of-the-art
+%% in the design, implementation, and use of the miniKanren language.
 
-\begin{enumerate}
-\item describe the current state of the miniKanren language, and
-  its Constraint Logic Programming (CLP) extensions;
-\item present a variety of relational programs that exemplify the
-  relational style, and that introduce important relational idioms;
-\item explain how to derive miniKanren relations from pure Scheme
-  functions in a systematic manner;
-\item explain in detail the canonical implementation of core miniKanren,
-  and show how to hack the implementation to change or extend the
-  language;
-\item explain how constraint solving works in the cKanren
-  Constraint Logic Programming framework, and show how to design and
-  implement new constraint domains;
-\item demonstrate how to debug miniKanren relations;
-\item explain how miniKanren differs from related languages,
-  including Prolog, Curry, Mercury, and Oz;
-\item describe important open problems in relational programming, and
-  limitations of miniKanren;
-\item explain the rationale behind key design decisions for miniKanren;
-\item use relational programming to explain important and interesting
-  concepts from programming languages, such as interpreters, type
-  inferencers, and Continuation-Passing Style.
-\end{enumerate}
+%% Specifically, this book aims to:
 
-\noindent
-An important side-effect of these goals is to provide the background
-needed to understand academic papers and talks on miniKanren.
+%% \begin{enumerate}
+%% \item describe the current state of the miniKanren language, and
+%%   its Constraint Logic Programming (CLP) extensions;
+%% \item present a variety of relational programs that exemplify the
+%%   relational style, and that introduce important relational idioms;
+%% \item explain how to derive miniKanren relations from pure Scheme
+%%   functions in a systematic manner;
+%% \item explain in detail the canonical implementation of core miniKanren,
+%%   and show how to hack the implementation to change or extend the
+%%   language;
+%% \item explain how constraint solving works in the cKanren
+%%   Constraint Logic Programming framework, and show how to design and
+%%   implement new constraint domains;
+%% \item demonstrate how to debug miniKanren relations;
+%% \item explain how miniKanren differs from related languages,
+%%   including Prolog, Curry, Mercury, and Oz;
+%% \item describe important open problems in relational programming, and
+%%   limitations of miniKanren;
+%% \item explain the rationale behind key design decisions for miniKanren;
+%% \item use relational programming to explain important and interesting
+%%   concepts from programming languages, such as interpreters, type
+%%   inferencers, and Continuation-Passing Style.
+%% \end{enumerate}
+
+%% \noindent
+%% An important side-effect of these goals is to provide the background
+%% needed to understand academic papers and talks on miniKanren.
 
 
 %% One goal of this book is to present a variety of non-trivial
