@@ -61,7 +61,7 @@ this book.
 %
 For example, consider \scheme|evalo|, a relational interpreter for a subset
 of Scheme. Running \scheme|evalo| forwards, the call
-\mbox{\scheme|(evalo '((lambda (x) (+ x 2)) 4) val)|} associates
+\mbox{\scheme|(evalo '((lambda (x) (* x 2)) 3) val)|} associates
 \scheme|val| with \schemeresult|6|. Of course, we can also run \scheme|evalo|
 backwards: \mbox{\scheme|(evalo exp '6)|} generates legal
 Scheme expressions that \emph{evaluate} to 6, while
