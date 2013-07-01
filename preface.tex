@@ -66,15 +66,19 @@ backwards: \mbox{\scheme|(evalo exp '6)|} generates legal
 Scheme expressions that \emph{evaluate} to 6, while
 \marginnote{Douglas Hofstadter coined the term \emph{quine}, in honor of logician Willard Van Orman Quine (1908--2000).  Writing quines has long been a favorite hacker activity, and quines are often featured in the The International Obfuscated C Code Contest (\url{http://www.ioccc.org/}). A delightful introduction to quines can be found in Doug's classic, \emph{GEB}: \cite{GEB79}} \mbox{\scheme|(evalo exp exp)|} generates \emph{quines}, which are Scheme expressions that evaluate to themselves.
 
-This book will teach you how to write interesting relations, including
-the quine-generating \scheme|evalo| relation above.
+This book will teach you how to write relations that produce
+interesting answers when running forwards and backwards.
 %
-We will see that running a relation in the forward direction is often
-simple; running a relation backwards is where the real fun begins.\marginnote{All too often, the fun never ends, as the relation diverges (loops forever).} 
+Running a relation in the forward direction is usually straight-forward.
 %
-I hope you'll find the relational style of programming as fascinating
-as I do, and will help push the statre-of-the-art in this important
-yet underused programming paradigm.
+Running a relation backwards is where the real fun begins---and, all
+too often, never ends, as the relation diverges (loops forever).
+%
+
+
+% I hope you'll find the relational style of programming as fascinating
+% as I do, and will help push the statre-of-the-art in this important
+% yet underused programming paradigm.
 
 %% This book will teach you how to write relations that produce
 %% interesting answers when running both forwards and backwards.  For
