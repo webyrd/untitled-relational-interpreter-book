@@ -54,12 +54,11 @@ while the calls \mbox{\scheme|(+o 3 y 7)|}, \mbox{\scheme|(+o x y 7)|}, and \mbo
 %contrast to Scheme's \scheme|+| function, which only can be used in the
 %``forwards'' direction.
 
-The remarkable flexibility of the \scheme|+o| relation is also
-exhibited by more complex relations, such as interpreters, type
-inferencers, and finite-state machines, as will be demonstrated in
-this book.
+We will see that the remarkable flexibility of the \scheme|+o|
+relation is exhibited by more complex relations, such as interpreters,
+type inferencers, and finite-state machines.
 %
-For example, consider \scheme|evalo|, a relational interpreter for a subset
+For example, we will write \scheme|evalo|, a relational interpreter for a subset
 of Scheme. Running \scheme|evalo| forwards, the call\marginnote{As might be expected, \scheme|evalo| will interpret the quoted list \mbox{\schemeresult|(+ x 2)|} as the call \mbox{\scheme|(+o x 2 val)|}, where the logic variable \scheme|x| is associated with \schemeresult|4|.}
 \mbox{\scheme|(evalo '((lambda (x) (+ x 2)) 4) val)|} associates
 \scheme|val| with \schemeresult|6|. Of course, we can also run \scheme|evalo|
