@@ -60,8 +60,8 @@ inferencers, and finite-state machines, as will be demonstrated in
 this book.
 %
 For example, consider \scheme|evalo|, a relational interpreter for a subset
-of Scheme. Running \scheme|evalo| forwards, the call
-\mbox{\scheme|(evalo '((lambda (x) (* x 2)) 3) val)|} associates
+of Scheme. Running \scheme|evalo| forwards, the call\marginnote{As might be expected, \scheme|evalo| will interpret the quoted list \mbox{\schemeresult|(+ x 2)|} as the call \mbox{\scheme|(+o x 2 val)|}, where the logic variable \scheme|x| is associated with \schemeresult|4|.}
+\mbox{\scheme|(evalo '((lambda (x) (+ x 2)) 4) val)|} associates
 \scheme|val| with \schemeresult|6|. Of course, we can also run \scheme|evalo|
 backwards: \mbox{\scheme|(evalo exp '6)|} generates legal
 Scheme expressions that \emph{evaluate} to 6, while
