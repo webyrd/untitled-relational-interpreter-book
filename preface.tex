@@ -52,14 +52,31 @@ Informally, we say that the call \mbox{\scheme|(+o 3 4 z)|} runs the \scheme|+o|
 %contrast to Scheme's \scheme|+| function, which only can be used in the
 %``forwards'' direction.
 
-This book will teach you how to write relations that produce
-interesting answers when running both forwards and backwards.  For
-example, you will learn to write a relational interpreter for a subset
-of Scheme: \mbox{\scheme|(evalo '((lambda (x) x) 5) val)|} associates
-\scheme|val| with \schemeresult|5|. Of course, we can play more tricks
-with \scheme|evalo|: \mbox{\scheme|(evalo exp '6)|} generates legal
+The remarkable flexibility of the \scheme|+o| relation is also
+exhibited by more complex relations, such as interpreters, type
+inferencers, and finite-state machines, as will be demonstrated in
+this book.
+%
+For example, consider \scheme|evalo|, a relational interpreter for a subset
+of Scheme. Running \scheme|evalo| forwards, the call
+\mbox{\scheme|(evalo '((lambda (x) (+ x 2)) 4) val)|} associates
+\scheme|val| with \schemeresult|6|. Of course, we can also run \scheme|evalo|
+backwards: \mbox{\scheme|(evalo exp '6)|} generates legal
 Scheme expressions that \emph{evaluate} to 6, while
-\marginnote{Douglas Hofstadter coined the term \emph{quine} to describe a program that evaluates to itself, in honor of logician Willard Van Orman Quine (1908--2000).  Writing quines has long been a favorite hacker activity, and quines are often featured in the The International Obfuscated C Code Contest (\url{http://www.ioccc.org/}). A delightful introduction to quines can be found in Doug's classic, \emph{GEB}: \cite{GEB79}} \mbox{\scheme|(evalo exp exp)|} generates Scheme expressions that evaluate to themselves.
+\marginnote{Douglas Hofstadter coined the term \emph{quine}, in honor of logician Willard Van Orman Quine (1908--2000).  Writing quines has long been a favorite hacker activity, and quines are often featured in the The International Obfuscated C Code Contest (\url{http://www.ioccc.org/}). A delightful introduction to quines can be found in Doug's classic, \emph{GEB}: \cite{GEB79}} \mbox{\scheme|(evalo exp exp)|} generates \emph{quines}, which are Scheme expressions that evaluate to themselves.
+
+This book will teach you how to write relations that produce
+interesting answers when running both forwards and backwards.
+
+
+%% This book will teach you how to write relations that produce
+%% interesting answers when running both forwards and backwards.  For
+%% example, you will learn to write a relational interpreter for a subset
+%% of Scheme: \mbox{\scheme|(evalo '((lambda (x) x) 5) val)|} associates
+%% \scheme|val| with \schemeresult|5|. Of course, we can play more tricks
+%% with \scheme|evalo|: \mbox{\scheme|(evalo exp '6)|} generates legal
+%% Scheme expressions that \emph{evaluate} to 6, while
+%% \marginnote{Douglas Hofstadter coined the term \emph{quine} to describe a program that evaluates to itself, in honor of logician Willard Van Orman Quine (1908--2000).  Writing quines has long been a favorite hacker activity, and quines are often featured in the The International Obfuscated C Code Contest (\url{http://www.ioccc.org/}). A delightful introduction to quines can be found in Doug's classic, \emph{GEB}: \cite{GEB79}} \mbox{\scheme|(evalo exp exp)|} generates Scheme expressions that evaluate to themselves.
 
 \newpage
 
