@@ -49,7 +49,7 @@ here our \scheme|+o| relation produces infinitely many answers.
 %
 Informally, we say that the call \mbox{\scheme|(+o 3 4 z)|} runs the \scheme|+o| relation ``forwards''
 (that is, in the same direction as the corresponding Scheme function),
-while the calls \mbox{\scheme|(+o 3 y 7)|}, \mbox{\scheme|(+o x y 7)|}, and \mbox{\scheme|(+o x y z)|} run \scheme|+o| ``backwards.''
+while the calls \mbox{\scheme|(+o 3 y 7)|}, \mbox{\scheme|(+o x y 7)|}, and \mbox{\scheme|(+o x y z)|} run ``backwards.''
 %Informally, we say that the \scheme|+o| relation can ``run backwards,'' in
 %contrast to Scheme's \scheme|+| function, which only can be used in the
 %``forwards'' direction.
@@ -58,11 +58,11 @@ We will see that the remarkable flexibility of the \scheme|+o|
 relation is exhibited by more complex relations, such as interpreters,
 type inferencers, and finite-state machines.
 %
-For example, we will write \scheme|evalo|, a relational interpreter for a subset
-of Scheme. Running \scheme|evalo| forwards, the call\marginnote{As might be expected, \scheme|evalo| will interpret the quoted list \mbox{\schemeresult|(+ x 2)|} as the call \mbox{\scheme|(+o x 2 val)|}, where the logic variable \scheme|x| is associated with \schemeresult|4|.}
+For example, we will write a relational interpreter for a subset
+of Scheme, \scheme|evalo|. Running forwards, the call\marginnote{As might be expected, \scheme|evalo| will interpret the quoted list \mbox{\schemeresult|(+ x 2)|} as the call \mbox{\scheme|(+o x 2 val)|}, where the logic variable \scheme|x| is associated with \schemeresult|4|.}
 \mbox{\scheme|(evalo '((lambda (x) (+ x 2)) 4) val)|} associates
-\scheme|val| with \schemeresult|6|. Of course, we can also run \scheme|evalo|
-backwards: \mbox{\scheme|(evalo exp '6)|} generates legal
+\scheme|val| with \schemeresult|6|. Running \scheme|evalo|
+backwards is more interesting: \mbox{\scheme|(evalo exp '6)|} generates legal
 Scheme expressions that \emph{evaluate} to 6, while
 \marginnote{Douglas Hofstadter coined the term \emph{quine}, in honor of logician Willard Van Orman Quine (1908--2000).  Writing quines has long been a favorite hacker activity, and quines are often featured in the The International Obfuscated C Code Contest (\url{http://www.ioccc.org/}). A delightful introduction to quines can be found in Doug's classic, \emph{GEB}: \cite{GEB79}} \mbox{\scheme|(evalo exp exp)|} generates \emph{quines}, which are Scheme expressions that evaluate to themselves.
 
