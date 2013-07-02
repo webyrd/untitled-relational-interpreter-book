@@ -18,7 +18,7 @@ This is a book about \emph{relational programming}.
 %
 Just as functional programs model mathematical functions, relational programs model mathematical relations.
 %
-Relational\marginnote{If you know nothing about logic programming, relational algebra, or databases, \emph{don't panic!} This book only assumes that you can write simple recursive programs in a functional language, and have a reading knowledge of Racket or Scheme.  See the \emph{Audience} section below for details.} programming is intimately related to both logic programming
+Relational\marginnote{If you know nothing about logic programming, relational algebra, or databases, \emph{don't panic!} This book only assumes that you can write simple recursive programs in a functional language, and have a reading knowledge of Scheme.  See the \emph{Audience} section below for details.} programming is intimately related to both logic programming
 and relational algebra, the theory behind relational databases.
 
 
@@ -26,9 +26,9 @@ Relational programs generalize functional programs, in that they do
 not distinguish between the ``input'' arguments passed to a function
 and the ``output'' result returned by that function.
 %
-For example, consider a two-argument variant of Racket's addition function, restricted to natural\marginnote{The \emph{natural numbers} are the non-negative integers: 0, 1, $\ldots$} numbers: \mbox{\scheme|(+ 3 4) => 7|}.
+For example, consider a two-argument variant of Scheme's addition function, restricted to natural\marginnote{The \emph{natural numbers} are the non-negative integers: 0, 1, $\ldots$} numbers: \mbox{\scheme|(+ 3 4) => 7|}.
 %
-A relational version of addition, \scheme|+o|, takes three arguments:\marginnote{Here we are taking a notational liberty, as \scheme|+o| expects 3 and 4 to be represented as \emph{binary}, \emph{little-endian} lists: \mbox{\scheme|(1 1)|} and \mbox{\scheme|(0 0 1)|}, respectively. Zero is uniquely represented as the empty list, \scheme|()|.  To ensure a unique representation of each number, lists may not end with the digit \schemeresult|0|.  This numeric representation is extremely flexible, since the lists can contain logic variables---for example, the list \mbox{\scheme|`(1 . ,x)|} represents any odd natural number, while \mbox{\scheme|`(0 . ,x)|} represents any positive even natural. \\ We can also perform relational arithmetic on built-in Racket numbers, using \emph{Constraint Logic Programming over Finite Domains}, or \emph{CLP(FD)}; as we will see, CLP(FD) is faster, but less general, than \scheme|+o| and friends (\scheme|*o|, \scheme|/o|, etc.).} \mbox{\scheme|(+o 3 4 z)|},
+A relational version of addition, \scheme|+o|, takes three arguments:\marginnote{Here we are taking a notational liberty, as \scheme|+o| expects 3 and 4 to be represented as \emph{binary}, \emph{little-endian} lists: \mbox{\scheme|(1 1)|} and \mbox{\scheme|(0 0 1)|}, respectively. Zero is uniquely represented as the empty list, \scheme|()|.  To ensure a unique representation of each number, lists may not end with the digit \schemeresult|0|.  This numeric representation is extremely flexible, since the lists can contain logic variables---for example, the list \mbox{\scheme|`(1 . ,x)|} represents any odd natural number, while \mbox{\scheme|`(0 . ,x)|} represents any positive even natural. \\ We can also perform relational arithmetic on built-in Scheme numbers, using \emph{Constraint Logic Programming over Finite Domains}, or \emph{CLP(FD)}; as we will see, CLP(FD) is faster, but less general, than \scheme|+o| and friends (\scheme|*o|, \scheme|/o|, etc.).} \mbox{\scheme|(+o 3 4 z)|},
 where \scheme|z| is a \emph{logic variable} representing the result
 of adding the first two arguments of \scheme|+o|. In this case
 \scheme|z| is associated with \schemeresult|7|.
@@ -59,12 +59,12 @@ relation is exhibited by more complex relations, such as interpreters,
 type inferencers, and finite-state machines.
 %
 For example, we will write a relational interpreter for a subset
-of Racket, \scheme|evalo|. Running \scheme|evalo| forwards, the call\marginnote{As might be expected, \scheme|evalo| will interpret the quoted list \mbox{\schemeresult|(+ x 2)|} as the call \mbox{\scheme|(+o x 2 val)|}, where the logic variable \scheme|x| is associated with \schemeresult|4|.}
+of Scheme, \scheme|evalo|. Running \scheme|evalo| forwards, the call\marginnote{As might be expected, \scheme|evalo| will interpret the quoted list \mbox{\schemeresult|(+ x 2)|} as the call \mbox{\scheme|(+o x 2 val)|}, where the logic variable \scheme|x| is associated with \schemeresult|4|.}
 \mbox{\scheme|(evalo '((lambda (x) (+ x 2)) 4) val)|} associates
 \scheme|val| with \schemeresult|6|. Running 
 backwards is more interesting: \mbox{\scheme|(evalo exp '6)|} generates legal
-Racket expressions that \emph{evaluate} to 6, while
-\mbox{\scheme|(evalo exp exp)|} generates \emph{quines}, which are Racket expressions that evaluate to themselves.
+Scheme expressions that \emph{evaluate} to 6, while
+\mbox{\scheme|(evalo exp exp)|} generates \emph{quines}, which are Scheme expressions that evaluate to themselves.
 
 %\marginnote{Douglas Hofstadter coined the term \emph{quine}, in honor of logician Willard Van Orman Quine (1908--2000).  Writing quines has long been a favorite hacker activity, and quines are often featured in the The International Obfuscated C Code Contest (\url{http://www.ioccc.org/}). A delightful introduction to quines can be found in Doug's classic, \emph{GEB}: \cite{GEB79}}
 
@@ -115,8 +115,8 @@ This book is written for
 intermediate-to-advanced programmers, computer science students, and
 researchers.  For this book, \emph{intermediate} means that you are
 comfortable writing simple recursive procedures in a functional
-programming language, such as Racket, Scheme, Clojure, Lisp, ML, or
-Haskell.  I also assume you have a reading knowledge of Racket or Scheme.
+programming language, such as Scheme, Racket, Clojure, Lisp, ML, or
+Haskell.  I also assume you have a reading knowledge of Scheme.
 %
 No knowledge of relational programming, logic programming, or programming
 language theory is required.
@@ -130,22 +130,17 @@ functional programming.
 If you are an experienced programmer, but weak on recursion, you, too, might
 benefit from \emph{The Little Schemer}.  If you are comfortable with
 recursion, but not functional programming, good introductions include
-\emph{Scheme and the Art of Programming}\cite{Springer:1989:Art},
-\emph{How to Design Programs}\marginnote{Online second edition of \emph{How to Design Programs}: \url{http://www.ccs.neu.edu/home/matthias/HtDP2e/}}
+\emph{Scheme and the Art of Programming}\cite{Springer:1989:Art}
 and the classic \emph{Structure and Interpretation of Computer
   Programs}\cite{Abelson:1996:SIC:547755}\marginnote{(full text at
 \url{http://mitpress.mit.edu/sicp/full-text/book/book.html})}.
 
 
-
 If you are an experienced functional programmer, but do not know
-Racket or Scheme, the beginning of \emph{Structure and Interpretation
-  of Computer Programs} should get you up to speed, while the online
-Racket documentation\marginnote{Online Racket documentation:\\\noindent\url{http://docs.racket-lang.org/}}
-and \emph{The Scheme Programming Language, 4th
+ Scheme, the beginning of \emph{Structure and Interpretation
+  of Computer Programs} should get you up to speed, while \emph{The Scheme Programming Language, 4th
   Edition}\cite{Dybvig:2009:SPL:1618542}\marginnote{(full text at
-  \url{http://www.scheme.com/tspl4/})} describe the finer points of
-each language.
+  \url{http://www.scheme.com/tspl4/})} describes the language in detail.
 
 
 \section{The Language}\label{sec:preface:language}
@@ -187,43 +182,43 @@ use?
 
 \newpage
 
-I have chosen Racket\marginnote{\url{http://racket-lang.org/}} as the host
-language for this book, and cKanren as the default miniKanren
-implementation, for several important reasons.
-%
-Racket's cKanren library currently has the most advanced experimental
-extensions to miniKanren; we will need all of these features for the
-relations we are going to write.
-%
-Racket is distributed under a Free
-Software\marginnote{\url{http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html\#SEC1}}
-license, which is in the open spirit of this book.
-%
-Racket also has excellent documentation and debugging tools, and is
-simple to download, install, and run.
-%
-The subset of Racket used in the book is essentially identical to
-$R^{5}RS$\marginnote{\url{http://www.schemers.org/Documents/Standards/R5RS/}}
-Scheme, the language used in previous academic work on miniKanren,
-including my dissertation.
-%
-With the exception of a few Schemely features (such as
-\scheme|call/cc|) that I explain where they first appear, this subset
-of Racket should be easily readable to any functional programmer.
+%% I have chosen Racket\marginnote{\url{http://racket-lang.org/}} as the host
+%% language for this book, and cKanren as the default miniKanren
+%% implementation, for several important reasons.
+%% %
+%% Racket's cKanren library currently has the most advanced experimental
+%% extensions to miniKanren; we will need all of these features for the
+%% relations we are going to write.
+%% %
+%% Racket is distributed under a Free
+%% Software\marginnote{\url{http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html\#SEC1}}
+%% license, which is in the open spirit of this book.
+%% %
+%% Racket also has excellent documentation and debugging tools, and is
+%% simple to download, install, and run.
+%% %
+%% The subset of Racket used in the book is essentially identical to
+%% $R^{5}RS$\marginnote{\url{http://www.schemers.org/Documents/Standards/R5RS/}}
+%% Scheme, the language used in previous academic work on miniKanren,
+%% including my dissertation.
+%% %
+%% With the exception of a few Schemely features (such as
+%% \scheme|call/cc|) that I explain where they first appear, this subset
+%% of Racket should be easily readable to any functional programmer.
 
-If you are a Clojurer and prefer to follow along in {\tt core.logic},
-the first appendix describes the main differences between the cKanren
-and {\tt core.logic} implementations of miniKanren.
-%
-It should be straight-forward to translate most relational programs
-from cKaren to {\tt core.logic}.
-%
-Translating the implementations of miniKanren from Racket to Clojure
-is another story.
-%
-I suggest you follow along with the Racket code, and then listen to
-one of David Nolen's outstanding talks on the implementation of {\tt
-  core.logic}.
+%% If you are a Clojurer and prefer to follow along in {\tt core.logic},
+%% the first appendix describes the main differences between the cKanren
+%% and {\tt core.logic} implementations of miniKanren.
+%% %
+%% It should be straight-forward to translate most relational programs
+%% from cKaren to {\tt core.logic}.
+%% %
+%% Translating the implementations of miniKanren from Racket to Clojure
+%% is another story.
+%% %
+%% I suggest you follow along with the Racket code, and then listen to
+%% one of David Nolen's outstanding talks on the implementation of {\tt
+%%   core.logic}.
 
 
 
