@@ -18,7 +18,7 @@ This is a book about \emph{relational programming}.
 %
 Just as functional programs model mathematical functions, relational programs model mathematical relations.
 %
-Relational\marginnote{If you know nothing about logic programming, relational algebra, or databases, \emph{don't panic!} This book only assumes that you can write simple recursive programs in a functional language, and have a reading knowledge of Scheme.  See the \emph{Audience} section below for details.} programming is intimately related to both logic programming
+Relational\marginnote{If you know nothing about logic programming, relational algebra, or databases, \emph{don't panic!} This book only assumes that you can write simple recursive programs in a functional language, and have a reading knowledge of Racket or Scheme.  See the \emph{Audience} section below for details.} programming is intimately related to both logic programming
 and relational algebra, the theory behind relational databases.
 
 
@@ -26,9 +26,9 @@ Relational programs generalize functional programs, in that they do
 not distinguish between the ``input'' arguments passed to a function
 and the ``output'' result returned by that function.
 %
-For example, consider a two-argument variant of Scheme's addition function, restricted to natural\marginnote{The \emph{natural numbers} are the non-negative integers: 0, 1, $\ldots$} numbers: \mbox{\scheme|(+ 3 4) => 7|}.
+For example, consider a two-argument variant of Racket's addition function, restricted to natural\marginnote{The \emph{natural numbers} are the non-negative integers: 0, 1, $\ldots$} numbers: \mbox{\scheme|(+ 3 4) => 7|}.
 %
-A relational version of addition, \scheme|+o|, takes three arguments:\marginnote{Here we are taking a notational liberty, as \scheme|+o| expects 3 and 4 to be represented as \emph{binary}, \emph{little-endian} lists: \mbox{\scheme|(1 1)|} and \mbox{\scheme|(0 0 1)|}, respectively. Zero is uniquely represented as the empty list, \scheme|()|.  To ensure a unique representation of each number, lists may not end with the digit \schemeresult|0|.  This numeric representation is extremely flexible, since the lists can contain logic variables---for example, the list \mbox{\scheme|`(1 . ,x)|} represents any odd natural number, while \mbox{\scheme|`(0 . ,x)|} represents any positive even natural. \\ We can also perform relational arithmetic on built-in Scheme numbers, using \emph{Constraint Logic Programming over Finite Domains}, or \emph{CLP(FD)}; as we will see, CLP(FD) is faster, but less general, than \scheme|+o| and friends (\scheme|*o|, \scheme|/o|, etc.).} \mbox{\scheme|(+o 3 4 z)|},
+A relational version of addition, \scheme|+o|, takes three arguments:\marginnote{Here we are taking a notational liberty, as \scheme|+o| expects 3 and 4 to be represented as \emph{binary}, \emph{little-endian} lists: \mbox{\scheme|(1 1)|} and \mbox{\scheme|(0 0 1)|}, respectively. Zero is uniquely represented as the empty list, \scheme|()|.  To ensure a unique representation of each number, lists may not end with the digit \schemeresult|0|.  This numeric representation is extremely flexible, since the lists can contain logic variables---for example, the list \mbox{\scheme|`(1 . ,x)|} represents any odd natural number, while \mbox{\scheme|`(0 . ,x)|} represents any positive even natural. \\ We can also perform relational arithmetic on built-in Racket numbers, using \emph{Constraint Logic Programming over Finite Domains}, or \emph{CLP(FD)}; as we will see, CLP(FD) is faster, but less general, than \scheme|+o| and friends (\scheme|*o|, \scheme|/o|, etc.).} \mbox{\scheme|(+o 3 4 z)|},
 where \scheme|z| is a \emph{logic variable} representing the result
 of adding the first two arguments of \scheme|+o|. In this case
 \scheme|z| is associated with \schemeresult|7|.
@@ -59,12 +59,12 @@ relation is exhibited by more complex relations, such as interpreters,
 type inferencers, and finite-state machines.
 %
 For example, we will write a relational interpreter for a subset
-of Scheme, \scheme|evalo|. Running \scheme|evalo| forwards, the call\marginnote{As might be expected, \scheme|evalo| will interpret the quoted list \mbox{\schemeresult|(+ x 2)|} as the call \mbox{\scheme|(+o x 2 val)|}, where the logic variable \scheme|x| is associated with \schemeresult|4|.}
+of Racket, \scheme|evalo|. Running \scheme|evalo| forwards, the call\marginnote{As might be expected, \scheme|evalo| will interpret the quoted list \mbox{\schemeresult|(+ x 2)|} as the call \mbox{\scheme|(+o x 2 val)|}, where the logic variable \scheme|x| is associated with \schemeresult|4|.}
 \mbox{\scheme|(evalo '((lambda (x) (+ x 2)) 4) val)|} associates
 \scheme|val| with \schemeresult|6|. Running 
 backwards is more interesting: \mbox{\scheme|(evalo exp '6)|} generates legal
-Scheme expressions that \emph{evaluate} to 6, while
-\mbox{\scheme|(evalo exp exp)|} generates \emph{quines}, which are Scheme expressions that evaluate to themselves.
+Racket expressions that \emph{evaluate} to 6, while
+\mbox{\scheme|(evalo exp exp)|} generates \emph{quines}, which are Racket expressions that evaluate to themselves.
 
 %\marginnote{Douglas Hofstadter coined the term \emph{quine}, in honor of logician Willard Van Orman Quine (1908--2000).  Writing quines has long been a favorite hacker activity, and quines are often featured in the The International Obfuscated C Code Contest (\url{http://www.ioccc.org/}). A delightful introduction to quines can be found in Doug's classic, \emph{GEB}: \cite{GEB79}}
 
@@ -115,8 +115,8 @@ This book is written for
 intermediate-to-advanced programmers, computer science students, and
 researchers.  For this book, \emph{intermediate} means that you are
 comfortable writing simple recursive procedures in a functional
-programming language, such as Scheme, Racket, Clojure, Lisp, ML, or
-Haskell.  I also assume you have a reading knowledge of Scheme.
+programming language, such as Racket, Scheme, Clojure, Lisp, ML, or
+Haskell.  I also assume you have a reading knowledge of Racket or Scheme.
 %
 No knowledge of relational programming, logic programming, or programming
 language theory is required.
