@@ -182,13 +182,20 @@ use?
 
 \newpage
 
-After much thought, I have chosen
-Racket\marginnote{http://racket-lang.org/} as the host language for
-this book, and cKanren as the default miniKanren implementation.
+I have chosen Racket\marginnote{http://racket-lang.org/} as the host
+language for this book, and cKanren as the default miniKanren
+implementation, for several important reasons.
+%
+Racket's cKanren library currently has the most advanced experimental
+extensions to miniKanren; we will need all of these features for the
+relations we are going to write.
 %
 Racket is distributed under a Free
 Software\marginnote{\url{http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html\#SEC1}}
 license, which is in the open spirit of this book.
+%
+Racket also has excellent documentation and debugging tools, and is
+simple to download, install, and run.
 %
 The subset of Racket used in the book is essentially identical to
 $R^{5}RS$\marginnote{\url{http://www.schemers.org/Documents/Standards/R5RS/}}
@@ -199,7 +206,6 @@ With the exception of a few Schemely features (such as
 \scheme|call/cc|) that I explain where they first appear, this subset
 of Racket should be easily readable to any functional programmer.
 %
-
 
 
 
