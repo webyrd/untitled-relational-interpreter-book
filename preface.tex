@@ -180,52 +180,22 @@ Unfortunately, this diversity poses a dilemma for both the author
 and readers of this book: which host language and implementation to
 use?
 
-%% \newpage
+\newpage
 
-%% I chose Scheme as the host language for this book, for several reasons.
-%% %
-%% Scheme is the language I know best, and the subset of Scheme I
-%% use\marginnote{Unless otherwise stated, the Scheme code in this book
-%%   conforms to the $R^{5}RS$ standard:
-%%   \url{http://www.schemers.org/Documents/Standards/R5RS/}} is 
-%% smaller and simpler than Clojure or Racket.
-%% %
-%% With the exception of a few Schemely features (such as
-%% \scheme|call/cc|) that I explain where they first appear, the code
-%% should be easily readable to any functional programmer.
-%% %
-%% As importantly, all academic work on miniKanren---including my
-%% dissertation and research papers---uses Scheme as the host language.
-%% %
-%% Using Scheme makes this research accessible to every reader of the
-%% book.
+After much thought, I have chosen
+Racket\marginnote{http://racket-lang.org/} as the host language for
+this book, and cKanren as the default miniKanren implementation.
+%
+The subset of Racket used in the book is essentially identical to
+$R^{5}RS$\marginnote{\url{http://www.schemers.org/Documents/Standards/R5RS/}}
+Scheme, the language used in previous academic work on miniKanren,
+including my dissertation.
+%
+With the exception of a few Schemely features (such as
+\scheme|call/cc|) that I explain where they first appear, this subset
+of Racket should be easily readable to any functional programmer.
+%
 
-%% This book presents the complete code\marginnote{All code presented in
-%%   the book is available at the book's GitHub repository:
-%%   \url{https://github.com/webyrd/relational-programming-in-miniKanren}}
-%% for the minimal implementation of core miniKanren, along with
-%% implementations of various extensions to the core language.
-%% %
-%% Presenting multiple implementations helps separate optimizations and
-%% optional extensions from essential implementation concepts, at the
-%% risk of making unclear which implementation to use for running a given
-%% relational program.
-%% %
-%% To prevent this problem, every relational program presented includes a
-%% pointer to the implementation that was used to test it.
-%% %
-%% In practice, any implementation that supports the miniKanren language
-%% features used in the relation usually suffices.
-
-%% If you are comfortable using Scheme, I suggest you follow along by
-%% running the relational programs using the miniKanren implementations
-%% presented in the book.
-%% %
-%% If you prefer to use cKanren, you should be able to run the relations
-%% in Racket with few or no changes to the code (although the order of
-%% answers returned, or the formatting of constraints in the answers,
-%% might differ slightly).
-%% %
 
 
 
