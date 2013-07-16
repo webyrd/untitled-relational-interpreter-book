@@ -1,5 +1,6 @@
 \chapter{Introduction}
 
+\vspace{-1.5cm}
 \begin{fullwidth}
 \begin{flushright}
 \Large
@@ -12,6 +13,64 @@
 \normalsize
 \end{flushright}
 \end{fullwidth}
+
+Relational programs generalize functional programs, in that they do
+not distinguish between the ``input'' arguments passed to a function
+and the ``output'' result returned by that function.
+%
+For example, consider a two-argument variant of Scheme's addition function, restricted to natural\marginnote{The \emph{natural numbers} are the non-negative integers: 0, 1, $\ldots$} numbers: \mbox{\scheme|(+ 3 4) => 7|}.
+%
+A relational version of addition, \scheme|+o|, takes three arguments:\marginnote{Here we are taking a notational liberty, as \scheme|+o| expects 3 and 4 to be represented as \emph{binary}, \emph{little-endian} lists: \mbox{\scheme|(1 1)|} and \mbox{\scheme|(0 0 1)|}, respectively. Zero is uniquely represented as the empty list, \scheme|()|.  To ensure a unique representation of each number, lists may not end with the digit \schemeresult|0|.  This numeric representation is extremely flexible, since the lists can contain logic variables---for example, the list \mbox{\scheme|`(1 . ,x)|} represents any odd natural number, while \mbox{\scheme|`(0 . ,x)|} represents any positive even natural. \\ We can also perform relational arithmetic on built-in Scheme numbers, using \emph{Constraint Logic Programming over Finite Domains}, or \emph{CLP(FD)}; as we will see, CLP(FD) is faster, but less general, than \scheme|+o| and friends (\scheme|*o|, \scheme|/o|, etc.).} \mbox{\scheme|(+o 3 4 z)|},
+where \scheme|z| is a \emph{logic variable} representing the result
+of adding the first two arguments of \scheme|+o|. In this case
+\scheme|z| is associated with \schemeresult|7|.
+%
+More interestingly, we can write \mbox{\scheme|(+o 3 y 7)|}, which
+associates \scheme|y| with \schemeresult|4|; our addition relation
+also performs subtraction.
+%
+We can also write \mbox{\scheme|(+o x y 7)|}, which associates
+\scheme|x| and \scheme|y| with all pairs of natural numbers that sum
+to \schemeresult|7|; \scheme|+o| produces multiple
+answers, including \mbox{\scheme|x = 3|} and \mbox{\scheme|y = 4|}, and
+\mbox{\scheme|x = 0|} and \mbox{\scheme|y = 7|}.
+%
+Finally, we can write \mbox{\scheme|(+o x y z)|}, which enumerates 
+all triples of natural numbers $(x, y, z)$ such that $x + y = z$; 
+ \scheme|+o| produces infinitely many answers.
+%
+Informally, we say that the call \mbox{\scheme|(+o 3 4 z)|} runs the \scheme|+o| relation ``forwards,''
+%(that is, in the same direction as the corresponding Scheme function),
+while the calls \mbox{\scheme|(+o 3 y 7)|}, \mbox{\scheme|(+o x y 7)|}, and \mbox{\scheme|(+o x y z)|} run ``backwards.''
+%Informally, we say that the \scheme|+o| relation can ``run backwards,'' in
+%contrast to Scheme's \scheme|+| function, which only can be used in the
+%``forwards'' direction.
+
+We will see that the remarkable flexibility of the \scheme|+o|
+relation is exhibited by more complex relations, such as interpreters,
+type inferencers, and finite-state machines.
+%
+For example, we will write a relational interpreter for a subset
+of Scheme, \scheme|evalo|. Running \scheme|evalo| forwards, the call\marginnote{As might be expected, \scheme|evalo| will interpret the quoted list \mbox{\schemeresult|(+ x 2)|} as the call \mbox{\scheme|(+o x 2 val)|}, where the logic variable \scheme|x| is associated with \schemeresult|4|.}
+\mbox{\scheme|(evalo '((lambda (x) (+ x 2)) 4) val)|} associates
+\scheme|val| with \schemeresult|6|. Running 
+backwards is more interesting: \mbox{\scheme|(evalo exp '6)|} generates legal
+Scheme expressions that \emph{evaluate} to 6, while
+\mbox{\scheme|(evalo exp exp)|} generates \emph{quines}, which are Scheme expressions that evaluate to themselves.
+
+%\marginnote{Douglas Hofstadter coined the term \emph{quine}, in honor of logician Willard Van Orman Quine (1908--2000).  Writing quines has long been a favorite hacker activity, and quines are often featured in the The International Obfuscated C Code Contest (\url{http://www.ioccc.org/}). A delightful introduction to quines can be found in Doug's classic, \emph{GEB}: \cite{GEB79}}
+
+%This book will teach you how to write relations that produce
+%interesting answers when running forwards and backwards.
+%
+%Running a relation in the forward direction is usually straight-forward.
+%
+%Running a relation backwards is where the fun begins.\marginnote{All
+%too often this fun never ends, as the relation diverges (loops forever)!}
+%
+%I hope you'll enjoy the neverending fun of relational programming as
+%much as I have.
+
 
 
 %%% I need to decide who my intended audience is, and always keep them

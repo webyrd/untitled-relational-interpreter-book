@@ -20,64 +20,11 @@ Just as functional programs model mathematical functions, relational programs mo
 %
 Relational\marginnote{If you know nothing about logic programming, relational algebra, or databases, \emph{don't panic!} This book only assumes that you can write simple recursive programs in a functional language, and have a reading knowledge of Scheme.  See the \emph{Audience} section below for details.} programming is intimately related to both logic programming
 and relational algebra, the theory behind relational databases.
+%
+Relational programming is arguably the ultimate approach to
+declarative programming, and may represent the next step in the
+evolution of high-level programming.
 
-
-Relational programs generalize functional programs, in that they do
-not distinguish between the ``input'' arguments passed to a function
-and the ``output'' result returned by that function.
-%
-For example, consider a two-argument variant of Scheme's addition function, restricted to natural\marginnote{The \emph{natural numbers} are the non-negative integers: 0, 1, $\ldots$} numbers: \mbox{\scheme|(+ 3 4) => 7|}.
-%
-A relational version of addition, \scheme|+o|, takes three arguments:\marginnote{Here we are taking a notational liberty, as \scheme|+o| expects 3 and 4 to be represented as \emph{binary}, \emph{little-endian} lists: \mbox{\scheme|(1 1)|} and \mbox{\scheme|(0 0 1)|}, respectively. Zero is uniquely represented as the empty list, \scheme|()|.  To ensure a unique representation of each number, lists may not end with the digit \schemeresult|0|.  This numeric representation is extremely flexible, since the lists can contain logic variables---for example, the list \mbox{\scheme|`(1 . ,x)|} represents any odd natural number, while \mbox{\scheme|`(0 . ,x)|} represents any positive even natural. \\ We can also perform relational arithmetic on built-in Scheme numbers, using \emph{Constraint Logic Programming over Finite Domains}, or \emph{CLP(FD)}; as we will see, CLP(FD) is faster, but less general, than \scheme|+o| and friends (\scheme|*o|, \scheme|/o|, etc.).} \mbox{\scheme|(+o 3 4 z)|},
-where \scheme|z| is a \emph{logic variable} representing the result
-of adding the first two arguments of \scheme|+o|. In this case
-\scheme|z| is associated with \schemeresult|7|.
-%
-More interestingly, we can write \mbox{\scheme|(+o 3 y 7)|}, which
-associates \scheme|y| with \schemeresult|4|; our addition relation
-also performs subtraction.
-%
-We can also write \mbox{\scheme|(+o x y 7)|}, which associates
-\scheme|x| and \scheme|y| with all pairs of natural numbers that sum
-to \schemeresult|7|; \scheme|+o| produces multiple
-answers, including \mbox{\scheme|x = 3|} and \mbox{\scheme|y = 4|}, and
-\mbox{\scheme|x = 0|} and \mbox{\scheme|y = 7|}.
-%
-Finally, we can write \mbox{\scheme|(+o x y z)|}, which enumerates 
-all triples of natural numbers $(x, y, z)$ such that $x + y = z$; 
- \scheme|+o| produces infinitely many answers.
-%
-Informally, we say that the call \mbox{\scheme|(+o 3 4 z)|} runs the \scheme|+o| relation ``forwards,''
-%(that is, in the same direction as the corresponding Scheme function),
-while the calls \mbox{\scheme|(+o 3 y 7)|}, \mbox{\scheme|(+o x y 7)|}, and \mbox{\scheme|(+o x y z)|} run ``backwards.''
-%Informally, we say that the \scheme|+o| relation can ``run backwards,'' in
-%contrast to Scheme's \scheme|+| function, which only can be used in the
-%``forwards'' direction.
-
-We will see that the remarkable flexibility of the \scheme|+o|
-relation is exhibited by more complex relations, such as interpreters,
-type inferencers, and finite-state machines.
-%
-For example, we will write a relational interpreter for a subset
-of Scheme, \scheme|evalo|. Running \scheme|evalo| forwards, the call\marginnote{As might be expected, \scheme|evalo| will interpret the quoted list \mbox{\schemeresult|(+ x 2)|} as the call \mbox{\scheme|(+o x 2 val)|}, where the logic variable \scheme|x| is associated with \schemeresult|4|.}
-\mbox{\scheme|(evalo '((lambda (x) (+ x 2)) 4) val)|} associates
-\scheme|val| with \schemeresult|6|. Running 
-backwards is more interesting: \mbox{\scheme|(evalo exp '6)|} generates legal
-Scheme expressions that \emph{evaluate} to 6, while
-\mbox{\scheme|(evalo exp exp)|} generates \emph{quines}, which are Scheme expressions that evaluate to themselves.
-
-%\marginnote{Douglas Hofstadter coined the term \emph{quine}, in honor of logician Willard Van Orman Quine (1908--2000).  Writing quines has long been a favorite hacker activity, and quines are often featured in the The International Obfuscated C Code Contest (\url{http://www.ioccc.org/}). A delightful introduction to quines can be found in Doug's classic, \emph{GEB}: \cite{GEB79}}
-
-This book will teach you how to write relations that produce
-interesting answers when running forwards and backwards.
-%
-Running a relation in the forward direction is usually straight-forward.
-%
-Running a relation backwards is where the fun begins.\marginnote{All
-too often this fun never ends, as the relation diverges (loops forever)!}
-%
-I hope you'll enjoy the neverending fun of relational programming as
-much as I have.
 
 % I hope you'll find the relational style of programming as fascinating
 % as I do, and will help push the statre-of-the-art in this important
@@ -107,51 +54,6 @@ much as I have.
 
 %% Okay, that last part is a lie.  Writing relational programs is $\ldots$ tricky, hence this book.  miniKanren does make relational programming \emph{less difficult} than it would be otherwise.  What \emph{is} true is that writing relational programs is extremely interesting, challenging, and fun.  As in, ``I can write a short, non-obfuscated program that will melt your brain,'' level of fun.
 
-
-\section{The Language}\label{sec:preface:language}
-
-The relations in this book are written in \emph{miniKanren}, a language
-designed specifically for relational programming.
-%
-miniKanren was first implemented in Scheme; over the past eight years
-miniKanren has been implemented in Racket,\marginnote{Links to these implementations, and many other
- miniKanren resources, can be found at the official miniKanren
- website: \url{http://minikanren.org/}}
- Clojure, Ruby, Python,
-and many other ``host'' languages.
-%
-There are dozens of experimental miniKanren implementations in Scheme
-alone, and several other host languages have more than one miniKanren
-implementation.
-%
-Like Lisp and Scheme, miniKanren is really a \emph{family} of related
-languages.
-%
-
-This diversity of implementations and host languages has its advantages.
-%
-Interest in miniKanren has largely been driven by the popularity of
-David Nolen's excellent {\tt core.logic}\marginnote{\url{https://github.com/clojure/core.logic}} Clojure library.
-%
-Claire Alvis continues to add advanced constraint solving features to the
-cKanren\marginnote{\url{https://github.com/calvis/cKanren}}
-(``constraint Kanren'') Racket library.
-%
-Other researchers and hackers are experimenting with their own
-language extensions and optimizations, greatly accelerating the
-evolution of miniKanren.
-%
-Unfortunately, this diversity poses a dilemma for both the author
-and readers of this book: which host language and implementation to
-use?
-
-In order to treat all my readers as first-class citizens, I have
-decided to write three editions of this book, one for each of the main
-host languages and implementations: Scheme/miniKanren, Racket/cKanren,\marginnote{Racket and Clojure editions of this book can be found at: \url{https://github.com/webyrd/relational-programming-in-miniKanren}}
-and Clojure/{\tt core.logic}.
-%
-You are reading the Scheme version---you can find the Racket and
-Clojure versions at the book's website.
 
 
 
@@ -233,6 +135,54 @@ If you are an experienced functional programmer, but do not know
 
 % github
 
+\newpage
+
+\section{The Language}\label{sec:preface:language}
+
+The relations in this book are written in \emph{miniKanren}, a language
+designed specifically for relational programming.
+%
+miniKanren was first implemented in Scheme; over the past eight years
+miniKanren has been implemented in Racket,\marginnote{Links to these implementations, and many other
+ miniKanren resources, can be found at the official miniKanren
+ website: \url{http://minikanren.org/}}
+ Clojure, Ruby, Python,
+and many other ``host'' languages.
+%
+There are dozens of experimental miniKanren implementations in Scheme
+alone, and several other host languages have more than one miniKanren
+implementation.
+%
+Like Lisp and Scheme, miniKanren is really a \emph{family} of related
+languages.
+%
+
+This diversity of implementations and host languages has its advantages.
+%
+Interest in miniKanren has largely been driven by the popularity of
+David Nolen's excellent {\tt core.logic}\marginnote{\url{https://github.com/clojure/core.logic}} Clojure library.
+%
+Claire Alvis continues to add advanced constraint solving features to the
+cKanren\marginnote{\url{https://github.com/calvis/cKanren}}
+(``constraint Kanren'') Racket library.
+%
+Other researchers and hackers are experimenting with their own
+language extensions and optimizations, greatly accelerating the
+evolution of miniKanren.
+%
+Unfortunately, this diversity poses a dilemma for both the author
+and readers of this book: which host language and implementation to
+use?
+
+In order to treat all my readers as first-class citizens, I have
+decided to write three editions of this book, one for each of the main
+host languages and implementations: Scheme/miniKanren, Racket/cKanren,\marginnote{Racket and Clojure editions of this book can be found at: \url{https://github.com/webyrd/relational-programming-in-miniKanren}}
+and Clojure/{\tt core.logic}.
+%
+You are reading the Scheme version---you can find the Racket and
+Clojure versions at the book's website.
+
+
 
 
 \section{Goals}\label{sec:preface:goals}
@@ -242,17 +192,20 @@ If you are an experienced functional programmer, but do not know
 
 %\marginnote{To some extent, this book can be thought of as an updated, greatly expanded, and much more accessible version of my dissertation (full text at \url{http://gradworks.umi.com/3380156.pdf}):\cite{byrdthesis}}
 
-The two high-level goals for this book are to {\bf make relational programming
-accessible} to a broader audience, and to {\bf describe the state-of-the-art}
-in the design, implementation, and use of the miniKanren language.
+%The two high-level goals for this book are to {\bf make relational programming
+%accessible} to a broader audience, and to {\bf describe the state-of-the-art}
+%in the design, implementation, and use of the miniKanren language.
 %
-An important side-effect of these goals is to {\bf provide the background}
-needed to understand academic work on miniKanren.
 
-One sub-goal of this book is to {\bf present a variety of non-trivial
-  miniKanren relations}, written in what I consider to be {\bf
-  idiomatic style}, and to show {\bf how these relations were
-  derived}.
+The goal of this book is to show how to effectively use miniKanren to
+write relational programs.
+%
+%An important side-effect of these goals is to {\bf provide the background}
+%needed to understand academic work on miniKanren.
+%
+To this end, the book presents a variety of non-trivial miniKanren
+relations, written in what I consider to be idiomatic style, and shows
+how these relations were derived.
 %
 Many of these examples draw from academic papers on miniKanren, and
 focus on programming language theory (interpreters, type inferencers,
@@ -261,11 +214,10 @@ etc.).
 Other examples, such as finite state machines, should be immediately
 understandable by a wider audience of programmers.
 %
-To make the book as accessible as possible, all of these concepts are
+To\marginnote{In this sense the book emulates Benjamin Pierce's outstanding \emph{TAPL}, which is about types in programming languages, but also contains excellent introductions to other PL-related topics:\cite{tapl}} make the book as accessible as possible, all of these concepts are
 explained either in the main text or in appendices.
 %
-This\marginnote{In this sense the book emulates Benjamin Pierce's outstanding \emph{TAPL}, which is about types in programming languages, but also contains excellent introductions to other PL-related topics:\cite{tapl}} book can therefore be used as an informal {\bf introduction to
-  programming language concepts}.
+This book can therefore be used as an informal introduction to programming language concepts.
 
 %% The high-level goals for this book are to make relational programming
 %% accessible to a broader audience, and to explain the state-of-the-art
@@ -345,6 +297,7 @@ This\marginnote{In this sense the book emulates Benjamin Pierce's outstanding \e
 % [Optional]
 % Describe real-world uses of miniKanren.
 
+\newpage
 
 \section{Margin Notes}\label{sec:preface:margin-notes}
 \marginnote{This book is set using the ``Tufte-Style Book''
