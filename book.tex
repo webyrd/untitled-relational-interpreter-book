@@ -24,8 +24,11 @@
 % you can disable letterspacing by adding [nols]:
 %
 % \documentclass[nols]{tufte-book}
-\documentclass{tufte-book} % Use the tufte-book class which in turn uses the tufte-common class
+%\documentclass{tufte-book} % Use the tufte-book class which in turn uses the tufte-common class
 
+\documentclass{book}
+
+\usepackage{hyperref}
 \hypersetup{colorlinks} % Comment this line if you don't wish to have colored links
 
 %\usepackage{microtype} % Improves character and word spacing
@@ -47,13 +50,13 @@
 \newcommand{\monthyear}{\ifcase\month\or January\or February\or March\or April\or May\or June\or July\or August\or September\or October\or November\or December\fi\space\number\year} % A command to print the current month and year
 
 \newcommand{\openepigraph}[2]{ % This block sets up a command for printing an epigraph with 2 arguments - the quote and the author
-\begin{fullwidth}
+%\begin{fullwidth}
 \sffamily\large
-\begin{doublespace}
+%\begin{doublespace}
 \noindent\allcaps{#1}\\ % The quote
 \noindent\allcaps{#2} % The author
-\end{doublespace}
-\end{fullwidth}
+%\end{doublespace}
+%\end{fullwidth}
 }
 
 \newcommand{\blankpage}{\newpage\hbox{}\thispagestyle{empty}\newpage} % Command to insert a blank page
@@ -82,7 +85,7 @@
 
 \newpage
 
-\begin{fullwidth}
+%\begin{fullwidth}
 ~\vfill
 \thispagestyle{empty}
 \setlength{\parindent}{0pt}
@@ -92,7 +95,8 @@
 \textcopyright~2013 William E. Byrd
 
 \noindent
-Typeset by the author in \XeLaTeX, using Tufte-Style Book from \url{http://www.LaTeXTemplates.com}. \today\xspace version.
+Typeset by the author in \XeLaTeX. \\% using Tufte-Style Book from \url{http://www.LaTeXTemplates.com}.
+\today\xspace version.
 
 \huge
 \noindent
@@ -107,7 +111,7 @@ This work is licensed under a Creative Commons Attribution 3.0 Unported License.
 \noindent
 \url{http://creativecommons.org/licenses/by/3.0/}
 \normalsize
-\end{fullwidth}
+%\end{fullwidth}
 
 
 %----------------------------------------------------------------------------------------
@@ -116,29 +120,29 @@ This work is licensed under a Creative Commons Attribution 3.0 Unported License.
 
 \cleardoublepage
 \thispagestyle{empty}
-\begin{fullwidth}
+%\begin{fullwidth}
 ~\vfill
-\begin{doublespace}
-\noindent\fontsize{18}{22}\selectfont\itshape
-\nohyphenation
-\begin{tabular}{ll}
-For my H211 students: & Indiana University, Fall 2010 \& 2011, \\ 
-& and Team pw0ni3.
-\end{tabular}
-\end{doublespace}
+%\begin{doublespace}
+%\noindent\fontsize{18}{22}\selectfont\itshape
+%\nohyphenation
+\Large
+For my H211 students: \\Indiana University, Fall 2010 \& 2011, and Team pw0ni3.
+%\begin{tabular}{ll}
+%For my H211 students: & Indiana University, Fall 2010 \& 2011, \\ 
+%& and Team pw0ni3.
+%\end{tabular}
+%\end{doublespace}
 \begin{flushright}
 \Large
+\vspace{5mm}
 \textit{Learning with always trumps learning from.}
 
-\wspace
-
 ---Woodie Flowers
-\normalsize
 \end{flushright}
 \vfill
 \vfill
-\end{fullwidth}
-
+%\end{fullwidth}
+\normalsize
 
 \blankpage
 
