@@ -3,9 +3,6 @@ relational-programming-in-miniKanren
 
 Relational Programming in miniKanren
 
-(or, Will was completely jet-lagged from Norway, and decided to start a book since he couldn't sleep anyway)
-
-
 This work is licensed under a Creative Commons Attribution 3.0 Unported License.
 (CC BY 3.0)  (http://creativecommons.org/licenses/by/3.0/)
 
@@ -22,10 +19,3 @@ Once you have installed your TeX distribution and a Scheme implementation, you s
 `make squeaky; make`
 
 `make squeaky` removes all generated files, including the PDF of the book.  `make clean` removes temporary files, but not the book PDF.
-
-
-TODO
-
-* write book
-* ???
-* profit!
