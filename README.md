@@ -1,4 +1,4 @@
-relational-programming-in-miniKanren
+Exploring-Computation-with-Relational-Programming
 ====================================
 
 Exploring Computation with Relational Programming
