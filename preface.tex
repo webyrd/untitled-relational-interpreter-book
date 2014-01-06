@@ -24,16 +24,17 @@ I also learned how to handle larger numbers by repeatedly
 multiplifying pairs of digits---one digit from each number---so that I
 could apply my mental collection of facts.
 %
-My classmates and I solved countless multiplication problems without
-the faintest idea that we using ideas fundamental to computing:
-following an algorithm, lookuping up pre-computed partial results,
-using recursion to simplify a complex problem.
+I solved countless multiplication problems without the faintest idea
+that I was using ideas fundamental to computing: following an
+algorithm, lookuping up pre-computed partial results, using recursion
+to simplify a complex problem.
 %
-We learned to just solve the problem.
+\emph{I learned to just solve the problem.}
 
-Later, in a math course, I learned that numbers can be represented in
-binary: the multiplication problem $3 \times 4$ can be changed into
-the equivalent binary multiplication problem $11_2 \times 100_2$.
+
+Years later I learned that numbers can be represented in binary: the
+multiplication problem \mbox{$3 \times 4$} can be changed into the
+equivalent binary multiplication problem \mbox{$11_2 \times 100_2$}.
 %
 I also learned that multiplying a number by 4 in binary is equivalent
 to adding two 0's to the end of that number: $11_2$ multiplied by 4 is
@@ -42,7 +43,10 @@ $1100_2$, which is the binary representation of 12.
 On many computers, using a ``shift left'' instruction to add two 0's to
 the end of a binary number is faster than multiplying the number by 4.
 %
-I learned it is often better to change the problem.
+\emph{I learned it is often better to change the problem.}
+
+
+
 
 
 
@@ -50,12 +54,34 @@ I learned it is often better to change the problem.
 
 % changing context: what is so special about the 3 and 4?  Why do they get all the fun?  Why is 12 left out in the cold?  Isn't 12 just as important as 3 and 4?
 
+Even later, in college, I learned that multiplication can be
+described in the context of mathematical relations: the relation
+defining multiplication is a collection of ``triples'' of numbers,
+such as \mbox{$(3\; 4\; 12)$}.
+%
+These triples correspond, of course, to the multiplication facts I
+learned in elementary school, with one key difference: the
+multiplication relation includes \emph{all} of the infinitely many
+triples \mbox{$(X\; Y\; Z)$} for which $X \times Y = Z$.
+%
+From this perspective, the multiplication problem \mbox{$3 \times 4$}
+is represented as the triple \mbox{$(3\; 4\; Z)$}, where $Z$ is a
+variable with an unknown value.
+%
+Multiplying 3 by 4 is equivalent to finding a triple in the
+multiplication relation that matches \mbox{$(3\; 4\; Z)$}---in this
+case, the triple \mbox{$(3\; 4\; 12)$} matches, telling us that the
+solution is 12.
+%
 
 
-
+\emph{I learned it is much better to change the context in which the problem is being stated.}
 
 
 Alan J. Perlis said, ``A language that doesn't affect the way you think about programming, is not worth knowing.''\footnote{Epigram 19 from ``Epigrams on Programming''~\cite{Perlis:1982:SFE:947955.1083808}.\\Also at \url{http://www.cs.yale.edu/quotes.html}.}
 %
-The point of view we shall adopt in this book is, ``A program that doesn't run backwards is not worth writing.''
+The point of view we shall adopt in this book---the context in which we will consider every problem---is:
 
+\large
+{\bf A program that doesn't run backwards is not worth writing.}
+\normalsize
