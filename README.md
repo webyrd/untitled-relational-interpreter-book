@@ -1,7 +1,7 @@
 Exploring-Computation-with-Relational-Programming
 ====================================
 
-Exploring Computation with Relational Programming
+A Relational View of Computing
 (working title)
 
 This work is licensed under a Creative Commons Attribution 3.0 Unported License.

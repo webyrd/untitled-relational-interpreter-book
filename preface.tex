@@ -6,18 +6,83 @@
 \noindent
 \emph{I think the weakest way to solve a problem is just to solve it; that's what they teach in elementary school. In some math and science courses they often teach you it's better to change the problem. I think it's much better to change the context in which the problem is being stated. Some years ago, Marvin Minsky said, ``You don't understand something until you understand it more than one way.'' I think that what we're going to have to learn is the notion that we have to have multiple points of view.}
 \begin{flushright}
-\vspace{-0.5em}
+\vspace{-0.3em}
 ---Alan C. Kay\footnote{From Kay's 20th anniversary Stanford Computer Forum talk in 1988, ``Predicting the Future''~\cite{Kay:1989}. Also at \url{http://www.ecotopia.com/webpress/futures.htm}.}
 \end{flushright}
 \end{quotation}
 
-In this book we will explore fundamental ideas in computer science
-from the perspective of \emph{relational programming}.
+
+This book is about changing the context in which computational
+problems are stated, attempting to understand these problems from the
+viewpoint of relational programming.
+
+
+% Consider multiplication.
+%%
+% In elementary school I was taught the weakest way to solve
+% a multiplication problem: to just solve it.
+%
+
+In elementary school I learned to multiply small whole numbers by
+memorization: I memorized the fact that 3 times 4 is 12.
+%
+I also learned how to handle larger numbers by multiplifying pairs of
+digits from the two numbers; by simplifying the problem, I could apply
+my mental collection of facts.
+%
+My classmates and I solved countless multiplication problems without
+the faintest idea that we using fundamental notions of computation:
+following an algorithm, using a lookup table, using recursion to make
+a complex problem simpler.
+%
+We learned to just solve the problem.
+
+Later, in a math course, I learned that numbers can be represented in
+binary: the multiplication problem $3 \times 4$ can be changed into
+the equivalent binary multiplication problem $11_2 \times 100_2$.
+%
+I also learned that multiplying a number by 4 in binary is equivalent
+to adding two 0's to the end of that number: $11_2$ multiplied by 4 is
+$1100_2$, which is the binary representation of 12.
+%
+On many computers, using a ``shift left'' instruction to add two 0's to
+the end of a binary number is faster than multiplying the number by 4.
+%
+I learned it is often better to change the problem.
+
+% math or CS course: can rephrase that problem as one of adding 0's to a string representing a number in binary.
+
+% changing context: what is so special about the 3 and 4?  Why do they get all the fun?  Why is 12 left out in the cold?  Isn't 12 just as important as 3 and 4?
+
+
+
+%% Consider multiplication.
+%% %
+%% In elementary school we learned to multiply small whole numbers by
+%% memorization: we memorized the fact that 3 times 4 is 12.
+%% %
+%% We also learned how to mutiply larger numbers digit-by-digit, allowing
+%% us to break up a large problem into several smaller problems we could
+%% solve using our mental collection of facts.
+%% %
+%% We learned to just solve the problem, most likely without realizing
+%% that we were using fundamental notions of computation: following an
+%% algorithm, using a lookup table, and using recursion to make a complex
+%% problem simpler.
+
+% math or CS course: can rephrase that problem as one of adding 0's to a string representing a number in binary.
+
+% changing context: what is so special about the 3 and 4?  Why do they get all the fun?  Why is 12 left out in the cold?  Isn't 12 just as important as 3 and 4?
+
 
 
 Alan J. Perlis said, ``A language that doesn't affect the way you think about programming, is not worth knowing.''\footnote{Epigram 19 from ``Epigrams on Programming''~\cite{Perlis:1982:SFE:947955.1083808}.\\Also at \url{http://www.cs.yale.edu/quotes.html}.}
 %
 The point of view we shall adopt in this book is, ``A program that doesn't run backwards is not worth writing.''
+
+
+%In this book we will explore fundamental ideas in computer science
+%from the perspective of \emph{relational programming}.
 
 
 
