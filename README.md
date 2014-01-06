@@ -1,7 +1,8 @@
 relational-programming-in-miniKanren
 ====================================
 
-Relational Programming in miniKanren
+Exploring Computation with Relational Programming
+(working title)
 
 This work is licensed under a Creative Commons Attribution 3.0 Unported License.
 (CC BY 3.0)  (http://creativecommons.org/licenses/by/3.0/)
