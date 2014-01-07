@@ -1,7 +1,13 @@
  A-Relational-View-of-Computing
 ====================================
 
-A Relational View of Computing
+Relational Programming: here for the long run
+
+by
+
+William E. Byrd
+
+
 
 This work is licensed under a Creative Commons Attribution 3.0 Unported License.
 (CC BY 3.0)  (http://creativecommons.org/licenses/by/3.0/)

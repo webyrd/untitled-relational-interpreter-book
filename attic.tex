@@ -2,6 +2,160 @@
 %
 % for writing that I might want to use, or refer to, later
 
+
+% -------------------- less old preface --------------------
+
+\chapter{Preface}\label{sec:preface}
+
+\vspace{-1cm}
+
+\begin{quotation}
+\noindent
+\emph{I think the weakest way to solve a problem is just to solve it; that's what they teach in elementary school. In some math and science courses they often teach you it's better to change the problem. I think it's much better to change the context in which the problem is being stated. Some years ago, Marvin Minsky said, ``You don't understand something until you understand it more than one way.'' I think that what we're going to have to learn is the notion that we have to have multiple points of view.}
+\begin{flushright}
+\vspace{-0.3em}
+---Alan C. Kay\footnote{From Kay's 20th anniversary Stanford Computer Forum talk in 1988, ``Predicting the Future''~\cite{Kay:1989}. Also at \url{http://www.ecotopia.com/webpress/futures.htm}.}
+\end{flushright}
+\end{quotation}
+
+
+This book is about changing the context in which computational
+problems are stated, attempting to understand these problems from the
+viewpoint of relational programming.
+
+
+In elementary school I learned to multiply small whole numbers by
+memorization: I memorized the fact that 3 times 4 is 12.
+%
+I also learned how to handle larger numbers by repeatedly
+multiplying pairs of digits---one digit from each number---so that I
+could apply my mental collection of facts.
+%
+I solved countless multiplication problems without the faintest notion
+that I was using ideas fundamental to computing: following an
+algorithm, looking up pre-computed partial results, using recursion
+to simplify a complex problem.
+%
+\emph{I learned to just solve the problem.}
+
+
+Years later I learned that numbers can be represented in binary: the
+multiplication problem \mbox{$3 \times 4$} can be changed into the
+equivalent binary multiplication problem \mbox{$11_2 \times 100_2$}.
+%
+I also learned that multiplying a number by 4 in binary is equivalent
+to adding two 0's to the end of that number: $11_2$ multiplied by 4 is
+$1100_2$, which is the binary representation of 12.
+%
+On many computers, using a ``shift left'' instruction to add two 0's to
+the end of a binary number is faster than multiplying the number by 4.
+%
+\emph{I learned it is often better to change the problem.}
+
+
+
+
+
+
+% What happens if we take the relational view of computation seriously?
+
+% changing context: what is so special about the 3 and 4?  Why do they get all the fun?  Why is 12 left out in the cold?  Isn't 12 just as important as 3 and 4?
+
+Even later, in college, I learned that multiplication can be
+described in the context of mathematical relations: the relation
+defining multiplication is a collection of ``triples'' of numbers,
+such as \mbox{$(3\; 4\; 12)$}.
+%
+These triples correspond, of course, to the multiplication facts I
+learned in elementary school, with one key difference: the
+multiplication relation includes \emph{all} of the infinitely many
+triples \mbox{$(X\; Y\; Z)$} for which \mbox{$X \times Y = Z$}.
+%
+From this perspective, the multiplication problem \mbox{$3 \times 4$}
+is represented as the triple \mbox{$(3\; 4\; Z)$}, where $Z$ is a
+variable with an unknown value.
+%
+Multiplying 3 by 4 is equivalent to finding a triple in the
+multiplication relation that matches \mbox{$(3\; 4\; Z)$}---in this
+case, the triple \mbox{$(3\; 4\; 12)$} matches, telling us that the
+solution is 12.
+
+The relational view of multiplication is fascinating because we place
+variables in the first and second positions of a triple.
+%
+For example, the triple \mbox{$(X\; 4\; 12)$} represents both the
+multiplication problem \mbox{$X \times 4 = 12$} and the division
+problem \mbox{$12 \div 4 = X$}.
+%
+Since this triple matches \mbox{$(3\; 4\; 12)$}, the solution to both
+problems is $X = 3$.
+%
+The triple \mbox{$(X\; Y\; 12)$} matches multiple elements of the
+multiplication relation, including \mbox{$(1\; 12\; 12)$},
+\mbox{$(3\; 4\; 12)$}, and \mbox{$(6\; 2\; 12)$}.
+%
+And, of course, the triple \mbox{$(X\; Y\; Z)$} matches each of the
+infinitely many triples in the multiplication relation.
+
+
+In graduate school I learned that this relational view of
+multiplication has a computational interpretation.
+%
+If we restrict the multiplication relation to include only a finite
+number of triples---for example, by setting an upper bound on the size
+of the numbers in each triple---then finding all triples that match
+\mbox{$(X\; Y\; 12)$} is equivalent to performing a database query.
+%
+If we relax this restriction, and allow the multiplication relation to
+include all of the infinitely many triples, then we enter the realm of
+pure logic programming.
+
+If we go further, and decide to write \emph{all} of our programs as
+relations, we quickly find that the techniques and tools of
+traditional logic programming are insufficient.
+%
+By fully committing to this relational perspective on computation---by
+taking relational programming seriously---we are confronted with
+countless challenges and opportunities that allow us to view classic
+notions of computing in new ways.
+%
+\emph{We learn it is much better to change the context in which the problem is being stated.}
+
+
+
+
+
+Alan J. Perlis famously said, ``A language that doesn't affect the way you think about programming, is not worth knowing.''\footnote{Epigram 19 from ``Epigrams on Programming''~\cite{Perlis:1982:SFE:947955.1083808}.\\Also at \url{http://www.cs.yale.edu/quotes.html}.}
+%
+The point of view we adopt in this book---the context in which we
+state every problem---is similar in spirit:
+
+\vspace{-5mm}
+
+\large
+\begin{center}
+{\bf A program that isn't relational is not worth writing.}
+\end{center}
+\normalsize
+
+\vspace{-5mm}
+
+I hope you will find this perspective on computing as inspiring and
+challenging as I have, and will help you see old problems in a new way.
+
+
+\wspace
+
+\noindent
+William E. Byrd\\
+\noindent
+Salt Lake City, Utah\\
+\noindent
+\monthyear
+
+
+
+
 % -------------------- old preface -------------------------
 
 \chapter{Preface}\label{sec:preface}
