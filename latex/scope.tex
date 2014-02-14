@@ -1,0 +1,66 @@
+\chapter{Lexical Scope}
+\label{chap:scope}
+
+occurs free
+
+occurs bound
+
+free?
+
+(define occurs-free?
+  (lambda (x e)
+    (pmatch e
+      (,y (guard (symbol? y))
+       (eq? x y))
+      ((lambda (,y) ,body)
+       (cond
+         ((eq? x y) #f)
+         (else (occurs-free? x body))))
+      ((,e1 ,e2)
+       (or (occurs-free? x e1) (occurs-free? x e2))))))
+
+bound?
+
+(define occurs-bound?
+  (lambda (x e)
+    (pmatch e
+      (,y (guard (symbol? y))
+       #f)
+      ((lambda (,y) ,body)
+       (cond
+         ((eq? x y) (or (occurs-free? x body) (occurs-bound? x body)))
+         (else (occurs-bound? x body))))
+      ((,e1 ,e2)
+       (or (occurs-bound? x e1) (occurs-bound? x e2))))))
+
+(occurs-bound? 'z '(lambda (z) (lambda (z) z)))
+
+free
+
+bound
+
+freeo
+
+boundo
+
+
+(let ((x 3))
+  (let ((y 4))
+    (+ x y)))
+=>
+7
+
+(let ((x 3))
+  (let ((y 4))
+    (let ((x 5))
+      (+ x y))))
+=>
+9
+
+shadowing
+
+(let ((x 5))
+  (let ((f (lambda (y) (+ x y))))
+    (let ((x 6))
+      (f a))))
+=>
