@@ -344,3 +344,126 @@
 (test "bound-1"
   (bound '(lambda (w) (((lambda (z) (v (w z))) w) a)))
   '(z w))
+
+
+(define membero
+  (lambda (x ls)
+    (matche ls
+      ((,y . ,rest)
+       (conde
+         ((== x y))
+         ((=/= x y)
+          (membero x rest)))))))
+
+(test "membero-1"
+  (run* (q) (membero 'x '()))
+  '())
+
+(test "membero-2"
+  (run* (q) (membero 'x '(x)))
+  '(_.0))
+
+(test "membero-3"
+  (run* (q) (membero 'x '(x x)))
+  '(_.0))
+
+(test "membero-4"
+  (run* (q) (membero 'x '(y z)))
+  '())
+
+(test "membero-5"
+  (run* (q) (membero q '(y z)))
+  '(y z))
+
+
+;; really should be replaced with set constraints
+(define uniono
+  (lambda (s1 s2 out)
+    (matche s1
+      (()
+       (== s2 out))
+      ((,a . ,rest)
+       (conde
+         ((membero a s2)
+          (uniono rest s2 out))
+         ((fresh (res)
+            (== `(,a . ,res) out)
+            (absento a s2)
+            (uniono rest s2 res))))))))
+
+(test "uniono-1"
+  (run* (q) (uniono '() '() q))
+  '(()))
+
+(test "uniono-2"
+  (run* (q) (uniono '(a b c) '() q))
+  '((a b c)))
+
+(test "uniono-3"
+  (run* (q) (uniono '() '(a b c) q))
+  '((a b c)))
+
+(test "uniono-4"
+  (run* (q) (uniono '(a b c) '(d e f) q))
+  '((a b c d e f)))
+
+(test "uniono-5"
+  (run* (q) (uniono '(a) '(a) q))
+  '((a)))
+
+(test "uniono-6"
+  (run* (q) (uniono '(a b c d) '(c a d e) q))
+  '((b c a d e)))
+
+
+
+;; Really need set constraints to do this right The absento is too
+;; heavy-weight, uniono doesn't work very well, membero should be set
+;; membership...
+(define freeo
+  (lambda (e out)
+    (letrec ((freeo
+              (lambda (e bound-vars out)
+                (matche e
+                  (,x (symbolo x)
+                      (conde
+                        ((== `(,x) out)
+                         (absento x bound-vars))
+                        ((== '() out)
+                         (membero x bound-vars))))
+                  ((lambda (,x) ,body)
+                   (freeo body `(,x . ,bound-vars) out))
+                  ((,e1 ,e2)
+                   (fresh (res1 res2)
+                     (freeo e1 bound-vars res1)
+                     (freeo e2 bound-vars res2)
+                     (uniono res1 res2 out)))))))
+      (freeo e '() out))))
+
+(test "freeo-1"
+  (run* (q) (freeo '(lambda (w) (((lambda (z) (v (w z))) w) a)) q))
+  '((v a)))
+
+(define boundo
+  (lambda (e out)
+    (letrec ((boundo
+              (lambda (e bound-vars out)
+                (matche e
+                  (,x (symbolo x)
+                      (conde
+                        ((== '() out)
+                         (absento x bound-vars))
+                        ((== `(,x) out)
+                         (membero x bound-vars))))
+                  ((lambda (,x) ,body)
+                   (boundo body `(,x . ,bound-vars) out))
+                  ((,e1 ,e2)
+                   (fresh (res1 res2)
+                     (boundo e1 bound-vars res1)
+                     (boundo e2 bound-vars res2)
+                     (uniono res1 res2 out)))))))
+      (boundo e '() out))))
+
+(test "boundo-1"
+  (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) q))
+  '((z w)))
