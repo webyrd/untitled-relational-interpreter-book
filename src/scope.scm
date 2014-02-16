@@ -164,18 +164,28 @@
     ((z _.0) _.1)
     ((lambda (_.0) (lambda (_.1) (z _.2))) (=/= ((_.0 z)) ((_.1 z))))))
 
-(define memq*
-  (lambda (x y)
-    (cond
-      ((null? y) #f)
-      ((pair? y) (or (memq* x (car y)) (memq* x (cdr y))))
-      ((eq? x y) #t)
-      (else #f))))
+
+
+(define answer-contains-constraints?
+  (letrec ((memq*
+            (lambda (x y)
+              (cond
+                ((null? y) #f)
+                ((pair? y) (or (memq* x (car y)) (memq* x (cdr y))))
+                ((eq? x y) #t)
+                (else #f)))))
+    (lambda (ans)
+      (and (list? ans)
+           (or (memq* '=/= ans)
+               (memq* 'sym ans)
+               (memq* 'num ans)
+               (memq* 'absento ans))))))
+
 
 (test "occurs-freeo-3"
   (for-all
    (lambda (e)
-     (let ((e (if (and (list? e) (memq* '=/= e)) (car e) e)))
+     (let ((e (if (answer-contains-constraints? e) (car e) e)))
        (occurs-free? 'z e)))
    (run 100 (q) (occurs-freeo 'z q)))
   #t)
@@ -245,7 +255,7 @@
 (test "occurs-boundo-4"
   (for-all
    (lambda (e)
-     (let ((e (if (and (list? e) (memq* '=/= e)) (car e) e)))
+     (let ((e (if (answer-contains-constraints? e) (car e) e)))
        (occurs-bound? 'z e)))
    (run 100 (q) (occurs-boundo 'z q)))
   #t)
@@ -257,3 +267,80 @@
     ((_.0 (lambda (_.1) (lambda (_.0) _.0))) (=/= ((_.0 _.1))) (sym _.0))
     ((_.0 ((lambda (_.0) _.0) _.1)) (sym _.0))
     ((_.0 (lambda (_.0) (_.0 _.1))) (sym _.0))))
+
+
+
+(define union
+  (lambda (s1 s2)
+    (cond
+      ((null? s1)
+       s2)
+      ((memv (car s1) s2)
+       (union (cdr s1) s2))
+      (else
+       (cons (car s1) (union (cdr s1) s2))))))
+
+(test "union-1"
+  (union '() '())
+  '())
+
+(test "union-2"
+  (union '(a b c) '())
+  '(a b c))
+
+(test "union-3"
+  (union '() '(a b c))
+  '(a b c))
+
+(test "union-4"
+  (union '(a b c) '(d e f))
+  '(a b c d e f))
+
+(test "union-5"
+  (union '(a) '(a))
+  '(a))
+
+(test "union-6"
+  (union '(a b c d) '(c a d e))
+  '(b c a d e))
+
+
+(define free
+  (lambda (e)
+    (letrec ((free
+              (lambda (e bound-vars)
+                (pmatch e
+                  (,x (guard (symbol? x))
+                      (if (memv x bound-vars)
+                          '()
+                          `(,x)))
+                  ((lambda (,x) ,body)
+                   (free body `(,x . ,bound-vars)))
+                  ((,e1 ,e2)
+                   (union (free e1 bound-vars)
+                          (free e2 bound-vars)))))))
+      (free e '()))))
+
+(test "free-1"
+  (free '(lambda (w) (((lambda (z) (v (w z))) w) a)))
+  '(v a))
+
+(define bound
+  (lambda (e)
+    (letrec ((bound
+              (lambda (e bound-vars)
+                (pmatch e
+                  (,x (guard (symbol? x))
+                      (if (memv x bound-vars)
+                          `(,x)
+                          '()))
+                  ((lambda (,x) ,body)
+                   (bound body `(,x . ,bound-vars)))
+                  ((,e1 ,e2)
+                   (union (bound e1 bound-vars)
+                          (bound e2 bound-vars)))))))
+      (bound e '()))))
+
+(test "bound-1"
+  (bound '(lambda (w) (((lambda (z) (v (w z))) w) a)))
+  '(z w))
