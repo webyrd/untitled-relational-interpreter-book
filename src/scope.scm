@@ -13,7 +13,8 @@
          ((eq? x y) #f)
          (else (occurs-free? x body))))
       ((,e1 ,e2)
-       (or (occurs-free? x e1) (occurs-free? x e2))))))
+       (or (occurs-free? x e1)
+           (occurs-free? x e2))))))
 
 (define occurs-bound?
   (lambda (x e)
@@ -23,10 +24,12 @@
       ((lambda (,y) ,body)
        (cond
          ((eq? x y)
-          (or (occurs-free? x body) (occurs-bound? x body)))
+          (or (occurs-free? x body)
+              (occurs-bound? x body)))
          (else (occurs-bound? x body))))
       ((,e1 ,e2)
-       (or (occurs-bound? x e1) (occurs-bound? x e2))))))
+       (or (occurs-bound? x e1)
+           (occurs-bound? x e2))))))
 
 (test "occurs-free?-0"
   (occurs-free? 'z 'z)
@@ -72,7 +75,8 @@
     (fresh ()
       (symbolo x)
       (matche e
-        (,y (symbolo y) (== x y))
+        (,y (symbolo y)
+         (== x y))
         ((lambda (,y) ,body)
          (=/= x y)
          (occurs-freeo x body))
@@ -87,7 +91,8 @@
     (fresh ()
       (symbolo x)
       (matche e
-        (,y (symbolo y) (=/= x y))
+        (,y (symbolo y)
+         (=/= x y))
         ((lambda (,y) ,body)
          (conde
            ((== x y))
