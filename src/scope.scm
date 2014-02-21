@@ -467,3 +467,134 @@
 (test "boundo-1"
   (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) q))
   '((z w)))
+
+
+;; Smarter way to write freeo, without uniono or sets.
+;;
+;; Avoid uniono by having separate "input" and "output" lists of free
+;; vars.
+;;
+;; Avoid sets by carefully using membero when creating non-empty
+;; lists of free variables when running backwards.
+(define freeo
+  (lambda (e out)
+    (letrec ((freeo
+              (lambda (e bound-vars free-vars-in free-vars-out)
+                (matche e
+                  (,x (symbolo x)
+                      (conde
+                        ((== `(,x . ,free-vars-in) free-vars-out)
+                         (absento x bound-vars))
+                        ((== free-vars-in free-vars-out)
+                         (membero x bound-vars))))
+                  ((lambda (,x) ,body)
+                   (freeo body `(,x . ,bound-vars) free-vars-in free-vars-out))
+                  ((,e1 ,e2)
+                   (fresh (free-vars-out^)
+                     (freeo e1 bound-vars free-vars-in free-vars-out^)
+                     (freeo e2 bound-vars free-vars-out^ free-vars-out)))))))
+      (freeo e '() '() out))))
+
+(test "freeo-1"
+  (run* (q) (freeo '(lambda (w) (((lambda (z) (v (w z))) w) a)) q))
+  '((a v)))
+
+(test "freeo-2"
+  (run* (q) (freeo '(v a) '(a v)))
+  '(_.0))
+
+(test "freeo-3"
+;; This example illustrates the problem with using lists to represent sets.
+;; The first argument to freeo is a list representing an application in the lambda-calculus.
+;; The second argument is a list representing a *set*, in which order matters
+  (list
+    (run* (q) (freeo '(a v) '(a v)))
+    (run* (q) (freeo '(a v) '(v a))))
+  '(() (_.0)))
+
+(test "freeo-4"
+;; Avoiding the ordering problem in the 'free' "set" using membero and
+;; a length-instantiated free list.
+  (list
+    (run* (q)
+      (fresh (free x y)
+        (== `(,x ,y) free)
+        (membero 'a free)
+        (membero 'v free)
+        (freeo '(a v) free)))
+    (run* (q)
+      (fresh (free x y)
+        (== `(,x ,y) free)
+        (membero 'v free)
+        (membero 'a free)
+        (freeo '(a v) free))))
+  '((_.0) (_.0)))
+
+
+;; faking sets when running backwards
+
+ (test "freeo-5a"
+   ;; "naive"
+   (run 10 (q) (freeo q '(a v)))
+   '((v a)
+     ((lambda (_.0) (v a)) (absento (a _.0) (v _.0)))
+     ((v (lambda (_.0) a)) (absento (a _.0)))
+     (((lambda (_.0) v) a) (absento (v _.0)))
+     ((lambda (_.0) (lambda (_.1) (v a))) (absento (a _.0) (a _.1) (v _.0) (v _.1)))
+     ((lambda (_.0) (v (lambda (_.1) a))) (absento (a _.0) (a _.1) (v _.0)))
+     ((v (lambda (_.0) (lambda (_.1) a))) (absento (a _.0) (a _.1)))
+     (((lambda (_.0) v) (lambda (_.1) a)) (absento (a _.1) (v _.0)))
+     ((lambda (_.0) (lambda (_.1) (lambda (_.2) (v a)))) (absento (a _.0) (a _.1) (a _.2) (v _.0) (v _.1) (v _.2)))
+     ((lambda (_.0) (lambda (_.1) (v (lambda (_.2) a)))) (absento (a _.0) (a _.1) (a _.2) (v _.0) (v _.1)))))
+
+ (test "freeo-5b"
+   ;; "naive", reordered   
+   (run 10 (q) (freeo q '(v a)))
+   '((a v)
+     ((lambda (_.0) (a v)) (absento (a _.0) (v _.0)))
+     ((a (lambda (_.0) v)) (absento (v _.0)))
+     (((lambda (_.0) a) v) (absento (a _.0)))
+     ((lambda (_.0) (lambda (_.1) (a v))) (absento (a _.0) (a _.1) (v _.0) (v _.1)))
+     ((lambda (_.0) (a (lambda (_.1) v))) (absento (a _.0) (v _.0) (v _.1)))
+     ((a (lambda (_.0) (lambda (_.1) v))) (absento (v _.0) (v _.1)))
+     (((lambda (_.0) a) (lambda (_.1) v)) (absento (a _.0) (v _.1)))
+     ((lambda (_.0) (lambda (_.1) (lambda (_.2) (a v)))) (absento (a _.0) (a _.1) (a _.2) (v _.0) (v _.1) (v _.2)))
+     ((lambda (_.0) (lambda (_.1) (a (lambda (_.2) v)))) (absento (a _.0) (a _.1) (v _.0) (v _.1) (v _.2)))))
+
+ (test "freeo-5c"
+   ;; faking sets
+   (run 10 (q)
+     (fresh (free x y)
+       (== `(,x ,y) free)
+       (membero 'a free)
+       (membero 'v free)
+       (freeo q free)))
+   '((v a)
+     (a v)
+     ((lambda (_.0) (v a)) (absento (a _.0) (v _.0)))
+     ((v (lambda (_.0) a)) (absento (a _.0)))
+     ((lambda (_.0) (a v)) (absento (a _.0) (v _.0)))
+     ((a (lambda (_.0) v)) (absento (v _.0)))
+     (((lambda (_.0) v) a) (absento (v _.0)))
+     (((lambda (_.0) a) v) (absento (a _.0)))
+     ((lambda (_.0) (lambda (_.1) (v a))) (absento (a _.0) (a _.1) (v _.0) (v _.1)))
+     ((lambda (_.0) (v (lambda (_.1) a))) (absento (a _.0) (a _.1) (v _.0)))))
+
+ (test "freeo-5d"
+   ;; faking sets, reordered
+   (run 10 (q)
+     (fresh (free x y)
+       (== `(,x ,y) free)
+       (membero 'v free)
+       (membero 'a free)
+       (freeo q free)))
+   '((a v)
+     (v a)
+     ((lambda (_.0) (a v)) (absento (a _.0) (v _.0)))
+     ((a (lambda (_.0) v)) (absento (v _.0)))
+     ((lambda (_.0) (v a)) (absento (a _.0) (v _.0)))
+     ((v (lambda (_.0) a)) (absento (a _.0)))
+     (((lambda (_.0) a) v) (absento (a _.0)))
+     (((lambda (_.0) v) a) (absento (v _.0)))
+     ((lambda (_.0) (lambda (_.1) (a v))) (absento (a _.0) (a _.1) (v _.0) (v _.1)))
+     ((lambda (_.0) (a (lambda (_.1) v))) (absento (a _.0) (v _.0) (v _.1)))))
