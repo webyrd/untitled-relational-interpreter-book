@@ -378,6 +378,36 @@
   '(y z))
 
 
+(define not-membero
+  (lambda (x ls)
+    (matche ls
+      (())
+      ((,y . ,rest)
+       (=/= x y)
+       (not-membero x rest)))))
+
+(test "not-membero-1"
+  (run* (q) (not-membero 'x '()))
+  '(_.0))
+
+(test "not-membero-2"
+  (run* (q) (not-membero 'x '(x)))
+  '())
+
+(test "not-membero-3"
+  (run* (q) (not-membero 'x '(x x)))
+  '())
+
+(test "not-membero-4"
+  (run* (q) (not-membero 'x '(y z)))
+  '(_.0))
+
+(test "not-membero-5"
+  (run* (q) (not-membero q '(y z)))
+  '((_.0 (=/= ((_.0 y)) ((_.0 z))))))
+
+
+
 ;; really should be replaced with set constraints
 (define uniono
   (lambda (s1 s2 out)
@@ -390,7 +420,7 @@
           (uniono rest s2 out))
          ((fresh (res)
             (== `(,a . ,res) out)
-            (absento a s2)
+            (not-membero a s2)
             (uniono rest s2 res))))))))
 
 (test "uniono-1"
@@ -419,9 +449,8 @@
 
 
 
-;; Really need set constraints to do this right The absento is too
-;; heavy-weight, uniono doesn't work very well, membero should be set
-;; membership...
+;; Really need set constraints to do this right. Uniono doesn't work
+;; very well, membero should be set membership...
 (define freeo
   (lambda (e out)
     (letrec ((freeo
@@ -430,7 +459,7 @@
                   (,x (symbolo x)
                       (conde
                         ((== `(,x) out)
-                         (absento x bound-vars))
+                         (not-membero x bound-vars))
                         ((== '() out)
                          (membero x bound-vars))))
                   ((lambda (,x) ,body)
@@ -455,7 +484,7 @@
                   (,x (symbolo x)
                       (conde
                         ((== '() out)
-                         (absento x bound-vars))
+                         (not-membero x bound-vars))
                         ((== `(,x) out)
                          (membero x bound-vars))))
                   ((lambda (,x) ,body)
@@ -488,7 +517,7 @@
                   (,x (symbolo x)
                       (conde
                         ((== `(,x . ,free-vars-in) free-vars-out)
-                         (absento x bound-vars))
+                         (not-membero x bound-vars))
                         ((== free-vars-in free-vars-out)
                          (membero x bound-vars))))
                   ((lambda (,x) ,body)
@@ -542,29 +571,29 @@
    ;; "naive"
    (run 10 (q) (freeo q '(a v)))
    '((v a)
-     ((lambda (_.0) (v a)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
      ((v (lambda (_.0) a)) (=/= ((_.0 a))) (sym _.0))
+     ((lambda (_.0) (v a)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
      (((lambda (_.0) v) a) (=/= ((_.0 v))) (sym _.0))
-     ((lambda (_.0) (lambda (_.1) (v a))) (=/= ((_.0 a)) ((_.0 v)) ((_.1 a)) ((_.1 v))) (sym _.0 _.1))
-     ((lambda (_.0) (v (lambda (_.1) a))) (=/= ((_.0 a)) ((_.0 v)) ((_.1 a))) (sym _.0 _.1))
      ((v (lambda (_.0) (lambda (_.1) a))) (=/= ((_.0 a)) ((_.1 a))) (sym _.0 _.1))
+     ((v (a (lambda (_.0) _.0))) (sym _.0))
+     (((lambda (_.0) _.0) (v a)) (sym _.0))
      (((lambda (_.0) v) (lambda (_.1) a)) (=/= ((_.0 v)) ((_.1 a))) (sym _.0 _.1))
-     ((lambda (_.0) (lambda (_.1) (lambda (_.2) (v a)))) (=/= ((_.0 a)) ((_.0 v)) ((_.1 a)) ((_.1 v)) ((_.2 a)) ((_.2 v))) (sym _.0 _.1 _.2))
-     ((lambda (_.0) (lambda (_.1) (v (lambda (_.2) a)))) (=/= ((_.0 a)) ((_.0 v)) ((_.1 a)) ((_.1 v)) ((_.2 a))) (sym _.0 _.1 _.2))))
+     ((v (lambda (_.0) (_.0 a))) (=/= ((_.0 a))) (sym _.0))
+     ((v ((lambda (_.0) _.0) a)) (sym _.0))))
 
  (test "freeo-5b"
    ;; "naive", reordered   
    (run 10 (q) (freeo q '(v a)))
    '((a v)
-     ((lambda (_.0) (a v)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
      ((a (lambda (_.0) v)) (=/= ((_.0 v))) (sym _.0))
+     ((lambda (_.0) (a v)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
      (((lambda (_.0) a) v) (=/= ((_.0 a))) (sym _.0))
-     ((lambda (_.0) (lambda (_.1) (a v))) (=/= ((_.0 a)) ((_.0 v)) ((_.1 a)) ((_.1 v))) (sym _.0 _.1))
-     ((lambda (_.0) (a (lambda (_.1) v))) (=/= ((_.0 a)) ((_.0 v)) ((_.1 v))) (sym _.0 _.1))
      ((a (lambda (_.0) (lambda (_.1) v))) (=/= ((_.0 v)) ((_.1 v))) (sym _.0 _.1))
+     ((a (v (lambda (_.0) _.0))) (sym _.0))
+     (((lambda (_.0) _.0) (a v)) (sym _.0))
      (((lambda (_.0) a) (lambda (_.1) v)) (=/= ((_.0 a)) ((_.1 v))) (sym _.0 _.1))
-     ((lambda (_.0) (lambda (_.1) (lambda (_.2) (a v)))) (=/= ((_.0 a)) ((_.0 v)) ((_.1 a)) ((_.1 v)) ((_.2 a)) ((_.2 v))) (sym _.0 _.1 _.2))
-     ((lambda (_.0) (lambda (_.1) (a (lambda (_.2) v)))) (=/= ((_.0 a)) ((_.0 v)) ((_.1 a)) ((_.1 v)) ((_.2 v))) (sym _.0 _.1 _.2))))
+     ((a (lambda (_.0) (_.0 v))) (=/= ((_.0 v))) (sym _.0))
+     ((a ((lambda (_.0) _.0) v)) (sym _.0))))
 
  (test "freeo-5c"
    ;; faking sets
@@ -576,14 +605,14 @@
        (freeo q free)))
    '((v a)
      (a v)
-     ((lambda (_.0) (v a)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
      ((v (lambda (_.0) a)) (=/= ((_.0 a))) (sym _.0))
-     ((lambda (_.0) (a v)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
      ((a (lambda (_.0) v)) (=/= ((_.0 v))) (sym _.0))
+     ((lambda (_.0) (v a)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
+     ((lambda (_.0) (a v)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
      (((lambda (_.0) v) a) (=/= ((_.0 v))) (sym _.0))
      (((lambda (_.0) a) v) (=/= ((_.0 a))) (sym _.0))
-     ((lambda (_.0) (lambda (_.1) (v a))) (=/= ((_.0 a)) ((_.0 v)) ((_.1 a)) ((_.1 v))) (sym _.0 _.1))
-     ((lambda (_.0) (v (lambda (_.1) a))) (=/= ((_.0 a)) ((_.0 v)) ((_.1 a))) (sym _.0 _.1))))
+     ((v (lambda (_.0) (lambda (_.1) a))) (=/= ((_.0 a)) ((_.1 a))) (sym _.0 _.1))
+     ((a (lambda (_.0) (lambda (_.1) v))) (=/= ((_.0 v)) ((_.1 v))) (sym _.0 _.1))))
 
  (test "freeo-5d"
    ;; faking sets, reordered
@@ -595,11 +624,11 @@
        (freeo q free)))
    '((a v)
      (v a)
-     ((lambda (_.0) (a v)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
      ((a (lambda (_.0) v)) (=/= ((_.0 v))) (sym _.0))
-     ((lambda (_.0) (v a)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
      ((v (lambda (_.0) a)) (=/= ((_.0 a))) (sym _.0))
+     ((lambda (_.0) (a v)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
+     ((lambda (_.0) (v a)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
      (((lambda (_.0) a) v) (=/= ((_.0 a))) (sym _.0))
      (((lambda (_.0) v) a) (=/= ((_.0 v))) (sym _.0))
-     ((lambda (_.0) (lambda (_.1) (a v))) (=/= ((_.0 a)) ((_.0 v)) ((_.1 a)) ((_.1 v))) (sym _.0 _.1))
-     ((lambda (_.0) (a (lambda (_.1) v))) (=/= ((_.0 a)) ((_.0 v)) ((_.1 v))) (sym _.0 _.1))))
+     ((a (lambda (_.0) (lambda (_.1) v))) (=/= ((_.0 v)) ((_.1 v))) (sym _.0 _.1))
+     ((v (lambda (_.0) (lambda (_.1) a))) (=/= ((_.0 a)) ((_.1 a))) (sym _.0 _.1))))
