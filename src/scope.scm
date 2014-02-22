@@ -632,3 +632,48 @@
      (((lambda (_.0) v) a) (=/= ((_.0 v))) (sym _.0))
      ((a (lambda (_.0) (lambda (_.1) v))) (=/= ((_.0 v)) ((_.1 v))) (sym _.0 _.1))
      ((v (lambda (_.0) (lambda (_.1) a))) (=/= ((_.0 a)) ((_.1 a))) (sym _.0 _.1))))
+
+(define boundo
+  (lambda (e out)
+    (letrec ((boundo
+              (lambda (e bound-vars occurs-bound-vars-in occurs-bound-vars-out)
+                (matche e
+                  (,x (symbolo x)
+                      (conde
+                        ((== `(,x . ,occurs-bound-vars-in) occurs-bound-vars-out)
+                         (membero x bound-vars))
+                        ((== occurs-bound-vars-in occurs-bound-vars-out)
+                         (not-membero x bound-vars))))
+                  ((lambda (,x) ,body)
+                   (symbolo x)
+                   (boundo body `(,x . ,bound-vars) occurs-bound-vars-in occurs-bound-vars-out))
+                  ((,e1 ,e2)
+                   (fresh (occurs-bound-vars-out^)
+                     (boundo e1 bound-vars occurs-bound-vars-in occurs-bound-vars-out^)
+                     (boundo e2 bound-vars occurs-bound-vars-out^ occurs-bound-vars-out)))))))
+      (boundo e '() '() out))))
+
+
+(test "boundo-1"
+  (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) q))
+  '((w z w)))
+
+(test "boundo-2"
+  (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) '(w z w)))
+  '(_.0))
+
+(test "boundo-3"
+;; This example illustrates the problem with using lists to represent sets.
+;; The first argument to boundo is a list representing an application in the lambda-calculus.
+;; The second argument is a list representing a *set*, in which order matters
+;;
+;; There is another issue: the list representing the answers contains
+;; duplicates.  This means that our trick of using a
+;; length-instantiated list of logic variables + membero to represent
+;; the set {z w} is problematic.  We can either use real set
+;; constraints, or re-write freeo and boundo to avoid adding duplicate
+;; values to the "set" lists.
+  (list
+    (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) '(z w w)))
+    (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) '(w z w))))
+  '(() (_.0)))
