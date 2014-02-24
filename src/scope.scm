@@ -761,8 +761,8 @@
     (run* (q)
       (fresh (bound a b)
         (== `(,a ,b) bound)
-        (membero 'w bound)
         (membero 'z bound)
+        (membero 'w bound)
         (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) bound))))
   '((_.0) (_.0)))
 
