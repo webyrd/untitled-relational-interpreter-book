@@ -633,6 +633,11 @@
      ((a (lambda (_.0) (lambda (_.1) v))) (=/= ((_.0 v)) ((_.1 v))) (sym _.0 _.1))
      ((v (lambda (_.0) (lambda (_.1) a))) (=/= ((_.0 a)) ((_.1 a))) (sym _.0 _.1))))
 
+;; shows a problem with freeo--it generates duplicate answers
+ (test "freeo-6"
+   (run* (q) (freeo '(w (v w)) q))
+   '((w v w)))
+
 (define boundo
   (lambda (e out)
     (letrec ((boundo
@@ -699,14 +704,14 @@
                 (matche e
                   (,x (symbolo x)
                       (conde
+                        ((== occurs-bound-vars-in occurs-bound-vars-out)
+                         (not-membero x bound-vars))
                         ((conde
                            ((== `(,x . ,occurs-bound-vars-in) occurs-bound-vars-out)
                             (not-membero x occurs-bound-vars-in))
                            ((== occurs-bound-vars-in occurs-bound-vars-out)
                             (membero x occurs-bound-vars-in)))
-                         (membero x bound-vars))
-                        ((== occurs-bound-vars-in occurs-bound-vars-out)
-                         (not-membero x bound-vars))))
+                         (membero x bound-vars))))
                   ((lambda (,x) ,body)
                    (symbolo x)
                    (boundo body `(,x . ,bound-vars) occurs-bound-vars-in occurs-bound-vars-out))
@@ -782,27 +787,165 @@
       (membero 'w bound)
       (membero 'z bound)
       (boundo q bound)))
-  '((lambda (w) (lambda (z) (z w)))
-    (lambda (z) (lambda (w) (w z)))
-    (lambda (z) (z (lambda (w) w)))
+  '((lambda (z) (z (lambda (w) w)))
     (lambda (w) (w (lambda (z) z)))
+    (lambda (w) (lambda (z) (z w)))
+    (lambda (z) (lambda (w) (w z)))
     ((lambda (z) z) (lambda (w) w))
     ((lambda (w) w) (lambda (z) z))
-    ((lambda (_.0) (lambda (z) (z (lambda (w) w)))) (sym _.0))
-    ((lambda (_.0) (lambda (w) (w (lambda (z) z)))) (sym _.0))
     ((lambda (_.0) (lambda (w) (lambda (z) (z w)))) (sym _.0))
     ((lambda (_.0) (lambda (z) (lambda (w) (w z)))) (sym _.0))
-    ((lambda (w) (lambda (z) (z (lambda (_.0) w))))
-     (=/= ((_.0 w))) (sym _.0))
-    ((lambda (z) (lambda (w) (w (lambda (_.0) z))))
-     (=/= ((_.0 z))) (sym _.0))
     ((lambda (w) (lambda (_.0) (lambda (z) (z w))))
      (=/= ((_.0 w))) (sym _.0))
     ((lambda (z) (lambda (_.0) (lambda (w) (w z))))
      (=/= ((_.0 z))) (sym _.0))
-    (lambda (w) ((lambda (z) z) w))
-    (lambda (z) ((lambda (w) w) z))
     (lambda (z) (lambda (w) (z w)))
     (lambda (w) (lambda (z) (w z)))
+    ((lambda (_.0) (lambda (z) (z (lambda (w) w)))) (sym _.0))
+    ((lambda (_.0) (lambda (w) (w (lambda (z) z)))) (sym _.0))
     ((lambda (z) (z (lambda (_.0) (lambda (w) w)))) (sym _.0))
-    ((lambda (w) (w (lambda (_.0) (lambda (z) z)))) (sym _.0))))
+    ((lambda (w) (w (lambda (_.0) (lambda (z) z)))) (sym _.0))
+    (((lambda (z) z) (lambda (_.0) (lambda (w) w))) (sym _.0))
+    (((lambda (w) w) (lambda (_.0) (lambda (z) z))) (sym _.0))
+    (lambda (w) ((lambda (z) z) w))
+    (lambda (z) ((lambda (w) w) z))))
+
+
+
+
+(define freeo
+  (lambda (e out)
+    (letrec ((freeo
+              (lambda (e bound-vars free-vars-in free-vars-out)
+                (matche e
+                  (,x (symbolo x)
+                      (conde
+                        ((== free-vars-in free-vars-out)
+                         (membero x bound-vars))
+                        ((conde
+                           ((== `(,x . ,free-vars-in) free-vars-out)
+                            (not-membero x free-vars-in))
+                           ((== free-vars-in free-vars-out)
+                            (membero x free-vars-in)))
+                         (not-membero x bound-vars))))
+                  ((lambda (,x) ,body)
+                   (symbolo x)
+                   (freeo body `(,x . ,bound-vars) free-vars-in free-vars-out))
+                  ((,e1 ,e2)
+                   (fresh (free-vars-out^)
+                     (freeo e1 bound-vars free-vars-in free-vars-out^)
+                     (freeo e2 bound-vars free-vars-out^ free-vars-out)))))))
+      (freeo e '() '() out))))
+
+(test "smart-freeo-1"
+  (run* (q) (freeo '(lambda (w) (((lambda (z) (v (w z))) w) a)) q))
+  '((a v)))
+
+(test "smart-freeo-2"
+  (run* (q) (freeo '(v a) '(a v)))
+  '(_.0))
+
+(test "smart-freeo-3"
+;; This example illustrates the problem with using lists to represent sets.
+;; The first argument to freeo is a list representing an application in the lambda-calculus.
+;; The second argument is a list representing a *set*, in which order matters
+  (list
+    (run* (q) (freeo '(a v) '(a v)))
+    (run* (q) (freeo '(a v) '(v a))))
+  '(() (_.0)))
+
+(test "smart-freeo-4"
+;; Avoiding the ordering problem in the 'free' "set" using membero and
+;; a length-instantiated free list.
+  (list
+    (run* (q)
+      (fresh (free x y)
+        (== `(,x ,y) free)
+        (membero 'a free)
+        (membero 'v free)
+        (freeo '(a v) free)))
+    (run* (q)
+      (fresh (free x y)
+        (== `(,x ,y) free)
+        (membero 'v free)
+        (membero 'a free)
+        (freeo '(a v) free))))
+  '((_.0) (_.0)))
+
+
+;; faking sets when running backwards
+
+ (test "smart-freeo-5a"
+   ;; "naive"
+   (run 10 (q) (freeo q '(a v)))
+   '((v a)
+     ((v (lambda (_.0) a)) (=/= ((_.0 a))) (sym _.0))
+     ((lambda (_.0) (v a)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
+     (v (v a))
+     ((v (lambda (_.0) (lambda (_.1) a)))
+      (=/= ((_.0 a)) ((_.1 a))) (sym _.0 _.1))
+     (((lambda (_.0) v) a) (=/= ((_.0 v))) (sym _.0))
+     (((lambda (_.0) _.0) (v a)) (sym _.0)) (v (a a))
+     ((v (lambda (_.0) (_.0 a))) (=/= ((_.0 a))) (sym _.0))
+     ((v (v (lambda (_.0) a))) (=/= ((_.0 a))) (sym _.0))))
+
+ (test "smart-freeo-5b"
+   ;; "naive", reordered   
+   (run 10 (q) (freeo q '(v a)))
+   '((a v)
+     ((a (lambda (_.0) v)) (=/= ((_.0 v))) (sym _.0))
+     ((lambda (_.0) (a v)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
+     (a (a v))
+     ((a (lambda (_.0) (lambda (_.1) v)))
+      (=/= ((_.0 v)) ((_.1 v))) (sym _.0 _.1))
+     (((lambda (_.0) a) v) (=/= ((_.0 a))) (sym _.0))
+     (((lambda (_.0) _.0) (a v)) (sym _.0)) (a (v v))
+     ((a (lambda (_.0) (_.0 v))) (=/= ((_.0 v))) (sym _.0))
+     ((a (a (lambda (_.0) v))) (=/= ((_.0 v))) (sym _.0))))
+
+ (test "smart-freeo-5c"
+   ;; faking sets
+   (run 10 (q)
+     (fresh (free x y)
+       (== `(,x ,y) free)
+       (membero 'a free)
+       (membero 'v free)
+       (freeo q free)))
+   '((v a)
+     (a v)
+     ((v (lambda (_.0) a)) (=/= ((_.0 a))) (sym _.0))
+     ((a (lambda (_.0) v)) (=/= ((_.0 v))) (sym _.0))
+     ((lambda (_.0) (v a)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
+     ((lambda (_.0) (a v)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
+     (v (v a))
+     (a (a v))
+     ((v (lambda (_.0) (lambda (_.1) a)))
+      (=/= ((_.0 a)) ((_.1 a))) (sym _.0 _.1))
+     ((a (lambda (_.0) (lambda (_.1) v)))
+      (=/= ((_.0 v)) ((_.1 v))) (sym _.0 _.1))))
+
+ (test "smart-freeo-5d"
+   ;; faking sets, reordered
+   (run 10 (q)
+     (fresh (free x y)
+       (== `(,x ,y) free)
+       (membero 'v free)
+       (membero 'a free)
+       (freeo q free)))
+   '((a v)
+     (v a)
+     ((a (lambda (_.0) v)) (=/= ((_.0 v))) (sym _.0))
+     ((v (lambda (_.0) a)) (=/= ((_.0 a))) (sym _.0))
+     ((lambda (_.0) (a v)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
+     ((lambda (_.0) (v a)) (=/= ((_.0 a)) ((_.0 v))) (sym _.0))
+     (a (a v))
+     (v (v a))
+     ((a (lambda (_.0) (lambda (_.1) v)))
+      (=/= ((_.0 v)) ((_.1 v))) (sym _.0 _.1))
+     ((v (lambda (_.0) (lambda (_.1) a)))
+      (=/= ((_.0 a)) ((_.1 a))) (sym _.0 _.1))))
+
+;; shows a problem with freeo--it generates duplicate answers
+ (test "smart-freeo-6"
+   (run* (q) (freeo '(w (v w)) q))
+   '((v w)))
