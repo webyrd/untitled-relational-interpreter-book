@@ -1255,3 +1255,12 @@
       f: (_.0)
       b: (_.1 _.0))
      (=/= ((_.0 _.1))) (sym _.0 _.1))))
+
+;; ????  questions
+;;
+;; Would using sets give up some of the control, or would I keep the same expressive power?
+;;
+;; not-membero seems like a fine constraint, which should be easy to
+;; implement.  What about making membero a constraint?
+;;
+;; Can these techinques be applied to full environments represented as a-lists?
