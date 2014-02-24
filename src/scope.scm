@@ -663,17 +663,27 @@
   '(_.0))
 
 (test "boundo-3"
-;; This example illustrates the problem with using lists to represent sets.
-;; The first argument to boundo is a list representing an application in the lambda-calculus.
-;; The second argument is a list representing a *set*, in which order matters
+;; This example illustrates the problem with using lists to represent
+;; sets.  The first argument to boundo is a list representing an
+;; application in the lambda-calculus.  The second argument is a list
+;; representing a *set*, yet order matters.
 ;;
 ;; There is another issue: the list representing the answers contains
 ;; duplicates.  This means that our trick of using a
 ;; length-instantiated list of logic variables + membero to represent
 ;; the set {z w} is problematic.  We can either use real set
-;; constraints, or re-write freeo and boundo to avoid adding duplicate
-;; values to the "set" lists.
+;; constraints, re-write freeo and boundo to avoid adding duplicate
+;; values to the "set" lists, or avoid length-instantiating the sets.
   (list
     (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) '(z w w)))
     (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) '(w z w))))
   '(() (_.0)))
+
+(test "boundo-4"
+;; run 2 diverges  
+  (run 1 (q)
+    (fresh (bound)
+      (membero 'w bound)
+      (membero 'z bound)      
+      (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) bound)))
+  '(_.0))
