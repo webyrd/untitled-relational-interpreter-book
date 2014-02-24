@@ -680,10 +680,97 @@
   '(() (_.0)))
 
 (test "boundo-4"
-;; run 2 diverges  
+;; run 2 diverges
   (run 1 (q)
     (fresh (bound)
       (membero 'w bound)
       (membero 'z bound)      
+      (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) bound)))
+  '(_.0))
+
+
+;; Try to improve boundo by avoiding adding duplicate variables.  I
+;; wonder if absento (or a lazy not-membero constraint) would work
+;; better than the recursively defined not-membero.
+(define boundo
+  (lambda (e out)
+    (letrec ((boundo
+              (lambda (e bound-vars occurs-bound-vars-in occurs-bound-vars-out)
+                (matche e
+                  (,x (symbolo x)
+                      (conde
+                        ((conde
+                           ((== `(,x . ,occurs-bound-vars-in) occurs-bound-vars-out)
+                            (not-membero x occurs-bound-vars-in))
+                           ((== occurs-bound-vars-in occurs-bound-vars-out)
+                            (membero x occurs-bound-vars-in)))
+                         (membero x bound-vars))
+                        ((== occurs-bound-vars-in occurs-bound-vars-out)
+                         (not-membero x bound-vars))))
+                  ((lambda (,x) ,body)
+                   (symbolo x)
+                   (boundo body `(,x . ,bound-vars) occurs-bound-vars-in occurs-bound-vars-out))
+                  ((,e1 ,e2)
+                   (fresh (occurs-bound-vars-out^)
+                     (boundo e1 bound-vars occurs-bound-vars-in occurs-bound-vars-out^)
+                     (boundo e2 bound-vars occurs-bound-vars-out^ occurs-bound-vars-out)))))))
+      (boundo e '() '() out))))
+
+(test "smart-boundo-1"
+  (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) q))
+  '((z w)))
+
+(test "smart-boundo-2"
+  (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) '(w z w)))
+  '())
+
+(test "smart-boundo-2b"
+  (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) '(w z)))
+  '())
+
+(test "smart-boundo-3a"
+;; This example illustrates the problem with using lists to represent
+;; sets.  The first argument to boundo is a list representing an
+;; application in the lambda-calculus.  The second argument is a list
+;; representing a *set*, yet order matters.
+;;
+;; However, since there are no duplicates in the sets, we can use the
+;; trick of using a length-instantiated list of logic variables +
+;; membero to represent the set {z w}.
+  (list
+    (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) '(z w)))
+    (run* (q) (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) '(w z))))
+  '((_.0) ()))
+
+(test "smart-boundo-3b"
+;; This example illustrates the problem with using lists to represent
+;; sets.  The first argument to boundo is a list representing an
+;; application in the lambda-calculus.  The second argument is a list
+;; representing a *set*, yet order matters.
+;;
+;; However, since there are no duplicates in the sets, we can use the
+;; trick of using a length-instantiated list of logic variables +
+;; membero to represent the set {z w}.
+  (list
+    (run* (q)
+    (fresh (bound a b)
+      (== `(,a ,b) bound)
+      (membero 'w bound)
+      (membero 'z bound)
+      (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) bound)))
+    (run* (q)
+      (fresh (bound a b)
+        (== `(,a ,b) bound)
+        (membero 'w bound)
+        (membero 'z bound)
+        (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) bound))))
+  '((_.0) (_.0)))
+
+(test "smart-boundo-4"
+;; run 2 diverges
+  (run 1 (q)
+    (fresh (bound)
+      (membero 'w bound)
+      (membero 'z bound)
       (boundo '(lambda (w) (((lambda (z) (v (w z))) w) a)) bound)))
   '(_.0))
