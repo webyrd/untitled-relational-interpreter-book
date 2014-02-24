@@ -1040,3 +1040,22 @@
     ((lambda (w) w) (lambda (v) (w v)))
     (w (lambda (w) (lambda (v) (w v))))
     (w (lambda (v) (lambda (w) (v w))))))
+
+;; There are countably infinite lambda-calculus expressions in which
+;; no variables appear free, and only 'v' appears bound.
+(test "free/boundo-6"
+  (run 10 (q)
+    (fresh (bound a)
+      (== `(,a) bound)
+      (membero 'v bound)
+      (free/boundo q '() bound)))
+  '((lambda (v) v)
+    ((lambda (_.0) (lambda (v) v)) (sym _.0))
+    ((lambda (v) (lambda (_.0) v)) (=/= ((_.0 v))) (sym _.0))
+    ((lambda (_.0) (lambda (_.1) (lambda (v) v))) (sym _.0 _.1))
+    ((lambda (_.0) (lambda (v) (lambda (_.1) v))) (=/= ((_.1 v))) (sym _.0 _.1))
+    ((lambda (v) (lambda (_.0) (lambda (_.1) v))) (=/= ((_.0 v)) ((_.1 v))) (sym _.0 _.1))
+    (lambda (v) (v v))
+    ((lambda (_.0) (lambda (_.1) (lambda (_.2) (lambda (v) v)))) (sym _.0 _.1 _.2))
+    ((lambda (_.0) (lambda (_.1) (lambda (v) (lambda (_.2) v)))) (=/= ((_.2 v))) (sym _.0 _.1 _.2))
+    (lambda (v) (v (lambda (v) v)))))
