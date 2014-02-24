@@ -949,3 +949,94 @@
  (test "smart-freeo-6"
    (run* (q) (freeo '(w (v w)) q))
    '((v w)))
+
+
+;; combine freeo and boundo into one relation
+(define free/boundo
+  (lambda (e free bound)
+    (letrec ((free/boundo
+              (lambda (e bound-vars free-vars-in bound-vars-in free-vars-out bound-vars-out)
+                (matche e
+                  (,x (symbolo x)
+                      (conde
+                        ((== free-vars-in free-vars-out)
+                         (conde
+                           ((== `(,x . ,bound-vars-in) bound-vars-out)
+                            (not-membero x bound-vars-in))
+                           ((== bound-vars-in bound-vars-out)
+                            (membero x bound-vars-in)))
+                         (membero x bound-vars))
+                        ((== bound-vars-in bound-vars-out)
+                         (conde
+                           ((== `(,x . ,free-vars-in) free-vars-out)
+                            (not-membero x free-vars-in))
+                           ((== free-vars-in free-vars-out)
+                            (membero x free-vars-in)))
+                         (not-membero x bound-vars))))
+                  ((lambda (,x) ,body)
+                   (symbolo x)
+                   (free/boundo body `(,x . ,bound-vars) free-vars-in bound-vars-in free-vars-out bound-vars-out))
+                  ((,e1 ,e2)
+                   (fresh (free-vars-out^ bound-vars-out^)
+                     (free/boundo e1 bound-vars free-vars-in bound-vars-in free-vars-out^ bound-vars-out^)
+                     (free/boundo e2 bound-vars free-vars-out^ bound-vars-out^ free-vars-out bound-vars-out)))))))
+      (free/boundo e '() '() '() free bound))))
+
+(test "free/boundo-1"
+  (run* (q)
+    (fresh (free bound)
+      (free/boundo '(w (v w)) free bound)
+      (== `(,free ,bound) q)))
+  '(((v w) ())))
+
+(test "free/boundo-2"
+  (run* (q)
+    (fresh (free bound)
+      (free/boundo '(lambda (w) (w (v w))) free bound)
+      (== `(,free ,bound) q)))
+  '(((v) (w))))
+
+(test "free/boundo-3"
+  (run* (q)
+    (fresh (free bound)
+      (free/boundo '(w (lambda (w) (w (v w)))) free bound)
+      (== `(,free ,bound) q)))
+  '(((v w) (w))))
+
+(test "free/boundo-4"
+  (run 10 (q)
+    (fresh (bound a b)
+      (== `(,a ,b) bound)
+      (membero 'v bound)
+      (membero 'w bound)
+      (free/boundo q '() bound)))
+  '((lambda (w) (w (lambda (v) v)))
+    (lambda (v) (v (lambda (w) w)))
+    ((lambda (w) w) (lambda (v) v))
+    ((lambda (v) v) (lambda (w) w))
+    (lambda (v) (lambda (w) (w v)))
+    (lambda (w) (lambda (v) (v w)))
+    (lambda (w) (lambda (v) (w v)))
+    (lambda (v) (lambda (w) (v w)))
+    ((lambda (w) (w (lambda (_.0) (lambda (v) v)))) (sym _.0))
+    ((lambda (v) (v (lambda (_.0) (lambda (w) w)))) (sym _.0))))
+
+(test "free/boundo-5"
+  (run 10 (q)
+    (fresh (bound free a b c)
+      (== `(,a ,b) bound)
+      (== `(,c) free)
+      (membero 'v bound)
+      (membero 'w bound)
+      (membero 'w free)
+      (free/boundo q free bound)))
+  '((w (lambda (w) (w (lambda (v) v))))
+    (w (lambda (v) (v (lambda (w) w))))
+    ((lambda (w) w) (w (lambda (v) v)))
+    ((lambda (v) v) (w (lambda (w) w)))
+    (lambda (v) (v (w (lambda (w) w))))
+    (w (lambda (v) (lambda (w) (w v))))
+    (w (lambda (w) (lambda (v) (v w))))
+    ((lambda (w) w) (lambda (v) (w v)))
+    (w (lambda (w) (lambda (v) (w v))))
+    (w (lambda (v) (lambda (w) (v w))))))
