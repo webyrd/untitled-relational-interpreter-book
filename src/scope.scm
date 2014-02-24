@@ -945,7 +945,7 @@
      ((v (lambda (_.0) (lambda (_.1) a)))
       (=/= ((_.0 a)) ((_.1 a))) (sym _.0 _.1))))
 
-;; shows a problem with freeo--it generates duplicate answers
+;; this smarter definition of freeo doesn't generate duplicate answers
  (test "smart-freeo-6"
    (run* (q) (freeo '(w (v w)) q))
    '((v w)))
