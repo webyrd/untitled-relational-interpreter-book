@@ -135,6 +135,7 @@
       (,y (guard (symbol? y))
        (eq? x y)))))
 
+;; not-occurs-free? is *not* the same as occurs-bound?
 (define not-occurs-free?
   (lambda (x e)
     (unless (symbol? x)
@@ -190,6 +191,51 @@
 
 
 
+
+
+(define occurs-bound?-tests
+  (lambda (occurs-bound?)
+
+    (test "occurs-bound?-0"
+      (occurs-bound? 'z 'z)
+      #f)
+
+    (test "occurs-bound?-1"
+      (occurs-bound? 'z '(lambda (z) (lambda (z) z)))
+      #t)
+
+    (test "occurs-bound?-2"
+      (occurs-bound? 'z '(lambda (z) (lambda (w) z)))
+      #t)
+
+    (test "occurs-bound?-3"
+      (occurs-bound? 'z '(lambda (w) (lambda (x) z)))
+      #f)
+    
+    ))
+
+(define not-occurs-bound?-tests
+  (lambda (not-occurs-bound?)
+
+    (test "not-occurs-bound?-0"
+      (not-occurs-bound? 'z 'z)
+      #t)
+
+    (test "not-occurs-bound?-1"
+      (not-occurs-bound? 'z '(lambda (z) (lambda (z) z)))
+      #f)  
+
+    (test "not-occurs-bound?-2"
+      (not-occurs-bound? 'z '(lambda (z) (lambda (w) z)))
+      #f)
+
+    (test "not-occurs-bound?-3"
+      (not-occurs-bound? 'z '(lambda (w) (lambda (x) z)))
+      #t)
+    
+    ))
+
+
 (define occurs-bound?
   (lambda (x e)
     (pmatch e
@@ -205,13 +251,146 @@
        (or (occurs-bound? x e1)
            (occurs-bound? x e2))))))
 
-(test "occurs-bound?-0"
-  (occurs-bound? 'z 'z)
-  #f)
+(occurs-bound?-tests occurs-bound?)
 
-(test "occurs-bound?-1"
-  (occurs-bound? 'z '(lambda (z) (lambda (z) z)))
-  #t)
+(define occurs-bound?
+  (lambda (x e)
+    (unless (symbol? x)
+      (error 'occurs-bound? "first argument must be a symbol"))
+    (pmatch e
+      (,y (guard (symbol? y))
+       #f)
+      ((lambda (,y) ,body) (guard (symbol? y))
+       (cond
+         ((eq? x y)
+          (cond
+            ((occurs-free? x body) #t)
+            ((not-occurs-free? x body)
+             (occurs-bound? x body))))
+         ((not (eq? x y))
+          (occurs-bound? x body))))
+      ((,e1 ,e2)
+       (cond
+         ((occurs-bound? x e1) #t)
+         ((not (occurs-bound? x e1))
+          (occurs-bound? x e2)))))))
+
+(occurs-bound?-tests occurs-bound?)
+
+(define occurs-bound?
+  (lambda (x e)
+    (unless (symbol? x)
+      (error 'occurs-bound? "first argument must be a symbol"))
+    (pmatch e
+      ((,e1 ,e2)
+       (cond
+         ((not (occurs-bound? x e1))
+          (occurs-bound? x e2))
+         ((occurs-bound? x e1) #t)))
+      ((lambda (,y) ,body) (guard (symbol? y))
+       (cond
+         ((eq? x y)
+          (cond
+            ((not-occurs-free? x body)
+             (occurs-bound? x body))
+            ((occurs-free? x body) #t)))
+         ((not (eq? x y))
+          (occurs-bound? x body))))
+      (,y (guard (symbol? y))
+       #f))))
+
+(occurs-bound?-tests occurs-bound?)
+
+(define occurs-bound?
+  (lambda (x e)
+    (unless (symbol? x)
+      (error 'occurs-bound? "first argument must be a symbol"))
+    (pmatch e
+      (,y (guard (symbol? y))
+       #f)
+      ((lambda (,y) ,body) (guard (symbol? y))
+       (cond
+         ((eq? x y)
+          (cond
+            ((occurs-free? x body) #t)
+            ((not-occurs-free? x body)
+             (occurs-bound? x body))))
+         ((not (eq? x y))
+          (occurs-bound? x body))))
+      ((,e1 ,e2)
+       (cond
+         ((occurs-bound? x e1) #t)
+         ((not-occurs-bound? x e1)
+          (occurs-bound? x e2)))))))
+
+(define not-occurs-bound?
+  (lambda (x e)
+    (unless (symbol? x)
+      (error 'not-occurs-bound? "first argument must be a symbol"))
+    (pmatch e
+      (,y (guard (symbol? y))
+       #t)
+      ((lambda (,y) ,body) (guard (symbol? y))
+       (cond
+         ((eq? x y)
+          (and
+            (not-occurs-free? x body)
+            (not-occurs-bound? x body)))
+         ((not (eq? x y))
+          (not-occurs-bound? x body))))
+      ((,e1 ,e2)
+       (and
+         (not-occurs-bound? x e1)
+         (not-occurs-bound? x e2))))))
+
+(occurs-bound?-tests occurs-bound?)
+(not-occurs-bound?-tests not-occurs-bound?)
+
+(define occurs-bound?
+  (lambda (x e)
+    (unless (symbol? x)
+      (error 'occurs-bound? "first argument must be a symbol"))
+    (pmatch e
+      ((,e1 ,e2)
+       (cond
+         ((occurs-bound? x e1) #t)
+         ((not-occurs-bound? x e1)
+          (occurs-bound? x e2))))
+      ((lambda (,y) ,body) (guard (symbol? y))
+       (cond
+         ((not (eq? x y))
+          (occurs-bound? x body))
+         ((eq? x y)
+          (cond
+            ((not-occurs-free? x body)
+             (occurs-bound? x body))
+            ((occurs-free? x body) #t)))))
+      (,y (guard (symbol? y))
+       #f))))
+
+(define not-occurs-bound?
+  (lambda (x e)
+    (unless (symbol? x)
+      (error 'not-occurs-bound? "first argument must be a symbol"))
+    (pmatch e
+      ((,e1 ,e2)
+       (and
+         (not-occurs-bound? x e2)
+         (not-occurs-bound? x e1)))
+      ((lambda (,y) ,body) (guard (symbol? y))
+       (cond
+         ((not (eq? x y))
+          (not-occurs-bound? x body))
+         ((eq? x y)
+          (and
+            (not-occurs-bound? x body)
+            (not-occurs-free? x body)))))
+      (,y (guard (symbol? y))
+       #t))))
+
+(occurs-bound?-tests occurs-bound?)
+(not-occurs-bound?-tests not-occurs-bound?)
+
 
 ;;; careful here--my code doesn't know about 'let' or '+'
 (test "shadowing-1"
@@ -252,6 +431,7 @@
            ((not-occurs-freeo x e1)
             (occurs-freeo x e2))))))))
 
+;; not-occurs-freeo is *not* the same as occurs-boundo
 (define not-occurs-freeo
   (lambda (x e)
     (fresh ()
@@ -298,10 +478,10 @@
         (,y (symbolo y))
         ((lambda (,y) ,body) (symbolo y)
          (conde
-           ((=/= x y)
-            (not-occurs-boundo x body))
            ((== x y)
             (not-occurs-freeo x body)
+            (not-occurs-boundo x body))
+           ((=/= x y)
             (not-occurs-boundo x body))))
         ((,e1 ,e2)
          (not-occurs-boundo x e1)
