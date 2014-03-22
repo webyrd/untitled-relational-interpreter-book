@@ -428,7 +428,7 @@
   #t)
 
 (test "occurs-boundo-5"
-  (run 5 (q) (fresh (x e) (occurs-boundo x e) (== `(,x ,e) q)))
+  (run 10 (q) (fresh (x e) (occurs-boundo x e) (== `(,x ,e) q)))
   '(((_.0 (lambda (_.0) _.0))
      (sym _.0))
     ((_.0 (lambda (_.0) (lambda (_.1) _.0)))
@@ -440,9 +440,20 @@
     ((_.0 ((lambda (_.0) _.0) _.1))
      (sym _.0))
     ((_.0 (lambda (_.0) (_.0 _.1)))
-     (sym _.0))))
-
-
+     (sym _.0))
+    ((_.0 (lambda (_.0) (lambda (_.1) (lambda (_.2) _.0))))
+     (=/= ((_.0 _.1)) ((_.0 _.2)))
+     (sym _.0 _.1 _.2))
+    ((_.0 (lambda (_.0) (lambda (_.0) _.0)))
+     (sym _.0))
+    ((_.0 (_.1 (lambda (_.0) _.0)))
+     (sym _.0 _.1))
+    ((_.0 (lambda (_.0) (lambda (_.1) (_.0 _.2))))
+     (=/= ((_.0 _.1)))
+     (sym _.0 _.1))
+    ((_.0 (lambda (_.0) (_.1 _.0)))
+     (=/= ((_.0 _.1)))
+     (sym _.0 _.1))))
 
 (define union
   (lambda (s1 s2)
