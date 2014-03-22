@@ -3,6 +3,68 @@
 (load "pmatch.scm")
 (load "test-check.scm")
 
+(define occurs-free?-tests
+  (lambda (occurs-free?)
+
+    (test "occurs-free?-0a"
+      (occurs-free? 'z 'z)
+      #t)
+
+    (test "occurs-free?-0b"
+      (occurs-free? 'z 'w)
+      #f)
+    
+    (test "occurs-free?-1"
+      (occurs-free? 'z '(lambda (z) (lambda (z) z)))
+      #f)
+
+    (test "occurs-free?-2"
+      (occurs-free? 'z '(lambda (z) (lambda (y) z)))
+      #f)
+
+    (test "occurs-free?-3"
+      (occurs-free? 'y '(lambda (z) (lambda (x) y)))
+      #t)
+
+    (test "occurs-free?-4"
+      (occurs-free? 'y '(lambda (y) y))
+      #f)
+
+    (test "occurs-free?-5"
+      (occurs-free? 'y '(lambda (y) z))
+      #f)
+
+    (test "occurs-free?-6"
+      (occurs-free? 'y '(y y))
+      #t)
+
+    (test "occurs-free?-7"
+      (occurs-free? 'y '(w z))
+      #f)
+
+    (test "occurs-free?-8"
+      (occurs-free? 'y '(y z))
+      #t)
+    
+    (test "occurs-free?-9"
+      (occurs-free? 'y '(z y))
+      #t)
+
+    (test "occurs-free?-10"
+      (occurs-free? 'y '((lambda (x) y) z))
+      #t)
+
+    (test "occurs-free?-11"
+      (occurs-free? 'y '(z (lambda (x) y)))
+      #t)
+
+    (test "occurs-free?-12"
+      (occurs-free? 'y '(z (lambda (x) w)))
+      #f)
+    
+    ))
+
+
 (define occurs-free?
   (lambda (x e)
     (pmatch e
@@ -15,6 +77,83 @@
       ((,e1 ,e2)
        (or (occurs-free? x e1)
            (occurs-free? x e2))))))
+
+(occurs-free?-tests occurs-free?)
+
+(define occurs-free?
+  (lambda (x e)
+    (unless (symbol? x)
+      (error 'occurs-free? "first argument must be a symbol"))
+    (pmatch e
+      (,y (guard (symbol? y))
+       (eq? x y))
+      ((lambda (,y) ,body) (guard (symbol? y))
+       (cond
+         ((eq? x y) #f)
+         ((not (eq? x y)) (occurs-free? x body))))
+      ((,e1 ,e2)
+       (cond
+         ((occurs-free? x e1) #t)
+         ((not (occurs-free? x e1))
+          (occurs-free? x e2)))))))
+
+(occurs-free?-tests occurs-free?)
+
+(define occurs-free?
+  (lambda (x e)
+    (unless (symbol? x)
+      (error 'occurs-free? "first argument must be a symbol"))
+    (pmatch e
+      ((,e1 ,e2)
+       (cond
+         ((not (occurs-free? x e1))
+          (occurs-free? x e2))
+         ((occurs-free? x e1) #t)))
+      ((lambda (,y) ,body) (guard (symbol? y))
+       (cond
+         ((not (eq? x y)) (occurs-free? x body))
+         ((eq? x y) #f)))
+      (,y (guard (symbol? y))
+       (eq? x y)))))
+
+(occurs-free?-tests occurs-free?)
+
+(define occurs-free?
+  (lambda (x e)
+    (unless (symbol? x)
+      (error 'occurs-free? "first argument must be a symbol"))
+    (pmatch e
+      ((,e1 ,e2)
+       (cond
+         ((not-occurs-free? x e1)
+          (occurs-free? x e2))
+         ((occurs-free? x e1) #t)))
+      ((lambda (,y) ,body) (guard (symbol? y))
+       (cond
+         ((not (eq? x y)) (occurs-free? x body))
+         ((eq? x y) #f)))
+      (,y (guard (symbol? y))
+       (eq? x y)))))
+
+(define not-occurs-free?
+  (lambda (x e)
+    (unless (symbol? x)
+      (error 'not-occurs-free? "first argument must be a symbol"))
+    (pmatch e
+      (,y (guard (symbol? y))
+       (not (eq? x y)))
+      ((lambda (,y) ,body) (guard (symbol? y))
+       (cond
+         ((not (eq? x y)) (not-occurs-free? x body))
+         ((eq? x y) #t)))
+      ((,e1 ,e2)
+       (and
+         (not-occurs-free? x e1)
+         (not-occurs-free? x e2))))))
+
+(occurs-free?-tests occurs-free?)
+
+
 
 (define occurs-bound?
   (lambda (x e)
@@ -30,14 +169,6 @@
       ((,e1 ,e2)
        (or (occurs-bound? x e1)
            (occurs-bound? x e2))))))
-
-(test "occurs-free?-0"
-  (occurs-free? 'z 'z)
-  #t)
-
-(test "occurs-free?-1"
-  (occurs-free? 'z '(lambda (z) (lambda (z) z)))
-  #f)
 
 (test "occurs-bound?-0"
   (occurs-bound? 'z 'z)
