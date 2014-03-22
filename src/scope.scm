@@ -153,6 +153,41 @@
 
 (occurs-free?-tests occurs-free?)
 
+(define occurs-free?
+  (lambda (x e)
+    (unless (symbol? x)
+      (error 'occurs-free? "first argument must be a symbol"))
+    (pmatch e
+      (,y (guard (symbol? y))
+       (eq? x y))
+      ((lambda (,y) ,body) (guard (symbol? y))
+       (cond
+         ((eq? x y) #f)
+         ((not (eq? x y)) (occurs-free? x body))))
+      ((,e1 ,e2)
+       (cond
+         ((occurs-free? x e1) #t)
+         ((not-occurs-free? x e1)
+          (occurs-free? x e2)))))))
+
+(define not-occurs-free?
+  (lambda (x e)
+    (unless (symbol? x)
+      (error 'not-occurs-free? "first argument must be a symbol"))
+    (pmatch e
+      (,y (guard (symbol? y))
+       (not (eq? x y)))
+      ((lambda (,y) ,body) (guard (symbol? y))
+       (cond
+         ((not (eq? x y)) (not-occurs-free? x body))
+         ((eq? x y) #t)))
+      ((,e1 ,e2)
+       (and
+         (not-occurs-free? x e1)
+         (not-occurs-free? x e2))))))
+
+(occurs-free?-tests occurs-free?)
+
 
 
 (define occurs-bound?
