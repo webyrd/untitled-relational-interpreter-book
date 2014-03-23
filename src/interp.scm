@@ -230,11 +230,39 @@
           '()
           q))
       '((closure w w ((z closure v v ())))))
-    
+
+    ;; works even with not-in-envo check
     (test "eval-expo-shadow-lambda-1"
       (run* (q)
         (eval-expo '((lambda (lambda) (lambda lambda)) (lambda (w) w)) '() q))
       '((closure w w ())))
+
+    ;; always works
+    (test "eval-expo-shadow-lambda-2a"
+      (run* (q)
+        (eval-expo
+          '((lambda (v)
+              (lambda (x) x))
+            (lambda (w) w))
+          '()
+          q))
+      '((closure x x ((v closure w w ())))))
+
+    ;; Should return () when using not-in-envo check, since (lambda
+    ;; (x) x) is not a legal expression when lambda is bound in the
+    ;; environment.  Depends on whether lambda expressions are
+    ;; considered built-ins that can't be shadowed.  If so, 'lambda'
+    ;; should probably be exclused as a formal argument in a lambda
+    ;; expression
+    (test "eval-expo-shadow-lambda-2b"
+      (run* (q)
+        (eval-expo
+          '((lambda (lambda)
+              (lambda (x) x))
+            (lambda (w) w))
+          '()
+          q))
+      '())
     
     ))
 
@@ -598,3 +626,69 @@
     (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
   '(((lambda (x) (lambda (y) x)) (lambda (z) z)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0)) (((((lambda (_.0) (lambda (_.1) _.1)) (lambda (_.2) _.3)) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0 _.1 _.2)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) ((lambda (_.1) _.1) (lambda (z) z))) (sym _.0 _.1))))
         
+
+
+(printf "*** eval-expo with not-in-envo\n")
+
+;;; eval-expo with not-in-envo for lambda
+
+; should not-in-envo be made a constraint?
+(define not-in-envo
+  (lambda (x env)
+    (fresh ()
+      (symbolo x)
+      (matche env
+        (())
+        (((,y . ,v) . ,rest) (symbolo y)
+         (=/= y x)
+         (not-in-envo x rest))))))
+
+(define eval-expo
+  (lambda (exp env val)
+    (matche exp
+      ((lambda (,x) ,body) (symbolo x)
+       (== `(closure ,x ,body ,env) val)
+       (not-in-envo 'lambda env))
+      (,x (symbolo x)
+       (lookupo x env val))
+      ((,rator ,rand)
+       (fresh (x body env2 arg)
+         (symbolo x)
+         (eval-expo rator env `(closure ,x ,body ,env2))
+         (eval-expo rand env arg)
+         (eval-expo body `((,x . ,arg) . ,env2) val))))))
+
+(simple-eval-expo-tests eval-expo)
+
+(test "eval-expo-7"
+  (run 5 (q)
+    (fresh (e v)
+      (eval-expo e '() v)
+      (== `(,e -> ,v) q)))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ()))
+     (sym _.0))
+    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
+     (=/= ((_.0 lambda)))
+     (sym _.0 _.1 _.3))
+    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ()))
+     (sym _.0 _.1))
+    ((((lambda (_.0) ((lambda (_.1) _.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) -> (closure _.2 _.3 ((_.0 closure _.4 _.5 ()))))
+     (=/= ((_.0 lambda)))
+     (sym _.0 _.1 _.2 _.4))
+    ((((lambda (_.0) ((lambda (_.1) (lambda (_.2) _.3)) (lambda (_.4) _.5))) (lambda (_.6) _.7))
+      ->
+      (closure _.2 _.3 ((_.1 closure _.4 _.5 ((_.0 closure _.6 _.7 ()))) (_.0 closure _.6 _.7 ()))))
+     (=/= ((_.0 lambda)) ((_.1 lambda)))
+     (sym _.0 _.1 _.2 _.4 _.6))))
+
+(test "eval-expo-8"
+  (run 5 (q)
+    (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z))
+    (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z))
+     (sym _.0))
+    (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z)))
+     (sym _.0))
+    (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z)))
+     (sym _.0))
+    ((lambda (x) (x (lambda (y) x))) (lambda (z) z))))
