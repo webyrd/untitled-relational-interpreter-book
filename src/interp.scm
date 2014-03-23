@@ -20,6 +20,7 @@
     
     ))
 
+;; can't reorder cond clauses
 (define lookup
   (lambda (x env)
     (pmatch env
@@ -44,6 +45,21 @@
           (lookup x rest)))))))
 
 (lookup-tests lookup)
+
+(define lookup
+  (lambda (x env)
+    (unless (symbol? x)
+      (error 'lookup "first argument must be a symbol"))
+    (pmatch env
+      (((,y . ,v) . ,rest) (guard (symbol? y))
+       (cond
+         ((not (eq? y x))
+          (lookup x rest))
+         ((eq? y x) v)))
+      (() (error 'lookup "unbound variable")))))
+
+(lookup-tests lookup)
+
 
 
 (define lookupo-tests
@@ -96,6 +112,33 @@
 
 
 
+(define big-omega
+  '((lambda (lambda) (lambda lambda))
+    (lambda (lambda) (lambda lambda))))
+
+
+(define eval-exp
+  (lambda (exp env)
+    (pmatch exp
+      (,x (guard (symbol? x)) (lookup x env))
+      ((lambda (,x) ,body)
+       (guard (symbol? x))
+       `(closure ,x ,body ,env))
+      ((,rator ,rand)
+       (let ((proc (eval-exp rator env))
+             (arg (eval-exp rand env)))
+         (pmatch proc
+           ((closure ,x ,body ,env2)
+            (eval-exp body `((,x . ,arg) . ,env2)))))))))
+
+
+
+
+
+
+
+
+
 (define not-in-env
   (lambda (x env)
     (pmatch env
@@ -120,10 +163,6 @@
       ((lambda (,x) ,body)
        (guard (symbol? x) (not-in-env 'lambda env))
        `(closure ,x ,body ,env)))))
-
-(define big-omega
-  '((lambda (lambda) (lambda lambda))
-    (lambda (lambda) (lambda lambda))))
 
 ; diverges!
 ; (eval-exp big-omega '())
