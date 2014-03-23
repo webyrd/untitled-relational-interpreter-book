@@ -188,7 +188,7 @@
 
 (eval-exp-tests eval-exp)
 
-;; Closer in spriit to fail-fast mk version,
+;; Closer in spirit to fail-fast mk version,
 ;; but fixes evaluation order of application
 (define eval-exp
   (lambda (exp env)
@@ -660,7 +660,7 @@
 
 (eval-exp-tests eval-exp)
 
-;; Closer in spriit to fail-fast mk version,
+;; Closer in spirit to fail-fast mk version,
 ;; but fixes evaluation order of application
 (define eval-exp
   (lambda (exp env)
