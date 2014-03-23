@@ -202,8 +202,7 @@
          (pmatch proc
            ((closure ,x ,body ,env2) (guard (symbol? x))
             (let ((arg (eval-exp rand env)))
-              (eval-exp body `((,x . ,arg) . ,env2))))
-           (else (error 'eval-exp "rator does not evaluate to a closure"))))))))
+              (eval-exp body `((,x . ,arg) . ,env2))))))))))
 
 (eval-exp-tests eval-exp)
 
@@ -675,8 +674,7 @@
          (pmatch proc
            ((closure ,x ,body ,env2) (guard (symbol? x))
             (let ((arg (eval-exp rand env)))
-              (eval-exp body `((,x . ,arg) . ,env2))))
-           (else (error 'eval-exp "rator does not evaluate to a closure"))))))))
+              (eval-exp body `((,x . ,arg) . ,env2))))))))))
 
 (eval-exp-tests eval-exp)
 
