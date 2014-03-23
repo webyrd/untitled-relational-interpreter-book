@@ -46,6 +46,33 @@
 (lookup-tests lookup)
 
 
+(define lookupo-tests
+  (lambda (lookupo)
+
+    (test "lookupo-1"
+      (run* (q) (lookupo 'y '((x . foo) (y . bar)) q))
+      '(bar))
+
+    (test "lookupo-2"
+      (run* (q) (lookupo 'w '((x . foo) (y . bar)) q))
+      '())
+        
+    ))
+
+
+(define lookupo
+  (lambda (x env t)
+    (fresh (y v rest)
+      (== `((,y . ,v) . ,rest) env)
+      (conde
+        ((== y x) (== v t))
+        ((=/= y x) (lookupo x rest t))))))
+
+(lookupo-tests lookupo)
+
+
+
+
 (define not-in-env
   (lambda (x env)
     (pmatch env
@@ -95,34 +122,8 @@
    '())
   '(closure y x ((x . (closure z z ())))))
 
-(define fail (== #f #t))
 
-(define lookupo
-  (lambda (x env t)
-    (conde
-      ((== '() env) fail)
-      ((fresh (y v rest)
-         (== `((,y . ,v) . ,rest) env) (== y x)
-         (== v t)))
-      ((fresh (y v rest)
-         (== `((,y . ,v) . ,rest) env) (=/= y x)
-         (lookupo x rest t))))))
 
-(test-check "interp-3"
-  (run* (q) (lookupo 'y '((x . foo) (y . bar)) q))
-  '(bar))
-
-(test-check "interp-4"
-  (run* (q) (lookupo 'w '((x . foo) (y . bar)) q))
-  '())
-
-(define lookupo
-  (lambda (x env t)
-    (fresh (y v rest)
-      (== `((,y . ,v) . ,rest) env)
-      (conde
-        ((== y x) (== v t))
-        ((=/= y x) (lookupo x rest t))))))
 
 (define not-in-envo
   (lambda (x env)
@@ -133,14 +134,6 @@
          (=/= y x)
          (not-in-envo x rest))))))
 
-
-(test-check "interp-5"
-  (run* (q) (lookupo 'y '((x . foo) (y . bar)) q))
-  '(bar))
-
-(test-check "interp-6"
-  (run* (q) (lookupo 'w '((x . foo) (y . bar)) q))
-  '())
 
 (define eval-expo
   (lambda (exp env val)
