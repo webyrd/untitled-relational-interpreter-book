@@ -628,6 +628,61 @@
         
 
 
+
+
+(define not-in-env
+  (lambda (x env)
+    (symbol? x)
+    (pmatch env
+      (() #t)
+      (((,y . ,v) . ,rest) (guard (symbol? y))
+       (cond
+         ((eq? y x) #f)
+         ((not (eq? y x))
+          (not-in-env x rest)))))))
+
+;; CBV lambda calculus, no shadowing of lambda
+;; Schemely version
+(define eval-exp
+  (lambda (exp env)
+    (pmatch exp
+      (,x (guard (symbol? x))
+       (lookup x env))
+      ((lambda (,x) ,body)
+       (guard (symbol? x) (not-in-env 'lambda env))
+       `(closure ,x ,body ,env))
+      ((,rator ,rand)
+       (let ((proc (eval-exp rator env))
+             (arg (eval-exp rand env)))
+         (pmatch proc
+           ((closure ,x ,body ,env2) (guard (symbol? x))
+            (eval-exp body `((,x . ,arg) . ,env2)))))))))
+
+(eval-exp-tests eval-exp)
+
+;; Closer in spriit to fail-fast mk version,
+;; but fixes evaluation order of application
+(define eval-exp
+  (lambda (exp env)
+    (pmatch exp
+      (,x (guard (symbol? x))
+       (lookup x env))
+      ((lambda (,x) ,body)
+       (guard (symbol? x) (not-in-env 'lambda env))
+       `(closure ,x ,body ,env))
+      ((,rator ,rand)
+       (let ((proc (eval-exp rator env)))
+         (pmatch proc
+           ((closure ,x ,body ,env2) (guard (symbol? x))
+            (let ((arg (eval-exp rand env)))
+              (eval-exp body `((,x . ,arg) . ,env2))))
+           (else (error 'eval-exp "rator does not evaluate to a closure"))))))))
+
+(eval-exp-tests eval-exp)
+
+
+
+
 (printf "*** eval-expo with not-in-envo\n")
 
 ;;; eval-expo with not-in-envo for lambda
