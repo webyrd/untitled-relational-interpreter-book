@@ -178,16 +178,20 @@
          (lambda (v) v))
        '())
       '(closure w w ((z closure v v ()))))
-    
+
+    ;; This is the "easy" shadowing test, which doesn't require
+    ;; not-in-env to work properly.
     (test "eval-exp-shadow-lambda-1"
-      (eval-exp '((lambda (lambda) (lambda lambda)) (lambda (w) w)) '())
+      (eval-exp '((lambda (lambda)
+                    (lambda lambda))
+                  (lambda (w) w)) '())
       '(closure w w ()))
     
     ))
 
 
 
-;; CBV lambda calculus, no shadowing of lambda
+;; CBV lambda calculus, shadowing of lambda handled improperly
 ;; Schemely version
 (define eval-exp
   (lambda (exp env)
@@ -205,10 +209,16 @@
 
 (eval-exp-tests eval-exp)
 
-;; ***** TO DO *******
-;;
 ;; Show that this definition of eval-exp doesn't handle shadowing of
 ;; lambda properly.
+
+(test "eval-expo-broken-shadowing-of-lambda"
+  (eval-exp
+   '((lambda (lambda)
+       (lambda (x) x))
+     (lambda (w) w))
+   '())
+  'should-signal-an-error)
 
 
 (define not-in-env
@@ -245,7 +255,7 @@
 
 
 
-;; CBV lambda calculus, no shadowing of lambda
+;; CBV lambda calculus, shadowing of lambda handled properly
 ;; Schemely version
 (define eval-exp
   (lambda (exp env)
@@ -263,6 +273,22 @@
             (eval-exp body `((,x . ,arg) . ,env2)))))))))
 
 (eval-exp-tests eval-exp)
+
+;; Show that this definition of eval-exp doesn't handle shadowing of
+;; lambda properly. Test signals an error:
+;;
+;; pmatch failed
+;;  (lambda (x) x)
+
+#|
+(test "eval-expo-correct-shadowing-of-lambda"
+  (eval-exp
+   '((lambda (lambda)
+       (lambda (x) x))
+     (lambda (w) w))
+   '())
+  'should-signal-an-error)
+|#
 
 ;; Closer in spirit to fail-fast mk version,
 ;; but fixes evaluation order of application
