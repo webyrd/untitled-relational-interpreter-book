@@ -9,6 +9,14 @@
     (test "lookup-1"
       (lookup 'z '((z . 5)))
       5)
+
+    (test "lookup-2"
+      (lookup 'z '((z . 5) (z . 6)))
+      5)
+
+    (test "lookup-3"
+      (lookup 'z '((w . 7) (z . 5) (z . 6)))
+      5)    
     
     ))
 
