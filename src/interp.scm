@@ -66,11 +66,11 @@
 (define lookupo-tests
   (lambda (lookupo)
 
-    (test "lookup-1"
+    (test "lookupo-1"
       (run* (q) (lookupo 'z '((z . 5) (z . 6)) q))
       '(5))
 
-    (test "lookup-2"
+    (test "lookupo-2"
       (run* (q) (lookupo 'z '((w . 7) (z . 5) (z . 6)) q))
       '(5))
 
@@ -107,6 +107,20 @@
            ((== y x) (== v val))
            ((=/= y x)
             (lookupo x rest val))))))))
+
+(lookupo-tests lookupo)
+
+;; show lookupo works with reordered clauses
+(define lookupo
+  (lambda (x env val)
+    (fresh ()
+      (symbolo x)
+      (matche env
+        (((,y . ,v) . ,rest) (symbolo y)
+         (conde
+           ((=/= y x)
+            (lookupo x rest val))
+           ((== y x) (== v val))))))))
 
 (lookupo-tests lookupo)
 
