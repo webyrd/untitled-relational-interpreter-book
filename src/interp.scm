@@ -132,12 +132,37 @@
     (lambda (lambda) (lambda lambda))))
 
 
+(define eval-exp-tests
+  (lambda (eval-exp)
+
+    (test "eval-exp-1"
+      (eval-exp
+       '(((lambda (x)
+            (lambda (y) x))
+          (lambda (z) z))
+         (lambda (a) a))
+       '())
+      '(closure z z ()))
+
+    (test "eval-exp-2"
+      (eval-exp
+       '((lambda (x)
+           (lambda (y) x))
+         (lambda (z) z))
+       '())
+      '(closure y x ((x . (closure z z ())))))
+    
+    ))
+
+
+
+
 (define eval-exp
   (lambda (exp env)
     (pmatch exp
-      (,x (guard (symbol? x)) (lookup x env))
-      ((lambda (,x) ,body)
-       (guard (symbol? x))
+      (,x (guard (symbol? x))
+       (lookup x env))
+      ((lambda (,x) ,body) (guard (symbol? x))
        `(closure ,x ,body ,env))
       ((,rator ,rand)
        (let ((proc (eval-exp rator env))
@@ -146,6 +171,7 @@
            ((closure ,x ,body ,env2)
             (eval-exp body `((,x . ,arg) . ,env2)))))))))
 
+(eval-exp-tests eval-exp)
 
 
 
@@ -162,9 +188,6 @@
       (((,y . ,v) . ,rest) (guard (not (eq? y x)))
        (not-in-env x rest)))))
 
-
-
-
 (define eval-exp
   (lambda (exp env)
     (pmatch exp
@@ -179,25 +202,10 @@
        (guard (symbol? x) (not-in-env 'lambda env))
        `(closure ,x ,body ,env)))))
 
+(eval-exp-tests eval-exp)
+
 ; diverges!
 ; (eval-exp big-omega '())
-
-(test "interp-1"
-  (eval-exp
-   '(((lambda (x)
-        (lambda (y) x))
-      (lambda (z) z))
-     (lambda (a) a))
-   '())
-  '(closure z z ()))
-
-(test "interp-2"
-  (eval-exp
-   '((lambda (x)
-       (lambda (y) x))
-     (lambda (z) z))
-   '())
-  '(closure y x ((x . (closure z z ())))))
 
 
 
