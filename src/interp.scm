@@ -151,6 +151,10 @@
          (lambda (z) z))
        '())
       '(closure y x ((x . (closure z z ())))))
+
+    (test "eval-exp-shadow-lambda-1"
+      (eval-exp '((lambda (lambda) (lambda lambda)) (lambda (w) w)) '())
+      '(closure w w ()))
     
     ))
 
