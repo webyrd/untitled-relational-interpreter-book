@@ -414,6 +414,32 @@
 (simple-eval-expo-tests eval-expo)
 
 
+;; demonstrate reordering for running forward
+(define eval-expo
+  (lambda (exp env val)
+    (matche exp
+      ((,rator ,rand)
+       (fresh (x body env2 arg)
+         (eval-expo body `((,x . ,arg) . ,env2) val)
+         (eval-expo rand env arg)
+         (eval-expo rator env `(closure ,x ,body ,env2))
+         (symbolo x)))
+      ((lambda (,x) ,body) (symbolo x)
+       (== `(closure ,x ,body ,env) val))
+      (,x (symbolo x)
+       (lookupo x env val)))))
+
+(test "simple-eval-expo-1"
+  (run* (q) (eval-expo '(lambda (z) z) '() q))
+  '((closure z z ())))
+
+;; This test diverges
+#|
+(test "simple-eval-expo-2"
+  (run* (q) (eval-expo '((lambda (z) z) (lambda (w) w)) '() q))
+  '((closure w w ())))
+|#
+
 
 
 
