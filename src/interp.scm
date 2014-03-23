@@ -173,6 +173,21 @@
 
 (eval-exp-tests eval-exp)
 
+(define eval-exp
+  (lambda (exp env)
+    (pmatch exp
+      (,x (guard (symbol? x))
+       (lookup x env))
+      ((lambda (,x) ,body) (guard (symbol? x))
+       `(closure ,x ,body ,env))
+      ((,rator ,rand)
+       (pmatch (eval-exp rator env)
+         ((closure ,x ,body ,env2)
+          (let ((arg (eval-exp rand env)))
+            (eval-exp body `((,x . ,arg) . ,env2)))))))))
+
+(eval-exp-tests eval-exp)
+
 
 
 
@@ -223,11 +238,11 @@
 (define eval-expo
   (lambda (exp env val)
     (conde
-      ((fresh (rator rand x body env2 a)
+      ((fresh (rator rand x body env2 arg)
          (== `(,rator ,rand) exp)
          (eval-expo rator env `(closure ,x ,body ,env2))
-         (eval-expo rand env a)
-         (eval-expo body `((,x . ,a) . ,env2) val)))
+         (eval-expo rand env arg)
+         (eval-expo body `((,x . ,arg) . ,env2) val)))
       ((fresh (x body)
          (== `(lambda (,x) ,body) exp)
          (symbolo x)
