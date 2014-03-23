@@ -49,14 +49,22 @@
 (define lookupo-tests
   (lambda (lookupo)
 
-    (test "lookupo-1"
+    (test "lookup-1"
+      (run* (q) (lookupo 'z '((z . 5) (z . 6)) q))
+      '(5))
+
+    (test "lookup-2"
+      (run* (q) (lookupo 'z '((w . 7) (z . 5) (z . 6)) q))
+      '(5))
+
+    (test "lookupo-3"
       (run* (q) (lookupo 'y '((x . foo) (y . bar)) q))
       '(bar))
 
-    (test "lookupo-2"
+    (test "lookupo-4"
       (run* (q) (lookupo 'w '((x . foo) (y . bar)) q))
       '())
-        
+    
     ))
 
 
