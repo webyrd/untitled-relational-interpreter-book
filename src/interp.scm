@@ -31,7 +31,7 @@
 
     (test "lookup-3"
       (lookup 'z '((w . 7) (z . 5) (z . 6)))
-      5)    
+      5)
     
     ))
 
