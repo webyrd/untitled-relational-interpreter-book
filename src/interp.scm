@@ -46,6 +46,7 @@
 
 (lookup-tests lookup)
 
+;; show lookup still works with  clauses reordered
 (define lookup
   (lambda (x env)
     (unless (symbol? x)
