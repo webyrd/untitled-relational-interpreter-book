@@ -22,6 +22,31 @@
 
 
 
+
+(define lookup
+  (lambda (x env)
+    (pmatch env
+      (() (error 'lookup "unbound variable"))
+      (((,y . ,v) . ,rest)
+       (cond
+         ((eq? y x) v)
+         (else (lookup x rest)))))))
+
+(define lookup
+  (lambda (x env)
+    (unless (symbol? x)
+      (error 'lookup "first argument must be a symbol"))
+    (pmatch env
+      (() (error 'lookup "unbound variable"))
+      (((,y . ,v) . ,rest) (guard (symbol? y))
+       (cond
+         ((eq? y x) v)
+         ((not (eq? y x))
+          (lookup x rest)))))))
+
+
+
+
 (define eval-exp
   (lambda (exp env)
     (pmatch exp
