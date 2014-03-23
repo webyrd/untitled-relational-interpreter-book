@@ -3,25 +3,14 @@
 (load "pmatch.scm")
 (load "test-check.scm")
 
-(define lookup
-  (lambda (x env)
-    (pmatch env
-      (() (error 'lookup "unbound variable"))
-      (((,y . ,v) . ,rest) (guard (eq? y x))
-       v)
-      (((,y . ,v) . ,rest) (guard (not (eq? y x)))
-       (lookup x rest)))))
+(define lookup-tests
+  (lambda (lookup)
 
-(define not-in-env
-  (lambda (x env)
-    (pmatch env
-      (() #t)
-      (((,y . ,v) . ,rest) (guard (eq? y x)) #f)      
-      (((,y . ,v) . ,rest) (guard (not (eq? y x)))
-       (not-in-env x rest)))))
-
-
-
+    (test "lookup-1"
+      (lookup 'z '((z . 5)))
+      5)
+    
+    ))
 
 (define lookup
   (lambda (x env)
@@ -31,6 +20,8 @@
        (cond
          ((eq? y x) v)
          (else (lookup x rest)))))))
+
+(lookup-tests lookup)
 
 (define lookup
   (lambda (x env)
@@ -43,6 +34,17 @@
          ((eq? y x) v)
          ((not (eq? y x))
           (lookup x rest)))))))
+
+(lookup-tests lookup)
+
+
+(define not-in-env
+  (lambda (x env)
+    (pmatch env
+      (() #t)
+      (((,y . ,v) . ,rest) (guard (eq? y x)) #f)      
+      (((,y . ,v) . ,rest) (guard (not (eq? y x)))
+       (not-in-env x rest)))))
 
 
 
