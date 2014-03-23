@@ -152,6 +152,16 @@
        '())
       '(closure y x ((x . (closure z z ())))))
 
+    (test "eval-exp-3"
+      (eval-exp
+       '((lambda (z)
+           ((lambda (z)
+              z)
+            (lambda (w) w)))
+         (lambda (v) v))
+       '())
+      '(closure w w ((z closure v v ()))))
+    
     (test "eval-exp-shadow-lambda-1"
       (eval-exp '((lambda (lambda) (lambda lambda)) (lambda (w) w)) '())
       '(closure w w ()))
@@ -209,6 +219,18 @@
       (run* (q) (eval-expo '((lambda (z) z) (lambda (w) w)) '() q))
       '((closure w w ())))
 
+    (test "simple-eval-expo-3"
+      (run* (q)
+        (eval-expo
+          '((lambda (z)
+              ((lambda (z)
+                 z)
+               (lambda (w) w)))
+            (lambda (v) v))
+          '()
+          q))
+      '((closure w w ((z closure v v ())))))
+    
     (test "eval-expo-shadow-lambda-1"
       (run* (q)
         (eval-expo '((lambda (lambda) (lambda lambda)) (lambda (w) w)) '() q))
