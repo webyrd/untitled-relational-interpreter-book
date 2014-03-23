@@ -258,6 +258,60 @@
 
 (not-in-env-tests not-in-env)
 
+(define not-in-envo-tests
+  (lambda (not-in-envo)
+
+    (test "not-in-envo-1"
+      (run* (q)
+        (not-in-envo 'z '()))
+      '(_.0))
+
+    (test "not-in-envo-2"
+      (run* (q)
+        (not-in-envo 'z '((w . 5))))
+      '(_.0))
+
+    (test "not-in-envo-3"
+      (run* (q)
+        (not-in-envo 'z '((z . 5))))
+      '())
+
+    (test "not-in-envo-4"
+      (run* (q)
+        (not-in-envo 'z '((w . 6) (z . 5))))
+      '())
+    
+    (test "not-in-envo-5"
+      (run* (q)
+        (not-in-envo 'z '((w . 6) (v . 5))))
+      '(_.0))
+
+    (test "not-in-envo-6"
+      (run 5 (q)
+        (not-in-envo 'z q))
+      '(()
+        (((_.0 . _.1))
+         (=/= ((_.0 z)))
+         (sym _.0))
+        (((_.0 . _.1) (_.2 . _.3))
+         (=/= ((_.0 z)) ((_.2 z)))
+         (sym _.0 _.2))
+        (((_.0 . _.1) (_.2 . _.3) (_.4 . _.5))
+         (=/= ((_.0 z)) ((_.2 z)) ((_.4 z)))
+         (sym _.0 _.2 _.4))
+        (((_.0 . _.1) (_.2 . _.3) (_.4 . _.5) (_.6 . _.7))
+         (=/= ((_.0 z)) ((_.2 z)) ((_.4 z)) ((_.6 z)))
+         (sym _.0 _.2 _.4 _.6))))
+
+    (test "not-in-envo-7"
+      (run* (q)
+        (not-in-envo q '((w . 6) (v . 5))))
+      '((_.0
+         (=/= ((_.0 v)) ((_.0 w)))
+         (sym _.0))))
+    
+    ))
+
 
 ; should not-in-envo be made a constraint?
 (define not-in-envo
@@ -270,10 +324,7 @@
          (=/= y x)
          (not-in-envo x rest))))))
 
-;; ***** TO DO ********
-;;
-;; not-in-envo tests go here
-
+(not-in-envo-tests not-in-envo)
 
 
 ;; CBV lambda calculus, shadowing of lambda handled properly
