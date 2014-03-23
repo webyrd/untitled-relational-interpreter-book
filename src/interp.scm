@@ -81,26 +81,15 @@
 
 
 (define lookupo
-  (lambda (x env t)
-    (fresh (y v rest)
-      (symbolo x)
-      (symbolo y)
-      (== `((,y . ,v) . ,rest) env)
-      (conde
-        ((== y x) (== v t))
-        ((=/= y x) (lookupo x rest t))))))
-
-(lookupo-tests lookupo)
-
-(define lookupo
-  (lambda (x env t)
+  (lambda (x env val)
     (fresh ()
       (symbolo x)
       (matche env
         (((,y . ,v) . ,rest) (symbolo y)
          (conde
-           ((== y x) (== v t))
-           ((=/= y x) (lookupo x rest t))))))))
+           ((== y x) (== v val))
+           ((=/= y x)
+            (lookupo x rest val))))))))
 
 (lookupo-tests lookupo)
 
