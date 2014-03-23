@@ -173,20 +173,78 @@
 
 (eval-exp-tests eval-exp)
 
-(define eval-exp
-  (lambda (exp env)
-    (pmatch exp
-      (,x (guard (symbol? x))
-       (lookup x env))
-      ((lambda (,x) ,body) (guard (symbol? x))
-       `(closure ,x ,body ,env))
-      ((,rator ,rand)
-       (pmatch (eval-exp rator env)
-         ((closure ,x ,body ,env2)
-          (let ((arg (eval-exp rand env)))
-            (eval-exp body `((,x . ,arg) . ,env2)))))))))
 
-(eval-exp-tests eval-exp)
+(define eval-expo-tests
+  (lambda (eval-expo)
+
+    (test "eval-expo-1"
+      (run* (q) (eval-expo '(lambda (z) z) '() q))
+      '((closure z z ())))
+
+    (test "eval-expo-2"
+      (run* (q) (eval-expo '((lambda (z) z) (lambda (w) w)) '() q))
+      '((closure w w ())))
+
+    (test "eval-expo-7"
+      (run 5 (q)
+        (fresh (e v)
+          (eval-expo e '() v)
+          (== `(,e -> ,v) q)))
+      '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0))
+        ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4))
+          -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
+         (sym _.0 _.1 _.3))
+        ((((lambda (_.0) _.0) (lambda (_.1) _.2)) ->
+          (closure _.1 _.2 ()))
+         (sym _.0 _.1))
+        ((((lambda (_.0)
+             ((lambda (_.1) (lambda (_.2) _.3)) (lambda (_.4) _.5)))
+           (lambda (_.6) _.7))
+          ->
+          (closure _.2 _.3
+                   ((_.1 closure _.4 _.5 ((_.0 closure _.6 _.7 ())))
+                    (_.0 closure _.6 _.7 ()))))
+         (sym _.0 _.1 _.2 _.4 _.6))
+        ((((lambda (_.0) ((lambda (_.1) _.1) (lambda (_.2) _.3)))
+           (lambda (_.4) _.5))
+          -> (closure _.2 _.3 ((_.0 closure _.4 _.5 ()))))
+         (sym _.0 _.1 _.2 _.4))))
+
+    (test "eval-expo-8"
+      (run 5 (q)
+        (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
+      '(((lambda (x) (lambda (y) x)) (lambda (z) z))
+        (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z))
+         (sym _.0))
+        (((lambda (_.0) _.0)
+          ((lambda (x) (lambda (y) x)) (lambda (z) z)))
+         (sym _.0))
+        (((lambda (x)
+            ((lambda (_.0) ((lambda (_.1) _.0) (lambda (_.2) _.3)))
+             (lambda (y) x)))
+          (lambda (z) z))
+         (=/= ((_.0 _.1))) (sym _.0 _.1 _.2))
+        (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z)))
+         (sym _.0))))
+        
+    ))
+
+(define eval-expo
+  (lambda (exp env val)
+    (matche exp
+      (,x (symbolo x)
+       (lookupo x env val))
+      ((lambda (,x) ,body) (symbolo x)
+       (== `(closure ,x ,body ,env) val))
+      ((,rator ,rand)
+       (fresh (x body env2 proc arg)
+         (== `(closure ,x ,body ,env2) proc)
+         (eval-expo rator env proc)
+         (eval-expo rand env arg)
+         (eval-expo body `((,x . ,arg) . ,env2) val))))))
+
+(eval-expo-tests eval-expo)
+
 
 
 
@@ -241,6 +299,22 @@
       ((fresh (rator rand x body env2 arg)
          (== `(,rator ,rand) exp)
          (eval-expo rator env `(closure ,x ,body ,env2))
+         (eval-expo rand env arg)
+         (eval-expo body `((,x . ,arg) . ,env2) val)))
+      ((fresh (x body)
+         (== `(lambda (,x) ,body) exp)
+         (symbolo x)
+         (== `(closure ,x ,body ,env) val)
+         (not-in-envo 'lambda env)))
+      ((symbolo exp) (lookupo exp env val)))))
+
+(define eval-expo
+  (lambda (exp env val)
+    (conde
+      ((fresh (rator rand x body env2 proc arg)
+         (== `(,rator ,rand) exp)
+         (== `(closure ,x ,body ,env2) proc)
+         (eval-expo rator env proc)
          (eval-expo rand env arg)
          (eval-expo body `((,x . ,arg) . ,env2) val)))
       ((fresh (x body)
