@@ -188,6 +188,65 @@
 
 (eval-exp-tests eval-exp)
 
+;; ***** TO DO *******
+;;
+;; Show that this definition of eval-exp doesn't handle shadowing of
+;; lambda properly.
+
+
+(define not-in-env
+  (lambda (x env)
+    (symbol? x)
+    (pmatch env
+      (() #t)
+      (((,y . ,v) . ,rest) (guard (symbol? y))
+       (cond
+         ((eq? y x) #f)
+         ((not (eq? y x))
+          (not-in-env x rest)))))))
+
+
+;; ***** TO DO ********
+;;
+;; not-in-env tests go here
+
+
+; should not-in-envo be made a constraint?
+(define not-in-envo
+  (lambda (x env)
+    (fresh ()
+      (symbolo x)
+      (matche env
+        (())
+        (((,y . ,v) . ,rest) (symbolo y)
+         (=/= y x)
+         (not-in-envo x rest))))))
+
+;; ***** TO DO ********
+;;
+;; not-in-envo tests go here
+
+
+
+;; CBV lambda calculus, no shadowing of lambda
+;; Schemely version
+(define eval-exp
+  (lambda (exp env)
+    (pmatch exp
+      (,x (guard (symbol? x))
+       (lookup x env))
+      ((lambda (,x) ,body)
+       (guard (symbol? x) (not-in-env 'lambda env))
+       `(closure ,x ,body ,env))
+      ((,rator ,rand)
+       (let ((proc (eval-exp rator env))
+             (arg (eval-exp rand env)))
+         (pmatch proc
+           ((closure ,x ,body ,env2) (guard (symbol? x))
+            (eval-exp body `((,x . ,arg) . ,env2)))))))))
+
+(eval-exp-tests eval-exp)
+
 ;; Closer in spirit to fail-fast mk version,
 ;; but fixes evaluation order of application
 (define eval-exp
@@ -195,7 +254,8 @@
     (pmatch exp
       (,x (guard (symbol? x))
        (lookup x env))
-      ((lambda (,x) ,body) (guard (symbol? x))
+      ((lambda (,x) ,body)
+       (guard (symbol? x) (not-in-env 'lambda env))
        `(closure ,x ,body ,env))
       ((,rator ,rand)
        (let ((proc (eval-exp rator env)))
@@ -205,6 +265,7 @@
               (eval-exp body `((,x . ,arg) . ,env2))))))))))
 
 (eval-exp-tests eval-exp)
+
 
 
 (define simple-eval-expo-tests
@@ -252,7 +313,7 @@
     ;; environment.  Depends on whether lambda expressions are
     ;; considered built-ins that can't be shadowed.  If so, 'lambda'
     ;; should probably be exclused as a formal argument in a lambda
-    ;; expression
+    ;; expression.
     (test "eval-expo-shadow-lambda-2b"
       (run* (q)
         (eval-expo
@@ -274,7 +335,8 @@
       (,x (symbolo x)
        (lookupo x env val))
       ((lambda (,x) ,body) (symbolo x)
-       (== `(closure ,x ,body ,env) val))
+       (== `(closure ,x ,body ,env) val)
+       (not-in-envo 'lambda env))
       ((,rator ,rand)
        (fresh (proc arg)
          (eval-expo rator env proc)
@@ -290,42 +352,12 @@
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0))
-    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4))
-      -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
-     (sym _.0 _.1 _.3))
-    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) ->
-      (closure _.1 _.2 ()))
-     (sym _.0 _.1))
-    ((((lambda (_.0)
-         ((lambda (_.1) (lambda (_.2) _.3)) (lambda (_.4) _.5)))
-       (lambda (_.6) _.7))
-      ->
-      (closure _.2 _.3
-               ((_.1 closure _.4 _.5 ((_.0 closure _.6 _.7 ())))
-                (_.0 closure _.6 _.7 ()))))
-     (sym _.0 _.1 _.2 _.4 _.6))
-    ((((lambda (_.0) ((lambda (_.1) _.1) (lambda (_.2) _.3)))
-       (lambda (_.4) _.5))
-      -> (closure _.2 _.3 ((_.0 closure _.4 _.5 ()))))
-     (sym _.0 _.1 _.2 _.4))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (=/= ((_.0 lambda))) (sym _.0 _.1 _.3)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) _.1)) -> (closure _.1 _.1 ())) (sym _.0 _.1)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) (lambda (_.2) _.3))) -> (closure _.2 _.3 ((_.1 closure _.1 (lambda (_.2) _.3) ())))) (=/= ((_.1 lambda))) (sym _.0 _.1 _.2))))
 
 (test "eval-expo-8"
   (run 5 (q)
     (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
-  '(((lambda (x) (lambda (y) x)) (lambda (z) z))
-    (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x)))
-      (lambda (z) z))
-     (sym _.0))
-    (((lambda (_.0) _.0)
-      ((lambda (x) (lambda (y) x)) (lambda (z) z)))
-     (sym _.0))
-    (((lambda (x)
-        ((lambda (_.0) ((lambda (_.1) _.0) (lambda (_.2) _.3)))
-         (lambda (y) x)))
-      (lambda (z) z))
-     (=/= ((_.0 _.1))) (sym _.0 _.1 _.2))
-    ((lambda (x) (x (lambda (y) x))) (lambda (z) z))))
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) ((lambda (x) (x (lambda (y) x))) (lambda (z) z)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0))))
         
 
 (printf "*** eval-expo 2\n")
@@ -342,7 +374,8 @@
       (,x (symbolo x)
        (lookupo x env val))
       ((lambda (,x) ,body) (symbolo x)
-       (== `(closure ,x ,body ,env) val))
+       (== `(closure ,x ,body ,env) val)
+       (not-in-envo 'lambda env))
       ((,rator ,rand)
        (fresh (proc)
          (eval-expo rator env proc)
@@ -359,13 +392,12 @@
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (sym _.0 _.1 _.3)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) (((((lambda (_.0) (lambda (_.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) (lambda (_.6) _.7)) -> (closure _.2 _.3 ((_.1 closure _.6 _.7 ()) (_.0 closure _.4 _.5 ())))) (sym _.0 _.1 _.2 _.4 _.6)) (((((lambda (_.0) (lambda (_.1) _.1)) (lambda (_.2) _.3)) (lambda (_.4) _.5)) -> (closure _.4 _.5 ())) (sym _.0 _.1 _.2 _.4))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (=/= ((_.0 lambda))) (sym _.0 _.1 _.3)) (((((lambda (_.0) _.0) (lambda (_.1) _.1)) (lambda (_.2) _.3)) -> (closure _.2 _.3 ())) (sym _.0 _.1 _.2)) (((((lambda (_.0) _.0) (lambda (_.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) -> (closure _.2 _.3 ((_.1 closure _.4 _.5 ())))) (=/= ((_.1 lambda))) (sym _.0 _.1 _.2 _.4))))
 
 (test "eval-expo-8"
   (run 5 (q)
     (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
-  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0)) (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z)) (sym _.0)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0))))
-        
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0)) ((lambda (x) (x (lambda (y) x))) (lambda (z) z)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0))))
 
 
 (printf "*** eval-expo 3\n")
@@ -378,7 +410,8 @@
       (,x (symbolo x)
        (lookupo x env val))
       ((lambda (,x) ,body) (symbolo x)
-       (== `(closure ,x ,body ,env) val))
+       (== `(closure ,x ,body ,env) val)
+       (not-in-envo 'lambda env))
       ((,rator ,rand)
        (fresh (x body env2 proc)
          (eval-expo rator env proc)
@@ -397,12 +430,12 @@
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (sym _.0 _.1 _.3)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) (((((lambda (_.0) (lambda (_.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) (lambda (_.6) _.7)) -> (closure _.2 _.3 ((_.1 closure _.6 _.7 ()) (_.0 closure _.4 _.5 ())))) (sym _.0 _.1 _.2 _.4 _.6)) (((((lambda (_.0) (lambda (_.1) _.1)) (lambda (_.2) _.3)) (lambda (_.4) _.5)) -> (closure _.4 _.5 ())) (sym _.0 _.1 _.2 _.4))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (=/= ((_.0 lambda))) (sym _.0 _.1 _.3)) (((((lambda (_.0) _.0) (lambda (_.1) _.1)) (lambda (_.2) _.3)) -> (closure _.2 _.3 ())) (sym _.0 _.1 _.2)) (((((lambda (_.0) _.0) (lambda (_.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) -> (closure _.2 _.3 ((_.1 closure _.4 _.5 ())))) (=/= ((_.1 lambda))) (sym _.0 _.1 _.2 _.4))))
 
 (test "eval-expo-8"
   (run 5 (q)
     (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
-  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0)) (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z)) (sym _.0)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0))))
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0)) ((lambda (x) (x (lambda (y) x))) (lambda (z) z)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0))))
 
 
 
@@ -418,7 +451,8 @@
       (,x (symbolo x)
        (lookupo x env val))
       ((lambda (,x) ,body) (symbolo x)
-       (== `(closure ,x ,body ,env) val))
+       (== `(closure ,x ,body ,env) val)
+       (not-in-envo 'lambda env))
       ((,rator ,rand)
        (fresh (x body env2 proc arg)
          (eval-expo rator env proc)
@@ -438,30 +472,12 @@
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0))
-    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4))
-      -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
-     (sym _.0 _.1 _.3))
-    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) ->
-      (closure _.1 _.2 ()))
-     (sym _.0 _.1))
-    ((((lambda (_.0)
-         ((lambda (_.1) (lambda (_.2) _.3)) (lambda (_.4) _.5)))
-       (lambda (_.6) _.7))
-      ->
-      (closure _.2 _.3
-               ((_.1 closure _.4 _.5 ((_.0 closure _.6 _.7 ())))
-                (_.0 closure _.6 _.7 ()))))
-     (sym _.0 _.1 _.2 _.4 _.6))
-    ((((lambda (_.0) ((lambda (_.1) _.1) (lambda (_.2) _.3)))
-       (lambda (_.4) _.5))
-      -> (closure _.2 _.3 ((_.0 closure _.4 _.5 ()))))
-     (sym _.0 _.1 _.2 _.4))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (=/= ((_.0 lambda))) (sym _.0 _.1 _.3)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) _.1)) -> (closure _.1 _.1 ())) (sym _.0 _.1)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) (lambda (_.2) _.3))) -> (closure _.2 _.3 ((_.1 closure _.1 (lambda (_.2) _.3) ())))) (=/= ((_.1 lambda))) (sym _.0 _.1 _.2))))
 
 (test "eval-expo-8"
   (run 5 (q)
     (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
-  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0)) (((lambda (x) ((lambda (_.0) ((lambda (_.1) _.0) (lambda (_.2) _.3))) (lambda (y) x))) (lambda (z) z)) (=/= ((_.0 _.1))) (sym _.0 _.1 _.2)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0))))
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) ((lambda (x) (x (lambda (y) x))) (lambda (z) z)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0))))
 
 
 
@@ -474,7 +490,8 @@
       (,x (symbolo x)
        (lookupo x env val))
       ((lambda (,x) ,body) (symbolo x)
-       (== `(closure ,x ,body ,env) val))
+       (== `(closure ,x ,body ,env) val)
+       (not-in-envo 'lambda env))
       ((,rator ,rand)
        (fresh (x body env2 proc arg)
          (== `(closure ,x ,body ,env2) proc)
@@ -490,42 +507,12 @@
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0))
-    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4))
-      -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
-     (sym _.0 _.1 _.3))
-    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) ->
-      (closure _.1 _.2 ()))
-     (sym _.0 _.1))
-    ((((lambda (_.0)
-         ((lambda (_.1) (lambda (_.2) _.3)) (lambda (_.4) _.5)))
-       (lambda (_.6) _.7))
-      ->
-      (closure _.2 _.3
-               ((_.1 closure _.4 _.5 ((_.0 closure _.6 _.7 ())))
-                (_.0 closure _.6 _.7 ()))))
-     (sym _.0 _.1 _.2 _.4 _.6))
-    ((((lambda (_.0) ((lambda (_.1) _.1) (lambda (_.2) _.3)))
-       (lambda (_.4) _.5))
-      -> (closure _.2 _.3 ((_.0 closure _.4 _.5 ()))))
-     (sym _.0 _.1 _.2 _.4))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (=/= ((_.0 lambda))) (sym _.0 _.1 _.3)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) _.1)) -> (closure _.1 _.1 ())) (sym _.0 _.1)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) (lambda (_.2) _.3))) -> (closure _.2 _.3 ((_.1 closure _.1 (lambda (_.2) _.3) ())))) (=/= ((_.1 lambda))) (sym _.0 _.1 _.2))))
 
 (test "eval-expo-8"
   (run 5 (q)
     (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
-  '(((lambda (x) (lambda (y) x)) (lambda (z) z))
-    (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z))
-     (sym _.0))
-    (((lambda (_.0) _.0)
-      ((lambda (x) (lambda (y) x)) (lambda (z) z)))
-     (sym _.0))
-    (((lambda (x)
-        ((lambda (_.0) ((lambda (_.1) _.0) (lambda (_.2) _.3)))
-         (lambda (y) x)))
-      (lambda (z) z))
-     (=/= ((_.0 _.1))) (sym _.0 _.1 _.2))
-    (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z)))
-     (sym _.0))))
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) ((lambda (x) (x (lambda (y) x))) (lambda (z) z)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0))))
 
 
 
@@ -533,14 +520,14 @@
 
 ;; Inline proc
 ;; Final version
-;; Lambda clause comes first, since it is non-recursive
 (define eval-expo
   (lambda (exp env val)
     (matche exp
-      ((lambda (,x) ,body) (symbolo x)
-       (== `(closure ,x ,body ,env) val))
       (,x (symbolo x)
        (lookupo x env val))
+      ((lambda (,x) ,body) (symbolo x)
+       (== `(closure ,x ,body ,env) val)
+       (not-in-envo 'lambda env))
       ((,rator ,rand)
        (fresh (x body env2 arg)
          (symbolo x)
@@ -555,33 +542,12 @@
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ()))
-     (sym _.0))
-    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
-     (sym _.0 _.1 _.3))
-    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ()))
-     (sym _.0 _.1))
-    ((((lambda (_.0) ((lambda (_.1) (lambda (_.2) _.3)) (lambda (_.4) _.5))) (lambda (_.6) _.7))
-      ->
-      (closure _.2 _.3 ((_.1 closure _.4 _.5 ((_.0 closure _.6 _.7 ()))) (_.0 closure _.6 _.7 ()))))
-     (sym _.0 _.1 _.2 _.4 _.6))
-    ((((lambda (_.0) (lambda (_.1) _.2)) ((lambda (_.3) (lambda (_.4) _.5)) (lambda (_.6) _.7))) -> (closure _.1 _.2 ((_.0 closure _.4 _.5 ((_.3 closure _.6 _.7 ()))))))
-     (sym _.0 _.1 _.3 _.4 _.6))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (=/= ((_.0 lambda))) (sym _.0 _.1 _.3)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) _.1)) -> (closure _.1 _.1 ())) (sym _.0 _.1)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) (lambda (_.2) _.3))) -> (closure _.2 _.3 ((_.1 closure _.1 (lambda (_.2) _.3) ())))) (=/= ((_.1 lambda))) (sym _.0 _.1 _.2))))
 
 (test "eval-expo-8"
   (run 5 (q)
     (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
-  '(((lambda (x) (lambda (y) x)) (lambda (z) z))
-    (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z))
-     (sym _.0))
-    (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z)))
-     (sym _.0))
-    (((lambda (x) ((lambda (_.0) ((lambda (_.1) _.0) (lambda (_.2) _.3))) (lambda (y) x))) (lambda (z) z))
-     (=/= ((_.0 _.1)))
-     (sym _.0 _.1 _.2))
-    (((lambda (_.0) ((lambda (_.1) _.0) (lambda (_.2) _.3))) ((lambda (x) (lambda (y) x)) (lambda (z) z)))
-     (=/= ((_.0 _.1)))
-     (sym _.0 _.1 _.2))))
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) ((lambda (x) (x (lambda (y) x))) (lambda (z) z)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0))))
 
 
 
@@ -598,7 +564,8 @@
          (eval-expo rator env `(closure ,x ,body ,env2))
          (symbolo x)))
       ((lambda (,x) ,body) (symbolo x)
-       (== `(closure ,x ,body ,env) val))
+       (== `(closure ,x ,body ,env) val)
+       (not-in-envo 'lambda env))
       (,x (symbolo x)
        (lookupo x env val)))))
 
@@ -618,130 +585,9 @@
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (sym _.0 _.1 _.3)) (((((lambda (_.0) (lambda (_.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) (lambda (_.6) _.7)) -> (closure _.2 _.3 ((_.1 closure _.6 _.7 ()) (_.0 closure _.4 _.5 ())))) (sym _.0 _.1 _.2 _.4 _.6)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((((lambda (_.0) (lambda (_.1) (lambda (_.2) (lambda (_.3) _.4)))) (lambda (_.5) _.6)) (lambda (_.7) _.8)) (lambda (_.9) _.10)) -> (closure _.3 _.4 ((_.2 closure _.9 _.10 ()) (_.1 closure _.7 _.8 ()) (_.0 closure _.5 _.6 ())))) (sym _.0 _.1 _.2 _.3 _.5 _.7 _.9))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (=/= ((_.0 lambda))) (sym _.0 _.1 _.3)) (((((lambda (_.0) _.0) (lambda (_.1) _.1)) (lambda (_.2) _.3)) -> (closure _.2 _.3 ())) (sym _.0 _.1 _.2)) (((((lambda (_.0) _.0) (lambda (_.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) -> (closure _.2 _.3 ((_.1 closure _.4 _.5 ())))) (=/= ((_.1 lambda))) (sym _.0 _.1 _.2 _.4))))
 
 (test "eval-expo-8"
   (run 5 (q)
     (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
-  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0)) (((((lambda (_.0) (lambda (_.1) _.1)) (lambda (_.2) _.3)) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0 _.1 _.2)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) ((lambda (_.1) _.1) (lambda (z) z))) (sym _.0 _.1))))
-        
-
-
-
-
-(define not-in-env
-  (lambda (x env)
-    (symbol? x)
-    (pmatch env
-      (() #t)
-      (((,y . ,v) . ,rest) (guard (symbol? y))
-       (cond
-         ((eq? y x) #f)
-         ((not (eq? y x))
-          (not-in-env x rest)))))))
-
-;; CBV lambda calculus, no shadowing of lambda
-;; Schemely version
-(define eval-exp
-  (lambda (exp env)
-    (pmatch exp
-      (,x (guard (symbol? x))
-       (lookup x env))
-      ((lambda (,x) ,body)
-       (guard (symbol? x) (not-in-env 'lambda env))
-       `(closure ,x ,body ,env))
-      ((,rator ,rand)
-       (let ((proc (eval-exp rator env))
-             (arg (eval-exp rand env)))
-         (pmatch proc
-           ((closure ,x ,body ,env2) (guard (symbol? x))
-            (eval-exp body `((,x . ,arg) . ,env2)))))))))
-
-(eval-exp-tests eval-exp)
-
-;; Closer in spirit to fail-fast mk version,
-;; but fixes evaluation order of application
-(define eval-exp
-  (lambda (exp env)
-    (pmatch exp
-      (,x (guard (symbol? x))
-       (lookup x env))
-      ((lambda (,x) ,body)
-       (guard (symbol? x) (not-in-env 'lambda env))
-       `(closure ,x ,body ,env))
-      ((,rator ,rand)
-       (let ((proc (eval-exp rator env)))
-         (pmatch proc
-           ((closure ,x ,body ,env2) (guard (symbol? x))
-            (let ((arg (eval-exp rand env)))
-              (eval-exp body `((,x . ,arg) . ,env2))))))))))
-
-(eval-exp-tests eval-exp)
-
-
-
-
-(printf "*** eval-expo with not-in-envo\n")
-
-;;; eval-expo with not-in-envo for lambda
-
-; should not-in-envo be made a constraint?
-(define not-in-envo
-  (lambda (x env)
-    (fresh ()
-      (symbolo x)
-      (matche env
-        (())
-        (((,y . ,v) . ,rest) (symbolo y)
-         (=/= y x)
-         (not-in-envo x rest))))))
-
-(define eval-expo
-  (lambda (exp env val)
-    (matche exp
-      ((lambda (,x) ,body) (symbolo x)
-       (== `(closure ,x ,body ,env) val)
-       (not-in-envo 'lambda env))
-      (,x (symbolo x)
-       (lookupo x env val))
-      ((,rator ,rand)
-       (fresh (x body env2 arg)
-         (symbolo x)
-         (eval-expo rator env `(closure ,x ,body ,env2))
-         (eval-expo rand env arg)
-         (eval-expo body `((,x . ,arg) . ,env2) val))))))
-
-(simple-eval-expo-tests eval-expo)
-
-(test "eval-expo-7"
-  (run 5 (q)
-    (fresh (e v)
-      (eval-expo e '() v)
-      (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ()))
-     (sym _.0))
-    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
-     (=/= ((_.0 lambda)))
-     (sym _.0 _.1 _.3))
-    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ()))
-     (sym _.0 _.1))
-    ((((lambda (_.0) ((lambda (_.1) _.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) -> (closure _.2 _.3 ((_.0 closure _.4 _.5 ()))))
-     (=/= ((_.0 lambda)))
-     (sym _.0 _.1 _.2 _.4))
-    ((((lambda (_.0) ((lambda (_.1) (lambda (_.2) _.3)) (lambda (_.4) _.5))) (lambda (_.6) _.7))
-      ->
-      (closure _.2 _.3 ((_.1 closure _.4 _.5 ((_.0 closure _.6 _.7 ()))) (_.0 closure _.6 _.7 ()))))
-     (=/= ((_.0 lambda)) ((_.1 lambda)))
-     (sym _.0 _.1 _.2 _.4 _.6))))
-
-(test "eval-expo-8"
-  (run 5 (q)
-    (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
-  '(((lambda (x) (lambda (y) x)) (lambda (z) z))
-    (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z))
-     (sym _.0))
-    (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z)))
-     (sym _.0))
-    (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z)))
-     (sym _.0))
-    ((lambda (x) (x (lambda (y) x))) (lambda (z) z))))
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((((lambda (_.0) _.0) (lambda (_.1) _.1)) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0 _.1)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0)) (((((lambda (_.0) (lambda (_.1) _.1)) (lambda (_.2) _.3)) (lambda (x) (lambda (y) x))) (lambda (z) z)) (=/= ((_.0 lambda))) (sym _.0 _.1 _.2))))
