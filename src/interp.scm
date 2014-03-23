@@ -156,7 +156,7 @@
 
 
 
-
+;; Schemely version
 (define eval-exp
   (lambda (exp env)
     (pmatch exp
@@ -173,6 +173,8 @@
 
 (eval-exp-tests eval-exp)
 
+;; Closer in spriit to fail-fast mk version,
+;; but fixes evaluation order of application
 (define eval-exp
   (lambda (exp env)
     (pmatch exp
@@ -204,7 +206,7 @@
 
     ))
 
-
+;; closely matches Scheme version, but doesn't fail fast
 (define eval-expo
   (lambda (exp env val)
     (matche exp
@@ -265,7 +267,74 @@
     ((lambda (x) (x (lambda (y) x))) (lambda (z) z))))
         
 
+;; Closely matches the second Scheme version.  Fixes evaluation order
+;; of application.  Can fail faster than the original version, but we
+;; can still do better, since we know that the rator must evaluate to
+;; a closure.
+(define eval-expo
+  (lambda (exp env val)
+    (matche exp
+      (,x (symbolo x)
+       (lookupo x env val))
+      ((lambda (,x) ,body) (symbolo x)
+       (== `(closure ,x ,body ,env) val))
+      ((,rator ,rand)
+       (fresh (proc)
+         (eval-expo rator env proc)
+         (matche proc
+           ((closure ,x ,body ,env2) (symbolo x)
+            (fresh (arg)
+              (eval-expo rand env arg)
+              (eval-expo body `((,x . ,arg) . ,env2) val)))))))))
 
+(simple-eval-expo-tests eval-expo)
+
+
+;; Replacing the matche within the application clause with explicit
+;; unification.
+(define eval-expo
+  (lambda (exp env val)
+    (matche exp
+      (,x (symbolo x)
+       (lookupo x env val))
+      ((lambda (,x) ,body) (symbolo x)
+       (== `(closure ,x ,body ,env) val))
+      ((,rator ,rand)
+       (fresh (x body env2 proc)
+         (eval-expo rator env proc)
+         (== `(closure ,x ,body ,env2) proc)
+         (symbolo x)
+         (fresh (arg)
+           (eval-expo rand env arg)
+           (eval-expo body `((,x . ,arg) . ,env2) val)))))))
+
+(simple-eval-expo-tests eval-expo)
+
+
+
+;; Lifting introduction of 'arg' variable.
+;; Now can arbitrarily reorder goals within application clause.
+;; (This is a bit of an overkill, since we really only want to
+;; push the 'closure' unification above the rator evaluation )
+(define eval-expo
+  (lambda (exp env val)
+    (matche exp
+      (,x (symbolo x)
+       (lookupo x env val))
+      ((lambda (,x) ,body) (symbolo x)
+       (== `(closure ,x ,body ,env) val))
+      ((,rator ,rand)
+       (fresh (x body env2 proc arg)
+         (eval-expo rator env proc)
+         (== `(closure ,x ,body ,env2) proc)
+         (symbolo x)
+         (eval-expo rand env arg)
+         (eval-expo body `((,x . ,arg) . ,env2) val))))))
+
+(simple-eval-expo-tests eval-expo)
+
+
+;; Push up the closure unification to fail fast
 (define eval-expo
   (lambda (exp env val)
     (matche exp
@@ -324,7 +393,25 @@
      (=/= ((_.0 _.1))) (sym _.0 _.1 _.2))
     (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z)))
      (sym _.0))))
-        
+
+
+;; Inline proc
+;; Final version
+(define eval-expo
+  (lambda (exp env val)
+    (matche exp
+      (,x (symbolo x)
+       (lookupo x env val))
+      ((lambda (,x) ,body) (symbolo x)
+       (== `(closure ,x ,body ,env) val))
+      ((,rator ,rand)
+       (fresh (x body env2 arg)
+         (symbolo x)
+         (eval-expo rator env `(closure ,x ,body ,env2))
+         (eval-expo rand env arg)
+         (eval-expo body `((,x . ,arg) . ,env2) val))))))
+
+(simple-eval-expo-tests eval-expo)
 
 
 
