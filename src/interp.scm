@@ -20,6 +20,12 @@
 ;; results in calls to versions of eval-expo with different orderings
 ;; of recursive calls.
 
+;; Writing/explanatory thoughts:
+;;
+;; Need to make clear difference between translating to miniKanren
+;; Scheme predicates vs. Scheme functions that return non-boolean
+;; values.
+
 (define lookup-tests
   (lambda (lookup)
 
