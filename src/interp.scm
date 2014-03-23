@@ -156,6 +156,7 @@
 
 
 
+;; CBV lambda calculus, no shadowing of lambda
 ;; Schemely version
 (define eval-exp
   (lambda (exp env)
@@ -267,6 +268,8 @@
     ((lambda (x) (x (lambda (y) x))) (lambda (z) z))))
         
 
+;; CBV lambda calculus, no shadowing of lambda
+;;
 ;; Closely matches the second Scheme version.  Fixes evaluation order
 ;; of application.  Can fail faster than the original version, but we
 ;; can still do better, since we know that the rator must evaluate to
