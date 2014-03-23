@@ -3,6 +3,19 @@
 (load "pmatch.scm")
 (load "test-check.scm")
 
+;; High-level thoughts:
+;;
+;; Ideally, not-in-envo would be a constraint.  Then, the lambda
+;; clause would not be recursive.
+;;
+;; There are 6 ways to order the recursive calls in the application
+;; clause of eval-expo.  There is no ideal ordering of these
+;; clauses--it depends on the groundness of exp, env, and val.
+;; Ideally all 6 orderings should be run in parallel.  Or, each
+;; ordering could be run for an n-second time-out that doubled each
+;; run, or whatever, until one ordering succeeded.
+
+
 (define lookup-tests
   (lambda (lookup)
 
