@@ -13,8 +13,10 @@
 ;; clauses--it depends on the groundness of exp, env, and val.
 ;; Ideally all 6 orderings should be run in parallel.  Or, each
 ;; ordering could be run for an n-second time-out that doubled each
-;; run, or whatever, until one ordering succeeded.
-
+;; run, or whatever, until one ordering succeeded.  Or, maybe use a
+;; Mercury-style approach, in which groundness of arguments at runtime
+;; results in calls to versions of eval-expo with different orderings
+;; of recursive calls.
 
 (define lookup-tests
   (lambda (lookup)
