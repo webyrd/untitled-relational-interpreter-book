@@ -92,6 +92,18 @@
 
 (lookupo-tests lookupo)
 
+(define lookupo
+  (lambda (x env t)
+    (fresh ()
+      (symbolo x)
+      (matche env
+        (((,y . ,v) . ,rest) (symbolo y)
+         (conde
+           ((== y x) (== v t))
+           ((=/= y x) (lookupo x rest t))))))))
+
+(lookupo-tests lookupo)
+
 
 
 
@@ -127,7 +139,7 @@
 ; diverges!
 ; (eval-exp big-omega '())
 
-(test-check "interp-1"
+(test "interp-1"
   (eval-exp
    '(((lambda (x)
         (lambda (y) x))
@@ -136,7 +148,7 @@
    '())
   '(closure z z ()))
 
-(test-check "interp-2"
+(test "interp-2"
   (eval-exp
    '((lambda (x)
        (lambda (y) x))
@@ -172,43 +184,39 @@
          (not-in-envo 'lambda env)))
       ((symbolo exp) (lookupo exp env val)))))
 
-(test-check "interp-7"
+(test "interp-7"
   (run 5 (q)
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0))
-    ((((lambda (_.0) _.0) (lambda (_.1) _.2))
-      ->
-      (closure _.1 _.2 ()))
-     (sym _.0 _.1))
-    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4))
-      ->
-      (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ()))
+     (sym _.0))
+    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
      (=/= ((_.0 lambda)))
      (sym _.0 _.1 _.3))
-    ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) _.1))
-      ->
-      (closure _.1 _.1 ()))
+    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ()))
      (sym _.0 _.1))
-    ((((lambda (_.0) (_.0 _.0))
-       (lambda (_.1) (lambda (_.2) _.3)))
+    ((((lambda (_.0) ((lambda (_.1) _.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) -> (closure _.2 _.3 ((_.0 closure _.4 _.5 ()))))
+     (=/= ((_.0 lambda)))
+     (sym _.0 _.1 _.2 _.4))
+    ((((lambda (_.0)
+         ((lambda (_.1) (lambda (_.2) _.3))
+          (lambda (_.4) _.5)))
+       (lambda (_.6) _.7))
       ->
-      (closure _.2 _.3 ((_.1 closure _.1 (lambda (_.2) _.3) ()))))
-     (=/= ((_.1 lambda)))
-     (sym _.0 _.1 _.2))))
+      (closure _.2 _.3 ((_.1 closure _.4 _.5 ((_.0 closure _.6 _.7 ()))) (_.0 closure _.6 _.7 ()))))
+     (=/= ((_.0 lambda)) ((_.1 lambda)))
+     (sym _.0 _.1 _.2 _.4 _.6))))
 
-(test-check "interp-8"
+(test "interp-8"
   (run 5 (q)
     (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
   '(((lambda (x) (lambda (y) x)) (lambda (z) z))
-    ((lambda (x) (x (lambda (y) x))) (lambda (z) z))
-    (((lambda (x) (lambda (y) x))
-      ((lambda (_.0) _.0) (lambda (z) z)))
-     (sym _.0))
-    ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x)))
-      (lambda (z) z))
+    (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z))
      (sym _.0))
     (((lambda (_.0) _.0)
       ((lambda (x) (lambda (y) x)) (lambda (z) z)))
-     (sym _.0))))
+     (sym _.0))
+    (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z)))
+     (sym _.0))
+    ((lambda (x) (x (lambda (y) x))) (lambda (z) z))))
