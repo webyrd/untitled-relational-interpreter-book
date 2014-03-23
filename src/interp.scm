@@ -484,13 +484,14 @@
 
 ;; Inline proc
 ;; Final version
+;; Lambda clause comes first, since it is non-recursive
 (define eval-expo
   (lambda (exp env val)
     (matche exp
-      (,x (symbolo x)
-       (lookupo x env val))
       ((lambda (,x) ,body) (symbolo x)
        (== `(closure ,x ,body ,env) val))
+      (,x (symbolo x)
+       (lookupo x env val))
       ((,rator ,rand)
        (fresh (x body env2 arg)
          (symbolo x)
@@ -505,31 +506,34 @@
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0))
-    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4))
-      -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ()))
+     (sym _.0))
+    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
      (sym _.0 _.1 _.3))
-    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) ->
-      (closure _.1 _.2 ()))
+    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ()))
      (sym _.0 _.1))
-    ((((lambda (_.0)
-         ((lambda (_.1) (lambda (_.2) _.3)) (lambda (_.4) _.5)))
-       (lambda (_.6) _.7))
+    ((((lambda (_.0) ((lambda (_.1) (lambda (_.2) _.3)) (lambda (_.4) _.5))) (lambda (_.6) _.7))
       ->
-      (closure _.2 _.3
-               ((_.1 closure _.4 _.5 ((_.0 closure _.6 _.7 ())))
-                (_.0 closure _.6 _.7 ()))))
+      (closure _.2 _.3 ((_.1 closure _.4 _.5 ((_.0 closure _.6 _.7 ()))) (_.0 closure _.6 _.7 ()))))
      (sym _.0 _.1 _.2 _.4 _.6))
-    ((((lambda (_.0) ((lambda (_.1) _.1) (lambda (_.2) _.3)))
-       (lambda (_.4) _.5))
-      -> (closure _.2 _.3 ((_.0 closure _.4 _.5 ()))))
-     (sym _.0 _.1 _.2 _.4))))
+    ((((lambda (_.0) (lambda (_.1) _.2)) ((lambda (_.3) (lambda (_.4) _.5)) (lambda (_.6) _.7))) -> (closure _.1 _.2 ((_.0 closure _.4 _.5 ((_.3 closure _.6 _.7 ()))))))
+     (sym _.0 _.1 _.3 _.4 _.6))))
 
 (test "eval-expo-8"
   (run 5 (q)
     (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
-  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0)) (((lambda (x) ((lambda (_.0) ((lambda (_.1) _.0) (lambda (_.2) _.3))) (lambda (y) x))) (lambda (z) z)) (=/= ((_.0 _.1))) (sym _.0 _.1 _.2)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0))))
-        
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z))
+    (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z))
+     (sym _.0))
+    (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z)))
+     (sym _.0))
+    (((lambda (x) ((lambda (_.0) ((lambda (_.1) _.0) (lambda (_.2) _.3))) (lambda (y) x))) (lambda (z) z))
+     (=/= ((_.0 _.1)))
+     (sym _.0 _.1 _.2))
+    (((lambda (_.0) ((lambda (_.1) _.0) (lambda (_.2) _.3))) ((lambda (x) (lambda (y) x)) (lambda (z) z)))
+     (=/= ((_.0 _.1)))
+     (sym _.0 _.1 _.2))))
+
 
 
 (printf "*** eval-expo 8\n")
