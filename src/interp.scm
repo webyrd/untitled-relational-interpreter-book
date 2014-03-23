@@ -212,6 +212,8 @@
     
     ))
 
+(printf "*** eval-expo 1\n")
+
 ;; closely matches Scheme version, but doesn't fail fast
 (define eval-expo
   (lambda (exp env val)
@@ -273,6 +275,8 @@
     ((lambda (x) (x (lambda (y) x))) (lambda (z) z))))
         
 
+(printf "*** eval-expo 2\n")
+
 ;; CBV lambda calculus, no shadowing of lambda
 ;;
 ;; Closely matches the second Scheme version.  Fixes evaluation order
@@ -297,6 +301,21 @@
 
 (simple-eval-expo-tests eval-expo)
 
+(test "eval-expo-7"
+  (run 5 (q)
+    (fresh (e v)
+      (eval-expo e '() v)
+      (== `(,e -> ,v) q)))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (sym _.0 _.1 _.3)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) (((((lambda (_.0) (lambda (_.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) (lambda (_.6) _.7)) -> (closure _.2 _.3 ((_.1 closure _.6 _.7 ()) (_.0 closure _.4 _.5 ())))) (sym _.0 _.1 _.2 _.4 _.6)) (((((lambda (_.0) (lambda (_.1) _.1)) (lambda (_.2) _.3)) (lambda (_.4) _.5)) -> (closure _.4 _.5 ())) (sym _.0 _.1 _.2 _.4))))
+
+(test "eval-expo-8"
+  (run 5 (q)
+    (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0)) (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z)) (sym _.0)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0))))
+        
+
+
+(printf "*** eval-expo 3\n")
 
 ;; Replacing the matche within the application clause with explicit
 ;; unification.
@@ -320,6 +339,22 @@
 
 
 
+(test "eval-expo-7"
+  (run 5 (q)
+    (fresh (e v)
+      (eval-expo e '() v)
+      (== `(,e -> ,v) q)))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (sym _.0 _.1 _.3)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) (((((lambda (_.0) (lambda (_.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) (lambda (_.6) _.7)) -> (closure _.2 _.3 ((_.1 closure _.6 _.7 ()) (_.0 closure _.4 _.5 ())))) (sym _.0 _.1 _.2 _.4 _.6)) (((((lambda (_.0) (lambda (_.1) _.1)) (lambda (_.2) _.3)) (lambda (_.4) _.5)) -> (closure _.4 _.5 ())) (sym _.0 _.1 _.2 _.4))))
+
+(test "eval-expo-8"
+  (run 5 (q)
+    (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0)) (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z)) (sym _.0)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0))))
+
+
+
+(printf "*** eval-expo 4\n")
+
 ;; Lifting introduction of 'arg' variable.
 ;; Now can arbitrarily reorder goals within application clause.
 ;; (This is a bit of an overkill, since we really only want to
@@ -341,6 +376,43 @@
 
 (simple-eval-expo-tests eval-expo)
 
+
+
+(printf "*** eval-expo 5\n")
+
+(test "eval-expo-7"
+  (run 5 (q)
+    (fresh (e v)
+      (eval-expo e '() v)
+      (== `(,e -> ,v) q)))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0))
+    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4))
+      -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
+     (sym _.0 _.1 _.3))
+    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) ->
+      (closure _.1 _.2 ()))
+     (sym _.0 _.1))
+    ((((lambda (_.0)
+         ((lambda (_.1) (lambda (_.2) _.3)) (lambda (_.4) _.5)))
+       (lambda (_.6) _.7))
+      ->
+      (closure _.2 _.3
+               ((_.1 closure _.4 _.5 ((_.0 closure _.6 _.7 ())))
+                (_.0 closure _.6 _.7 ()))))
+     (sym _.0 _.1 _.2 _.4 _.6))
+    ((((lambda (_.0) ((lambda (_.1) _.1) (lambda (_.2) _.3)))
+       (lambda (_.4) _.5))
+      -> (closure _.2 _.3 ((_.0 closure _.4 _.5 ()))))
+     (sym _.0 _.1 _.2 _.4))))
+
+(test "eval-expo-8"
+  (run 5 (q)
+    (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0)) (((lambda (x) ((lambda (_.0) ((lambda (_.1) _.0) (lambda (_.2) _.3))) (lambda (y) x))) (lambda (z) z)) (=/= ((_.0 _.1))) (sym _.0 _.1 _.2)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0))))
+
+
+
+(printf "*** eval-expo 6\n")
 
 ;; Push up the closure unification to fail fast
 (define eval-expo
@@ -403,6 +475,9 @@
      (sym _.0))))
 
 
+
+(printf "*** eval-expo 7\n")
+
 ;; Inline proc
 ;; Final version
 (define eval-expo
@@ -421,6 +496,39 @@
 
 (simple-eval-expo-tests eval-expo)
 
+(test "eval-expo-7"
+  (run 5 (q)
+    (fresh (e v)
+      (eval-expo e '() v)
+      (== `(,e -> ,v) q)))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0))
+    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4))
+      -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
+     (sym _.0 _.1 _.3))
+    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) ->
+      (closure _.1 _.2 ()))
+     (sym _.0 _.1))
+    ((((lambda (_.0)
+         ((lambda (_.1) (lambda (_.2) _.3)) (lambda (_.4) _.5)))
+       (lambda (_.6) _.7))
+      ->
+      (closure _.2 _.3
+               ((_.1 closure _.4 _.5 ((_.0 closure _.6 _.7 ())))
+                (_.0 closure _.6 _.7 ()))))
+     (sym _.0 _.1 _.2 _.4 _.6))
+    ((((lambda (_.0) ((lambda (_.1) _.1) (lambda (_.2) _.3)))
+       (lambda (_.4) _.5))
+      -> (closure _.2 _.3 ((_.0 closure _.4 _.5 ()))))
+     (sym _.0 _.1 _.2 _.4))))
+
+(test "eval-expo-8"
+  (run 5 (q)
+    (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) (((lambda (x) ((lambda (_.0) _.0) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0)) (((lambda (x) ((lambda (_.0) ((lambda (_.1) _.0) (lambda (_.2) _.3))) (lambda (y) x))) (lambda (z) z)) (=/= ((_.0 _.1))) (sym _.0 _.1 _.2)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0))))
+        
+
+
+(printf "*** eval-expo 8\n")
 
 ;; demonstrate reordering for running forward
 (define eval-expo
@@ -447,3 +555,16 @@
   (run* (q) (eval-expo '((lambda (z) z) (lambda (w) w)) '() q))
   '((closure w w ())))
 |#
+
+(test "eval-expo-7"
+  (run 5 (q)
+    (fresh (e v)
+      (eval-expo e '() v)
+      (== `(,e -> ,v) q)))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (sym _.0 _.1 _.3)) (((((lambda (_.0) (lambda (_.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) (lambda (_.6) _.7)) -> (closure _.2 _.3 ((_.1 closure _.6 _.7 ()) (_.0 closure _.4 _.5 ())))) (sym _.0 _.1 _.2 _.4 _.6)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((((lambda (_.0) (lambda (_.1) (lambda (_.2) (lambda (_.3) _.4)))) (lambda (_.5) _.6)) (lambda (_.7) _.8)) (lambda (_.9) _.10)) -> (closure _.3 _.4 ((_.2 closure _.9 _.10 ()) (_.1 closure _.7 _.8 ()) (_.0 closure _.5 _.6 ())))) (sym _.0 _.1 _.2 _.3 _.5 _.7 _.9))))
+
+(test "eval-expo-8"
+  (run 5 (q)
+    (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
+  '(((lambda (x) (lambda (y) x)) (lambda (z) z)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0)) (((((lambda (_.0) (lambda (_.1) _.1)) (lambda (_.2) _.3)) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0 _.1 _.2)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) ((lambda (_.1) _.1) (lambda (z) z))) (sym _.0 _.1))))
+        
