@@ -220,6 +220,30 @@
    '())
   'should-signal-an-error)
 
+(define not-in-env-tests
+  (lambda (not-in-env)
+
+    (test "not-in-env-1"
+      (not-in-env 'z '())
+      #t)
+
+    (test "not-in-env-2"
+      (not-in-env 'z '((w . 5)))
+      #t)
+
+    (test "not-in-env-3"
+      (not-in-env 'z '((z . 5)))
+      #f)
+
+    (test "not-in-env-4"
+      (not-in-env 'z '((w . 6) (z . 5)))
+      #f)
+    
+    (test "not-in-env-5"
+      (not-in-env 'z '((w . 6) (v . 5)))
+      #t)
+        
+    ))
 
 (define not-in-env
   (lambda (x env)
@@ -232,10 +256,7 @@
          ((not (eq? y x))
           (not-in-env x rest)))))))
 
-
-;; ***** TO DO ********
-;;
-;; not-in-env tests go here
+(not-in-env-tests not-in-env)
 
 
 ; should not-in-envo be made a constraint?
