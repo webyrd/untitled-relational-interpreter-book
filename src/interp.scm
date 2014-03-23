@@ -8,6 +8,8 @@
 ;; Ideally, not-in-envo would be a constraint.  Then, the lambda
 ;; clause would not be recursive.
 ;;
+;; shape constraints or types would be awesome I think
+;;
 ;; There are 6 ways to order the recursive calls in the application
 ;; clause of eval-expo.  There is no ideal ordering of these
 ;; clauses--it depends on the groundness of exp, env, and val.
