@@ -22,6 +22,9 @@ Might write something like this in Scheme:
          (else (lookup x rest)))))))
 \end{schemedisplay}
 
+fix typesetting of pmatch
+
+
 \noindent\scheme{(lookup 'z '((z . 5)))} $\Rightarrow$
 \begin{schemeresponsebox}5\end{schemeresponsebox}
 
@@ -50,3 +53,23 @@ in the previous \scheme|cond| clause.
          ((eq? y x) v)
          ((not (eq? y x)) (lookup x rest)))))))
 \end{schemedisplay}
+
+Then it would be safe to reorder the \scheme|cond| clauses.  Of course, we can
+reorder the \scheme|pmatch| clauses as well:
+
+\begin{schemedisplay}
+(define lookup
+  (lambda (x env)
+    (pmatch env
+      (((,y . ,v) . ,rest)
+       (cond
+         ((not (eq? y x)) (lookup x rest))
+         ((eq? y x) v)))
+      (() (error 'lookup "unbound variable")))))
+\end{schemedisplay}
+
+\noindent\scheme{(lookup 'z '((w . 7) (z . 5) (z . 6)))} $\Rightarrow$
+\begin{schemeresponsebox}5\end{schemeresponsebox}
+
+need to make sure each version of lookup is properly tested in the src directory;
+should probably break the environment helpers into a separate source code file
