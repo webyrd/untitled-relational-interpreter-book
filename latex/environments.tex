@@ -73,3 +73,42 @@ reorder the \scheme|pmatch| clauses as well:
 
 need to make sure each version of lookup is properly tested in the src directory;
 should probably break the environment helpers into a separate source code file
+
+
+better definition: check that \scheme|x| and \scheme|y| are indeed
+symbols, and can reorder clauses.  Also arguably cleaner
+stylistically, since is doesn't mix \scheme|pmatch| and \scheme|cond|
+unnecessarily.  However, there is some duplication in the patterns of
+the last two clauses.
+
+\begin{schemedisplay}
+(define lookup
+  (lambda (x env)
+    (unless (symbol? x)
+      (error 'lookup "first argument must be a symbol"))
+    (pmatch env
+      (() (error 'lookup "unbound variable"))
+      (((,y . ,v) . ,rest) (guard (symbol? y) (eq? y x))
+       v)
+      (((,y . ,v) . ,rest) (guard (symbol? y) (not (eq? y x)))
+       (lookup x rest)))))
+\end{schemedisplay}
+
+Tempting to instead write:
+
+\begin{schemedisplay}
+(define lookup
+  (lambda (x env)
+    (unless (symbol? x)
+      (error 'lookup "first argument must be a symbol"))
+    (pmatch env
+      (() (error 'lookup "unbound variable"))
+      (((,x . ,v) . ,rest)
+       v)
+      (((,y . ,v) . ,rest) (guard (symbol? y) (not (eq? y x)))
+       (lookup x rest)))))
+\end{schemedisplay}
+
+However, this definition does \emph{not} work, since the \scheme|x| in
+the pattern of the second clause shadows the first argument to
+\scheme|lookup|
