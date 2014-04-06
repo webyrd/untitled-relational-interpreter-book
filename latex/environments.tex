@@ -1,1 +1,52 @@
 \chapter{Environments}
+
+maps variables to values
+
+association list representation, with variables represented as symbols
+
+(other representations possible, such as separate flat lists for
+variables and values; could use more sophisticated representations in
+Scheme, such as tree-based data structures for faster lookup, but this
+would complicate the miniKanren implementation significantly)
+
+Might write something like this in Scheme:
+
+\begin{schemedisplay}
+(define lookup
+  (lambda (x env)
+    (pmatch env
+      (() (error 'lookup "unbound variable"))
+      (((,y . ,v) . ,rest)
+       (cond
+         ((eq? y x) v)
+         (else (lookup x rest)))))))
+\end{schemedisplay}
+
+\noindent\scheme{(lookup 'z '((z . 5)))} $\Rightarrow$
+\begin{schemeresponsebox}5\end{schemeresponsebox}
+
+
+\noindent\scheme{(lookup 'z '((z . 5) (z . 6)))} $\Rightarrow$
+\begin{schemeresponsebox}5\end{schemeresponsebox}
+
+
+\noindent\scheme{(lookup 'z '((w . 7) (z . 5) (z . 6)))} $\Rightarrow$
+\begin{schemeresponsebox}5\end{schemeresponsebox}
+
+
+However, this version will cause problems if we were to translate it
+to miniKanren.  We can see this by noting that the \scheme|cond|
+clauses cannot be reordered.  We could fix this by replacing the
+\scheme|else| with the negation of the \mbox{\scheme|(eq? y x)|} test
+in the previous \scheme|cond| clause.
+
+\begin{schemedisplay}
+(define lookup
+  (lambda (x env)
+    (pmatch env
+      (() (error 'lookup "unbound variable"))
+      (((,y . ,v) . ,rest)
+       (cond
+         ((eq? y x) v)
+         ((not (eq? y x)) (lookup x rest)))))))
+\end{schemedisplay}

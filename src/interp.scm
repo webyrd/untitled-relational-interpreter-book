@@ -43,7 +43,9 @@
     
     ))
 
-;; can't reorder cond clauses
+
+
+;; cond clauses can't be reordered
 (define lookup
   (lambda (x env)
     (pmatch env
@@ -54,6 +56,61 @@
          (else (lookup x rest)))))))
 
 (lookup-tests lookup)
+
+
+;; better definition:
+;; check that x and y are indeed symbols, and
+;; can reorder clauses.  Also arguably cleaner stylistically,
+;; since not mixing pmatch and cond unnecessarily
+(define lookup
+  (lambda (x env)
+    (unless (symbol? x)
+      (error 'lookup "first argument must be a symbol"))
+    (pmatch env
+      (() (error 'lookup "unbound variable"))
+      (((,y . ,v) . ,rest) (guard (symbol? y) (eq? y x))
+       v)
+      (((,y . ,v) . ,rest) (guard (symbol? y) (not (eq? y x)))
+       (lookup x rest)))))
+
+(lookup-tests lookup)
+
+(printf "*** incorrect lookup (should fail)\n")
+
+;; This definition does *not* work, since the 'x' in the second clause
+;; shadows the first argument to 'lookup'
+(define lookup
+  (lambda (x env)
+    (unless (symbol? x)
+      (error 'lookup "first argument must be a symbol"))
+    (pmatch env
+      (() (error 'lookup "unbound variable"))
+      (((,x . ,v) . ,rest)
+       v)
+      (((,y . ,v) . ,rest) (guard (symbol? y) (not (eq? y x)))
+       (lookup x rest)))))
+
+(lookup-tests lookup)
+
+
+
+;; show lookup still works with clauses reordered
+(define lookup
+  (lambda (x env)
+    (unless (symbol? x)
+      (error 'lookup "first argument must be a symbol"))
+    (pmatch env
+      (((,y . ,v) . ,rest) (guard (symbol? y) (not (eq? y x)))
+       (lookup x rest))
+      (((,y . ,v) . ,rest) (guard (symbol? y) (eq? y x))
+       v)
+      (() (error 'lookup "unbound variable")))))
+
+(lookup-tests lookup)
+
+
+#|
+;; These definitions are ugly, since they combine pmatch with cond
 
 (define lookup
   (lambda (x env)
@@ -69,7 +126,7 @@
 
 (lookup-tests lookup)
 
-;; show lookup still works with  clauses reordered
+;; show lookup still works with clauses reordered
 (define lookup
   (lambda (x env)
     (unless (symbol? x)
@@ -83,7 +140,7 @@
       (() (error 'lookup "unbound variable")))))
 
 (lookup-tests lookup)
-
+|#
 
 
 (define lookupo-tests
@@ -126,6 +183,39 @@
       (symbolo x)
       (matche env
         (((,y . ,v) . ,rest) (symbolo y)
+         (== y x) (== v val))
+        (((,y . ,v) . ,rest) (symbolo y)
+         (=/= y x) (lookupo x rest val))))))
+
+(lookupo-tests lookupo)
+
+
+;; show lookupo works with reordered clauses
+(define lookupo
+  (lambda (x env val)
+    (fresh ()
+      (symbolo x)
+      (matche env
+        (((,y . ,v) . ,rest) (symbolo y)
+         (=/= y x) (lookupo x rest val))
+        (((,y . ,v) . ,rest) (symbolo y)
+         (== y x) (== v val))))))
+
+(lookupo-tests lookupo)
+
+
+
+
+
+#|
+;; These definitions are ugly, since they combine matche with conde
+
+(define lookupo
+  (lambda (x env val)
+    (fresh ()
+      (symbolo x)
+      (matche env
+        (((,y . ,v) . ,rest) (symbolo y)
          (conde
            ((== y x) (== v val))
            ((=/= y x)
@@ -146,7 +236,7 @@
            ((== y x) (== v val))))))))
 
 (lookupo-tests lookupo)
-
+|#
 
 
 
@@ -473,13 +563,27 @@
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (=/= ((_.0 lambda))) (sym _.0 _.1 _.3)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) _.1)) -> (closure _.1 _.1 ())) (sym _.0 _.1)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) (lambda (_.2) _.3))) -> (closure _.2 _.3 ((_.1 closure _.1 (lambda (_.2) _.3) ())))) (=/= ((_.1 lambda))) (sym _.0 _.1 _.2))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0))
+    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) ->
+      (closure _.1 _.2 ()))
+     (sym _.0 _.1))
+    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4))
+      -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
+     (=/= ((_.0 lambda))) (sym _.0 _.1 _.3))
+    ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) _.1)) ->
+      (closure _.1 _.1 ()))
+     (sym _.0 _.1))
+    ((((lambda (_.0) (_.0 _.0))
+       (lambda (_.1) (lambda (_.2) _.3)))
+      ->
+      (closure _.2 _.3
+               ((_.1 closure _.1 (lambda (_.2) _.3) ()))))
+     (=/= ((_.1 lambda))) (sym _.0 _.1 _.2))))
 
 (test "eval-expo-8"
   (run 5 (q)
     (eval-expo q '() '(closure y x ((x . (closure z z ()))))))
   '(((lambda (x) (lambda (y) x)) (lambda (z) z)) ((lambda (x) (x (lambda (y) x))) (lambda (z) z)) (((lambda (x) (lambda (y) x)) ((lambda (_.0) _.0) (lambda (z) z))) (sym _.0)) ((((lambda (_.0) _.0) (lambda (x) (lambda (y) x))) (lambda (z) z)) (sym _.0)) (((lambda (_.0) _.0) ((lambda (x) (lambda (y) x)) (lambda (z) z))) (sym _.0))))
-        
 
 (printf "*** eval-expo 2\n")
 
@@ -551,7 +655,20 @@
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (=/= ((_.0 lambda))) (sym _.0 _.1 _.3)) (((((lambda (_.0) _.0) (lambda (_.1) _.1)) (lambda (_.2) _.3)) -> (closure _.2 _.3 ())) (sym _.0 _.1 _.2)) (((((lambda (_.0) _.0) (lambda (_.1) (lambda (_.2) _.3))) (lambda (_.4) _.5)) -> (closure _.2 _.3 ((_.1 closure _.4 _.5 ())))) (=/= ((_.1 lambda))) (sym _.0 _.1 _.2 _.4))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0))
+    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) ->
+      (closure _.1 _.2 ()))
+     (sym _.0 _.1))
+    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4))
+      -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
+     (=/= ((_.0 lambda))) (sym _.0 _.1 _.3))
+    (((((lambda (_.0) _.0) (lambda (_.1) _.1))
+       (lambda (_.2) _.3))
+      -> (closure _.2 _.3 ()))
+     (sym _.0 _.1 _.2))
+    ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) _.1)) ->
+      (closure _.1 _.1 ()))
+     (sym _.0 _.1))))
 
 (test "eval-expo-8"
   (run 5 (q)
@@ -593,7 +710,22 @@
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (=/= ((_.0 lambda))) (sym _.0 _.1 _.3)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) _.1)) -> (closure _.1 _.1 ())) (sym _.0 _.1)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) (lambda (_.2) _.3))) -> (closure _.2 _.3 ((_.1 closure _.1 (lambda (_.2) _.3) ())))) (=/= ((_.1 lambda))) (sym _.0 _.1 _.2))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0))
+    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) ->
+      (closure _.1 _.2 ()))
+     (sym _.0 _.1))
+    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4))
+      -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
+     (=/= ((_.0 lambda))) (sym _.0 _.1 _.3))
+    ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) _.1)) ->
+      (closure _.1 _.1 ()))
+     (sym _.0 _.1))
+    ((((lambda (_.0) (_.0 _.0))
+       (lambda (_.1) (lambda (_.2) _.3)))
+      ->
+      (closure _.2 _.3
+               ((_.1 closure _.1 (lambda (_.2) _.3) ()))))
+     (=/= ((_.1 lambda))) (sym _.0 _.1 _.2))))
 
 (test "eval-expo-8"
   (run 5 (q)
@@ -628,7 +760,22 @@
     (fresh (e v)
       (eval-expo e '() v)
       (== `(,e -> ,v) q)))
-  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0)) ((((lambda (_.0) _.0) (lambda (_.1) _.2)) -> (closure _.1 _.2 ())) (sym _.0 _.1)) ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4)) -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ())))) (=/= ((_.0 lambda))) (sym _.0 _.1 _.3)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) _.1)) -> (closure _.1 _.1 ())) (sym _.0 _.1)) ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) (lambda (_.2) _.3))) -> (closure _.2 _.3 ((_.1 closure _.1 (lambda (_.2) _.3) ())))) (=/= ((_.1 lambda))) (sym _.0 _.1 _.2))))
+  '((((lambda (_.0) _.1) -> (closure _.0 _.1 ())) (sym _.0))
+    ((((lambda (_.0) _.0) (lambda (_.1) _.2)) ->
+      (closure _.1 _.2 ()))
+     (sym _.0 _.1))
+    ((((lambda (_.0) (lambda (_.1) _.2)) (lambda (_.3) _.4))
+      -> (closure _.1 _.2 ((_.0 closure _.3 _.4 ()))))
+     (=/= ((_.0 lambda))) (sym _.0 _.1 _.3))
+    ((((lambda (_.0) (_.0 _.0)) (lambda (_.1) _.1)) ->
+      (closure _.1 _.1 ()))
+     (sym _.0 _.1))
+    ((((lambda (_.0) (_.0 _.0))
+       (lambda (_.1) (lambda (_.2) _.3)))
+      ->
+      (closure _.2 _.3
+               ((_.1 closure _.1 (lambda (_.2) _.3) ()))))
+     (=/= ((_.1 lambda))) (sym _.0 _.1 _.2))))
 
 (test "eval-expo-8"
   (run 5 (q)
