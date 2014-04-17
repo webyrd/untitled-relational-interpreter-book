@@ -22,8 +22,6 @@ Might write something like this in Scheme:
          (else (lookup x rest)))))))
 \end{schemedisplay}
 
-fix typesetting of pmatch
-
 
 \noindent\scheme{(lookup 'z '((z . 5)))} $\Rightarrow$
 \begin{schemeresponsebox}5\end{schemeresponsebox}
@@ -112,3 +110,4 @@ Tempting to instead write:
 However, this definition does \emph{not} work, since the \scheme|x| in
 the pattern of the second clause shadows the first argument to
 \scheme|lookup|
+
