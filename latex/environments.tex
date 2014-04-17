@@ -134,3 +134,19 @@ However, this definition does \emph{not} work, since the \scheme|x| in
 the pattern of the second clause shadows the first argument to
 \scheme|lookup|
 
+(need more explanation of this; also, this shadowing is at a different
+level than the shadowing in an association list)
+
+
+
+\begin{schemedisplay}
+(define lookupo
+  (lambda (x env val)
+    (fresh ()
+      (symbolo x)
+      (matche env
+        (((,y . ,v) . ,rest) (symbolo y)
+         (== y x) (== v val))
+        (((,y . ,v) . ,rest) (symbolo y)
+         (=/= y x) (lookupo x rest val))))))
+\end{schemedisplay}
