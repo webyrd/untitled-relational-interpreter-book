@@ -9,7 +9,28 @@ variables and values; could use more sophisticated representations in
 Scheme, such as tree-based data structures for faster lookup, but this
 would complicate the miniKanren implementation significantly)
 
-show several example environments
+For example, the environment containing the bindings
+
+$x \rightarrow$ \schemeresult|(foo)|
+
+$y \rightarrow$ \schemeresult|6|
+
+and
+
+$z \rightarrow$ \schemeresult|#t|
+
+might be represented as any of the following association lists (among other possibilities):
+
+\noindent\mbox{\schemeresult|((x . (foo)) (z . #t) (y . 6))|}\footnote{would probably be displayed as \mbox{\schemeresult|((x foo) (z . #t) (y . 6))|}},
+
+\noindent\mbox{\schemeresult|((y . 6) (x . (foo)) (z . #t))|}
+
+\noindent\mbox{\schemeresult|((y . 6) (z . #t) (x . (foo)) (z . 11))|}
+
+\noindent
+In the last association list $z$ is bound to \schemeresult|#t|, since the pair \mbox{\schemeresult|(z . #t)|}
+occurs in the list before the \emph{shadowed} association \mbox{\schemeresult|(z . 11)|}.
+
 
 Might write something like this in Scheme:
 
