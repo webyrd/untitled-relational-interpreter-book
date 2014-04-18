@@ -139,6 +139,7 @@ level than the shadowing in an association list)
 
 
 
+
 \begin{schemedisplay}
 (define lookupo
   (lambda (x env val)
@@ -149,4 +150,48 @@ level than the shadowing in an association list)
          (== y x) (== v val))
         (((,y . ,v) . ,rest) (symbolo y)
          (=/= y x) (lookupo x rest val))))))
+\end{schemedisplay}
+
+\noindent\scheme{(run* (q) (lookupo 'z '((z . 5) (z . 6)) q))} $\Rightarrow$
+\begin{schemeresponsebox}(5)\end{schemeresponsebox}
+
+\noindent\scheme{(run* (q) (lookupo 'z '((w . 7) (z . 5) (z . 6)) q))} $\Rightarrow$
+\begin{schemeresponsebox}(5)\end{schemeresponsebox}
+
+\noindent\scheme{(run* (q) (lookupo 'y '((x . foo) (y . bar)) q))} $\Rightarrow$
+\begin{schemeresponsebox}(bar)\end{schemeresponsebox}
+
+\noindent\scheme{(run* (q) (lookupo 'w '((x . foo) (y . bar)) q))} $\Rightarrow$
+\begin{schemeresponsebox}()\end{schemeresponsebox}
+
+\noindent\scheme{(run 5 (q) (lookupo 'z q 5))}
+
+$\Rightarrow$
+
+\begin{schemeresponsebox}
+(((z . 5) . _$_{_{0}}$)
+ (((_$_{_{0}}$ . _$_{_{1}}$) (z . 5) . _$_{_{2}}$)
+  (=/= ((_$_{_{0}}$ z))) (sym _$_{_{0}}$))
+ (((_$_{_{0}}$ . _$_{_{1}}$) (_$_{_{2}}$ . _$_{_{3}}$) (z . 5) . _$_{_{4}}$)
+  (=/= ((_$_{_{0}}$ z)) ((_$_{_{2}}$ z))) (sym _$_{_{0}}$ _$_{_{2}}$))
+ (((_$_{_{0}}$ . _$_{_{1}}$) (_$_{_{2}}$ . _$_{_{3}}$) (_$_{_{4}}$ . _$_{_{5}}$) (z . 5) . _$_{_{6}}$)
+  (=/= ((_$_{_{0}}$ z)) ((_$_{_{2}}$ z)) ((_$_{_{4}}$ z))) (sym _$_{_{0}}$ _$_{_{2}}$ _$_{_{4}}$))
+ (((_$_{_{0}}$ . _$_{_{1}}$) (_$_{_{2}}$ . _$_{_{3}}$) (_$_{_{4}}$ . _$_{_{5}}$) (_$_{_{6}}$ . _$_{_{7}}$) (z . 5) . _$_{_{8}}$)
+  (=/= ((_$_{_{0}}$ z)) ((_$_{_{2}}$ z)) ((_$_{_{4}}$ z)) ((_$_{_{6}}$ z))) (sym _$_{_{0}}$ _$_{_{2}}$ _$_{_{4}}$ _$_{_{6}}$)))
+\end{schemeresponsebox}
+
+FIXME: the reified variables don't look like they do in TRS
+
+These \scheme|run| expressions return the same answers if we reorder the \scheme|matche| clauses in \scheme|lookupo|:
+
+\begin{schemedisplay}
+(define lookupo
+  (lambda (x env val)
+    (fresh ()
+      (symbolo x)
+      (matche env
+        (((,y . ,v) . ,rest) (symbolo y)
+         (=/= y x) (lookupo x rest val))
+        (((,y . ,v) . ,rest) (symbolo y)
+         (== y x) (== v val))))))
 \end{schemedisplay}
