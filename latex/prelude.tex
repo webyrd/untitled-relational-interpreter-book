@@ -146,8 +146,23 @@
 \def\runtwentythreesymbol{run{$^{\bf{23}}$}}
 \def\runtwentyfoursymbol{run{$^{\bf{24}}$}}
 
-\setspecialsymbol{lookupo}{{\it {\lookuposymbol}}}
 \def\lookuposymbol{{lookup$^{\thinspace o}$}}
+\setspecialsymbol{lookupo}{{\it {\lookuposymbol}}}
 
-\setspecialsymbol{absento}{{\it {\absentosymbol}}}
 \def\absentosymbol{{absent$^{\thinspace o}$}}
+\setspecialsymbol{absento}{{\it {\absentosymbol}}}
+
+% reified variables
+\def\under{{\rule{0.33em}{0.04em}}}
+\newcommand{\reifiedundermacro}[1]{{\under\raisebox{-0.05em}{{$_{_{#1}}$}}}}
+
+\setspecialsymbol{_.0}{{\reifiedundermacro{0}}}
+\setspecialsymbol{_.1}{{\reifiedundermacro{1}}}
+\setspecialsymbol{_.2}{{\reifiedundermacro{2}}}
+\setspecialsymbol{_.3}{{\reifiedundermacro{3}}}
+\setspecialsymbol{_.4}{{\reifiedundermacro{4}}}
+\setspecialsymbol{_.5}{{\reifiedundermacro{5}}}
+\setspecialsymbol{_.6}{{\reifiedundermacro{6}}}
+\setspecialsymbol{_.7}{{\reifiedundermacro{7}}}
+\setspecialsymbol{_.8}{{\reifiedundermacro{8}}}
+\setspecialsymbol{_.9}{{\reifiedundermacro{9}}}
