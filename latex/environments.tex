@@ -193,3 +193,15 @@ These \scheme|run| expressions return the same answers if we reorder the \scheme
         (((,y . ,v) . ,rest) (symbolo y)
          (== y x) (== v val))))))
 \end{schemedisplay}
+
+
+
+
+\setbox\boxa\vtop{{\footnotesize\begin{schemebox}(defmatche (lookupo x env val)
+  ((,x ((,x . ,val) . ,rest) ,val)
+   (symbolo x))
+  ((,x ((,y . ,v) . ,rest) ,val)
+   (symbolo x) (symbolo y)
+   (=/= x y) (lookupo x rest val)))\end{schemebox}}}
+
+\footnote{Alternatively, we could define \scheme|lookupo| using \scheme|defmatche|, which arguably results in a cleaner definition: \\ \ \\ \usebox{\boxa} \\ \ \\ However, this definition does not as clearly reflect the structure of the \scheme|lookup| function defined using \scheme|pmatch|.}

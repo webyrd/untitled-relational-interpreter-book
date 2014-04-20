@@ -109,38 +109,46 @@
 (lookup-tests lookup)
 
 
-#|
+
 ;; These definitions are ugly, since they combine pmatch with cond
 
-(define lookup
-  (lambda (x env)
-    (unless (symbol? x)
-      (error 'lookup "first argument must be a symbol"))
-    (pmatch env
-      (() (error 'lookup "unbound variable"))
-      (((,y . ,v) . ,rest) (guard (symbol? y))
-       (cond
-         ((eq? y x) v)
-         ((not (eq? y x))
-          (lookup x rest)))))))
+(let ()
 
-(lookup-tests lookup)
+  (define lookup
+    (lambda (x env)
+      (unless (symbol? x)
+        (error 'lookup "first argument must be a symbol"))
+      (pmatch env
+        (() (error 'lookup "unbound variable"))
+        (((,y . ,v) . ,rest) (guard (symbol? y))
+         (cond
+           ((eq? y x) v)
+           ((not (eq? y x))
+            (lookup x rest)))))))
+
+  (lookup-tests lookup)
+
+  )
 
 ;; show lookup still works with clauses reordered
-(define lookup
-  (lambda (x env)
-    (unless (symbol? x)
-      (error 'lookup "first argument must be a symbol"))
-    (pmatch env
-      (((,y . ,v) . ,rest) (guard (symbol? y))
-       (cond
-         ((not (eq? y x))
-          (lookup x rest))
-         ((eq? y x) v)))
-      (() (error 'lookup "unbound variable")))))
+(let ()
+  
+  (define lookup
+    (lambda (x env)
+      (unless (symbol? x)
+        (error 'lookup "first argument must be a symbol"))
+      (pmatch env
+        (((,y . ,v) . ,rest) (guard (symbol? y))
+         (cond
+           ((not (eq? y x))
+            (lookup x rest))
+           ((eq? y x) v)))
+        (() (error 'lookup "unbound variable")))))
 
-(lookup-tests lookup)
-|#
+  (lookup-tests lookup)
+
+  )
+
 
 
 (define lookupo-tests
@@ -204,7 +212,35 @@
 (lookupo-tests lookupo)
 
 
+;; shorter definition, but which doesn't doesn't correspond with the pmatch version as well
+(let ()
 
+  (defmatche (lookupo x env val)
+    ((,x ((,x . ,val) . ,rest) ,val)
+     (symbolo x))
+    ((,x ((,y . ,v) . ,rest) ,val)
+     (symbolo x) (symbolo y)
+     (=/= x y)
+     (lookupo x rest val)))
+
+  (lookupo-tests lookupo)
+
+  )
+
+;; shorter definition, with defmatch clauses swapped.
+(let ()
+
+  (defmatche (lookupo x env val)
+    ((,x ((,y . ,v) . ,rest) ,val)
+     (symbolo x) (symbolo y)
+     (=/= x y)
+     (lookupo x rest val))
+    ((,x ((,x . ,val) . ,rest) ,val)
+     (symbolo x)))
+
+  (lookupo-tests lookupo)
+
+  )
 
 
 #|
