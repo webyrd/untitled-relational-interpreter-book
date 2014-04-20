@@ -138,25 +138,6 @@ the pattern of the second clause shadows the first argument to
 level than the shadowing in an association list)
 
 
-\setbox\boxa\vtop{{\footnotesize
-\begin{schemebox}
-(define lookup
-  (lambda (x env)
-    (unless (symbol? x)
-      (error 'lookup "first argument must be a symbol"))
-    (pmatch env
-      (() (error 'lookup "unbound variable"))
-      (((,y . ,v) . ,rest) (guard (symbol? y))
-       (cond
-         ((eq? y x) v)
-         ((not (eq? y x))
-          (lookup x rest)))))))  
-\end{schemebox}}}
-
-\footnote{We could instead use this definition of \scheme|lookup|: \\ \ \\ \usebox{\boxa} \\ \ \\ I consider this definition ugly, however, since it mixes \scheme|pmatch| with \scheme|cond|.}
-
-
-
 
 
 \begin{schemedisplay}
