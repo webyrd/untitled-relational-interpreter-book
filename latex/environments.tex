@@ -138,6 +138,25 @@ the pattern of the second clause shadows the first argument to
 level than the shadowing in an association list)
 
 
+\setbox\boxa\vtop{{\footnotesize
+\begin{schemebox}
+(define lookup
+  (lambda (x env)
+    (unless (symbol? x)
+      (error 'lookup "first argument must be a symbol"))
+    (pmatch env
+      (() (error 'lookup "unbound variable"))
+      (((,y . ,v) . ,rest) (guard (symbol? y))
+       (cond
+         ((eq? y x) v)
+         ((not (eq? y x))
+          (lookup x rest)))))))  
+\end{schemebox}}}
+
+\footnote{We could instead use this definition of \scheme|lookup|: \\ \ \\ \usebox{\boxa} \\ \ \\ I consider this definition ugly, however, since it mixes \scheme|pmatch| with \scheme|cond|.}
+
+
+
 
 
 \begin{schemedisplay}
@@ -197,11 +216,14 @@ These \scheme|run| expressions return the same answers if we reorder the \scheme
 
 
 
-\setbox\boxa\vtop{{\footnotesize\begin{schemebox}(defmatche (lookupo x env val)
+\setbox\boxa\vtop{{\footnotesize
+\begin{schemebox}
+(defmatche (lookupo x env val)
   ((,x ((,x . ,val) . ,rest) ,val)
    (symbolo x))
   ((,x ((,y . ,v) . ,rest) ,val)
    (symbolo x) (symbolo y)
-   (=/= x y) (lookupo x rest val)))\end{schemebox}}}
+   (=/= x y) (lookupo x rest val)))
+\end{schemebox}}}
 
 \footnote{Alternatively, we could define \scheme|lookupo| using \scheme|defmatche|, which arguably results in a cleaner definition: \\ \ \\ \usebox{\boxa} \\ \ \\ However, this definition does not as clearly reflect the structure of the \scheme|lookup| function defined using \scheme|pmatch|.}
