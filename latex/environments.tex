@@ -10,15 +10,15 @@ represented as symbols.\footnote{Other representations of environments
   structures for faster lookup, but this would complicate the
   miniKanren implementation significantly.}
 For example, the environment containing the bindings
-
-$x \rightarrow$ \schemeresult|(foo)|
-
-$y \rightarrow$ \schemeresult|6|
-
-and
-
+%
+$x \rightarrow$ \schemeresult|(foo)|,
+%
+$y \rightarrow$ \schemeresult|6|,
+%
+and 
+%
 $z \rightarrow$ \schemeresult|#t|
-
+%
 might be represented as any of the following association lists (among other possibilities):
 
 \noindent\mbox{\schemeresult|((x . (foo)) (z . #t) (y . 6))|}\footnote{would probably be displayed as \mbox{\schemeresult|((x foo) (z . #t) (y . 6))|}},
