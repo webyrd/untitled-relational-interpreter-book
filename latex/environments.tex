@@ -1,14 +1,14 @@
 \chapter{Environments}
 
-an environment maps variables to values
-
-we will use an association list representation, with variables represented as symbols
-
-(other representations possible, such as separate flat lists for
-variables and values; could use more sophisticated representations in
-Scheme, such as tree-based data structures for faster lookup, but this
-would complicate the miniKanren implementation significantly)
-
+An \emph{environment} maps variables to values.
+%
+We will use an association list representation, with variables
+represented as symbols.\footnote{Other representations of environments
+  are certainly possible.  For example, we could use separate flat
+  lists of corresponding variables and values.  We could use more
+  sophisticated representations in Scheme, such as tree-based data
+  structures for faster lookup, but this would complicate the
+  miniKanren implementation significantly.}
 For example, the environment containing the bindings
 
 $x \rightarrow$ \schemeresult|(foo)|
