@@ -56,7 +56,7 @@ pattern matching might look like this:
          (else (lookup x rest)))))))
 \end{schemedisplay}
 
-However, this definition of \scheme|lookupo| would cause trouble if we
+However, this definition of \scheme|lookup| would cause trouble if we
 were to translate it to miniKanren.  This is because of the use of the
 \scheme|else| auxilliary keyword in the second \scheme|cond| clause.
 We could fix this by replacing the \scheme|else| with the explicit
@@ -75,7 +75,7 @@ negation of the \mbox{\scheme|(eq? y x)|} test in the previous
 \end{schemedisplay}
 
 Then it would be safe to reorder the \scheme|cond| clauses.  Of
-course, we can reorder the \scheme|pmatch| clauses as well:
+course, we can reorder the \scheme|pmatch| clauses as well
 
 \begin{schemedisplay}
 (define lookup
@@ -88,18 +88,18 @@ course, we can reorder the \scheme|pmatch| clauses as well:
       (() (error 'lookup "unbound variable")))))
 \end{schemedisplay}
 
+and the tests still pass:
+
 \noindent\scheme{(lookup 'z '((w . 7) (z . 5) (z . 6)))} $\Rightarrow$
 \begin{schemeresponsebox}5\end{schemeresponsebox}
 
-need to make sure each version of lookup is properly tested in the src directory;
-should probably break the environment helpers into a separate source code file
-
-
-better definition: check that \scheme|x| and \scheme|y| are indeed
-symbols, and can reorder clauses.  Also arguably cleaner
-stylistically, since is doesn't mix \scheme|pmatch| and \scheme|cond|
-unnecessarily.  However, there is some duplication in the patterns of
-the last two clauses.
+Before translating the \scheme|lookup| function into a miniKanren
+relation, we can make two more improvements.  First, we should check
+that \scheme|x| and \scheme|y| are indeed symbols.  We can do this by
+adding appropriate calls to the \scheme|symbol?| predicate.  Second,
+it is arguably cleaner stylistically to avoid the \scheme|cond| form
+by adding another \scheme|pmatch| clause, at the cost of a duplicate
+\scheme|pmatch| pattern.
 
 \begin{schemedisplay}
 (define lookup
