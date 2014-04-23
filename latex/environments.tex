@@ -21,7 +21,7 @@ $z \rightarrow$ \schemeresult|#t|
 %
 might be represented as any of the following association lists (among other possibilities):
 
-\noindent\mbox{\schemeresult|((x . (foo)) (z . #t) (y . 6))|}\footnote{This association list would be displayed in most Scheme systems as \mbox{\schemeresult|((x foo) (z . #t) (y . 6))|}.},
+\noindent\mbox{\schemeresult|((x . (foo)) (z . #t) (y . 6))|}\footnote{This association list would be displayed in most Scheme implementations as \mbox{\schemeresult|((x foo) (z . #t) (y . 6))|}.},
 
 \noindent\mbox{\schemeresult|((y . 6) (x . (foo)) (z . #t))|}
 
@@ -56,11 +56,12 @@ pattern matching might look like this:
          (else (lookup x rest)))))))
 \end{schemedisplay}
 
-However, this version will cause problems if we were to translate it
-to miniKanren.  We can see this by noting that the \scheme|cond|
-clauses cannot be reordered.  We could fix this by replacing the
-\scheme|else| with the negation of the \mbox{\scheme|(eq? y x)|} test
-in the previous \scheme|cond| clause.
+However, this definition of \scheme|lookupo| would cause trouble if we
+were to translate it to miniKanren.  This is because of the use of the
+\scheme|else| auxilliary keyword in the second \scheme|cond| clause.
+We could fix this by replacing the \scheme|else| with the explicit
+negation of the \mbox{\scheme|(eq? y x)|} test in the previous
+\scheme|cond| clause.
 
 \begin{schemedisplay}
 (define lookup
@@ -73,8 +74,8 @@ in the previous \scheme|cond| clause.
          ((not (eq? y x)) (lookup x rest)))))))
 \end{schemedisplay}
 
-Then it would be safe to reorder the \scheme|cond| clauses.  Of course, we can
-reorder the \scheme|pmatch| clauses as well:
+Then it would be safe to reorder the \scheme|cond| clauses.  Of
+course, we can reorder the \scheme|pmatch| clauses as well:
 
 \begin{schemedisplay}
 (define lookup
