@@ -31,8 +31,19 @@ might be represented as any of the following association lists (among other poss
 In the last association list $z$ is bound to \schemeresult|#t|, since the pair \mbox{\schemeresult|(z . #t)|}
 occurs in the list before the \emph{shadowed} association \mbox{\schemeresult|(z . 11)|}.
 
+To look up the value bound to a variable, we will use the \scheme|lookup| function:
 
-Might write something like this in Scheme:
+\noindent\scheme{(lookup 'z '((z . 5)))} $\Rightarrow$
+\begin{schemeresponsebox}5\end{schemeresponsebox}
+
+\noindent\scheme{(lookup 'z '((z . 5) (z . 6)))} $\Rightarrow$
+\begin{schemeresponsebox}5\end{schemeresponsebox}
+
+\noindent\scheme{(lookup 'z '((w . 7) (z . 5) (z . 6)))} $\Rightarrow$
+\begin{schemeresponsebox}5\end{schemeresponsebox}
+
+A straight-forward definition of \scheme|lookup| in Scheme using
+pattern matching might look like this:
 
 \begin{schemedisplay}
 (define lookup
@@ -44,19 +55,6 @@ Might write something like this in Scheme:
          ((eq? y x) v)
          (else (lookup x rest)))))))
 \end{schemedisplay}
-
-
-\noindent\scheme{(lookup 'z '((z . 5)))} $\Rightarrow$
-\begin{schemeresponsebox}5\end{schemeresponsebox}
-
-
-\noindent\scheme{(lookup 'z '((z . 5) (z . 6)))} $\Rightarrow$
-\begin{schemeresponsebox}5\end{schemeresponsebox}
-
-
-\noindent\scheme{(lookup 'z '((w . 7) (z . 5) (z . 6)))} $\Rightarrow$
-\begin{schemeresponsebox}5\end{schemeresponsebox}
-
 
 However, this version will cause problems if we were to translate it
 to miniKanren.  We can see this by noting that the \scheme|cond|
