@@ -133,16 +133,10 @@ The second \scheme|pmatch| clause matches against an association list
 containing an association between \scheme|x| and \scheme|v|.  However,
 this definition of \scheme|lookup| does \emph{not} work, since the
 \scheme|x| in the pattern of the second clause shadows the \scheme|x|
-appearing as the first argument to \scheme|lookup|.  As a result, we
-could replace the pattern
-
-\scheme|((,x . ,v) . ,rest)|
-
-with
-
-\scheme|((,foo . ,v) . ,rest)|
-
-without changing the behavior of the second clause.
+appearing as the first argument to \scheme|lookup|.  As a result,
+replacing the pattern \mbox|\scheme{((,x . ,v) . ,rest)}| with
+\mbox|\scheme{((,foo . ,v) . ,rest)}| without changing the behavior of
+the second clause.
 
 (need more explanation of this; also, this shadowing is at a different
 level than the shadowing in an association list)
