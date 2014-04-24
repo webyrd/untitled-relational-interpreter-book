@@ -114,7 +114,7 @@ by adding another \scheme|pmatch| clause, at the cost of a duplicate
        (lookup x rest)))))
 \end{schemedisplay}
 
-Tempting to instead write:
+It is tempting to instead write:
 
 \begin{schemedisplay}
 (define lookup
@@ -129,9 +129,11 @@ Tempting to instead write:
        (lookup x rest)))))
 \end{schemedisplay}
 
-However, this definition does \emph{not} work, since the \scheme|x| in
-the pattern of the second clause shadows the first argument to
-\scheme|lookup|
+The second \scheme|pmatch| clause matches against an association list
+containing an association between \scheme|x| and \scheme|v|.  However,
+this definition of \scheme|lookup| does \emph{not} work, since the
+\scheme|x| in the pattern of the second clause shadows the \scheme|x|
+appearing as the first argument to \scheme|lookup|.
 
 (need more explanation of this; also, this shadowing is at a different
 level than the shadowing in an association list)
