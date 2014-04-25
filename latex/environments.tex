@@ -131,17 +131,18 @@ It is tempting to instead write:
 
 The second \scheme|pmatch| clause matches against an association list
 containing an association between \scheme|x| and \scheme|v|.  However,
-this definition of \scheme|lookup| does \emph{not} work, since the
+this definition of \scheme|lookup| does not work properly, since the
 \scheme|x| in the pattern of the second clause shadows the \scheme|x|
-appearing as the first argument to \scheme|lookup|.  As a result,
-replacing the pattern \mbox{\scheme|((,x . ,v) . ,rest)|} with
-\mbox{\scheme|((,foo . ,v) . ,rest)|} without changing the behavior of
-the second clause.
-
-(need more explanation of this; also, this shadowing is at a different
-level than the shadowing in an association list)
-
-
+that appears as the first argument to \scheme|lookup|.  Indeed, we
+could replace the \scheme|x| in the \mbox{\scheme|(,x . ,v)|}
+association with almost any variable name\footnote{We cannot change
+  \scheme|x| to either \scheme|v| or \scheme|rest|, since this would
+  change the structure of the pattern in the second clause.  For
+  example, changing \scheme|x| to \scheme|v| results in the pattern
+  \mbox{\scheme|((,v . ,v) . ,rest)|} which matches against
+  \mbox{\scheme|((z . z) (y . 3))|}, but not against \mbox{\scheme|((z
+    . 5) (y . 3))|}.} without changing the behavior of the second
+clause.
 
 
 \begin{schemedisplay}
