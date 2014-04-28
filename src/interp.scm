@@ -44,7 +44,6 @@
     ))
 
 
-
 ;; cond clauses can't be reordered
 (define lookup
   (lambda (x env)
@@ -55,6 +54,7 @@
          ((eq? y x) v)
          (else (lookup x rest)))))))
 
+(printf " *** lookup 1\n")
 (lookup-tests lookup)
 
 
@@ -73,9 +73,9 @@
       (((,y . ,v) . ,rest) (guard (symbol? y) (not (eq? y x)))
        (lookup x rest)))))
 
+(printf " *** lookup 2\n")
 (lookup-tests lookup)
 
-(printf "*** incorrect lookup (should fail)\n")
 
 ;; This definition does *not* work, since the 'x' in the second clause
 ;; shadows the first argument to 'lookup'
@@ -90,8 +90,9 @@
       (((,y . ,v) . ,rest) (guard (symbol? y) (not (eq? y x)))
        (lookup x rest)))))
 
+(printf " *** lookup 3\n")
+(printf "*** incorrect lookup (should fail)\n")
 (lookup-tests lookup)
-
 
 
 ;; show lookup still works with clauses reordered
@@ -106,6 +107,7 @@
        v)
       (() (error 'lookup "unbound variable")))))
 
+(printf " *** lookup 4\n")
 (lookup-tests lookup)
 
 
@@ -126,6 +128,7 @@
            ((not (eq? y x))
             (lookup x rest)))))))
 
+  (printf " *** lookup 5\n")
   (lookup-tests lookup)
 
   )
@@ -145,10 +148,10 @@
            ((eq? y x) v)))
         (() (error 'lookup "unbound variable")))))
 
+  (printf " *** lookup 6\n")
   (lookup-tests lookup)
 
   )
-
 
 
 (define lookupo-tests
