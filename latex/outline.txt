@@ -1,3 +1,64 @@
+(Try organizing book based on how I give talks on miniKanren)
+
+Outline to the paragraph level, with topic sentences and sentences describing what goes in the para.  (As I did with my dissertation.)
+
+
+
+[where to introduce =/=/symbolo/numbero/absento/matche ?]
+
+[where to put this?  logic programming vs. relational programming]
+
+Relational view of programming
+  + vs +o
+
+Intro to mk
+  3 logical operators and 1 interface operator
+  ==  (binary function; syntactic equality; similar in spirit to equal?; really a constraint, rather than a Scheme predicate: asserts equality, rather than just testing for it; success (== 5 5) vs. failure (== 5 6); does (== 5 x) hold?  Depends on the value of x; == works on terms: atoms, pairs of terms, and logic variables; (== 5 5) is not a complete miniKanren program: evaluates to a Scheme procedure)  [need to be careful to make a distinction between logic variables and normal Scheme lexical variables]
+  run (interface between Scheme and miniKanren (interface operator, as opposed to logical operator); (run 1 (q) (== 5 5)) => (_.0)   1: number of answers we want (if that many answers exist); q: query variable (could be any identifier, but by convention we tend to use q); body of run (goal constructor); returns a list of answers
+
+appendo
+  translation from Scheme; 'else' and Dijkstra guards; run backwards; ordering of conjuncts and disjuncts; equivalence of divergence and finite failure; complete search -> will find answers that exist (in theory, at least; might run out of memory, or might take a trilion years)
+
+rembero
+  translation from Scheme; show it working; show the problem; need to guard the second clause (no overlapping principle); =/= to the rescue (should =/= be introduced earlier?  Maybe not.  Might be better to introduce as needed, as long as I have sufficient cross refs throughout book)
+
+mutual recursion & state machines
+Finite Automata
+  Deterministic Finite Automata
+  Non-deterministic Finite Automata
+Context-free Languages
+Pushdown Automata
+
+environment-passing interpreter
+
+Oleg numbers
+
+Type inference
+
+Implementation of mK/muK
+
+Appendix: intro to Scheme
+
+
+
+
+[probably defer these for now:]
+  [nominal logic programming?]
+  [CLP(fd)?  sodoku?  N-queens?]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Peano numbers and arithmetic
 
 
@@ -42,7 +103,7 @@ Interpreters
   CESK
 
 
-Type Inference
+Type inference/inhabitation
 
 
 
