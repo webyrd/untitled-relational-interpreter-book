@@ -25,10 +25,7 @@ appendo
 rembero
   translation from Scheme; show it working; show the problem; need to guard the second clause (no overlapping principle); =/= to the rescue (should =/= be introduced earlier?  Maybe not.  Might be better to introduce as needed, as long as I have sufficient cross refs throughout book)
 
-Translating from Scheme to miniKanren
-  A-Normal Form
-  Defunctionalization
-  Pattern Matching
+Oleg numbers
   
 mutual recursion & state machines
 Finite Automata
@@ -53,13 +50,11 @@ combinatory logic
     fixpoint combinators
       U-combinator hint
 
-Oleg numbers
-
 Type inference
 
 Playing dirty (conda/condu/project)
 
-Implementation of mK/muK
+Implementation of mK/uK
 
 Appendix: intro to Scheme
 
