@@ -1,5 +1,7 @@
 (Try organizing book based on how I give talks on miniKanren)
 
+(Book as text for intensive summer school course)
+
 Outline to the paragraph level, with topic sentences and sentences describing what goes in the para.  (As I did with my dissertation.)
 
 
@@ -59,16 +61,18 @@ Type inference
       performance tradeoffs
 
 Playing dirty (conda/condu/project)
+  how to play dirty
+  why playing dirty is nasty
 
 Implementation of mK/uK
 
 Appendix: intro to Scheme
 
-[probably defer these for now:]
+[where should these go?]
   [nominal logic programming?]
   [CLP(fd)?  sodoku?  N-queens?]
   [meta-interpreters]
-
+  [negation]
 
 
 
