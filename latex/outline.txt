@@ -37,10 +37,16 @@ Finite Automata
 Context-free Languages
 Pushdown Automata
 
-environment-passing interpreter
+environment-passing interpreter  
   CBV lambda-calculus
-  I love you
-  quines
+  extend with list and quote
+    99 ways to say (I love you) [pointer to Matt's blog post]
+    quines (thanks Stu!)
+      twines
+      thrines
+  extended interpreter
+    programs that evaluate to 6
+    99 ways to say (I love you), revisited
 
 combinatory logic
   combinator synthesis
