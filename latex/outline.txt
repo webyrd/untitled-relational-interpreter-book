@@ -1,3 +1,5 @@
+-*- mode: org -*-
+
 (Try organizing book based on how I give talks on miniKanren)
 
 (Book as text for intensive summer school course)
@@ -10,200 +12,65 @@ Outline to the paragraph level, with topic sentences and sentences describing wh
 
 [where to put this?  logic programming vs. relational programming (have spoken about it in several interviews, including the InfoQ video at Code Mesh)]
 
-Relational view of programming [have already written about this in the attic, and spoke about this at Lambda Lounge Utah]
+* Relational view of programming [have already written about this in the attic, and spoke about this at Lambda Lounge Utah]
   [where to put this?  introduction?  preface?  introduction, probably]
   + vs +o
 
-Intro to core mk
-  3 logical operators and 1 interface operator
-  ==  (binary function; syntactic equality; similar in spirit to equal?; really a constraint, rather than a Scheme predicate: asserts equality, rather than just testing for it; success (== 5 5) vs. failure (== 5 6); does (== 5 x) hold?  Depends on the value of x; == works on terms: atoms, pairs of terms, and logic variables; (== 5 5) is not a complete miniKanren program: evaluates to a Scheme procedure)  [need to be careful to make a distinction between logic variables and normal Scheme lexical variables]
-  run (interface between Scheme and miniKanren (interface operator, as opposed to logical operator); (run 1 (q) (== 5 5)) => (_.0)   1: number of answers we want (if that many answers exist); q: query variable (could be any identifier, but by convention we tend to use q); body of run (goal constructor); returns a list of answers
-  fresh (introduce logic variables; implicit conjunction in the body)
-  conde (disjunction; resembles Scheme's cond form; actually, disjunction of conjunctions; unlike with cond, all clauses can produce answers; also, nothing special about the first goal-constructing expression (as opposed to conda and condu))
+* Intro to core mk
+3 logical operators and 1 interface operator
+** ==  (binary function; syntactic equality; similar in spirit to equal?; really a constraint, rather than a Scheme predicate: asserts equality, rather than just testing for it; success (== 5 5) vs. failure (== 5 6); does (== 5 x) hold?  Depends on the value of x; == works on terms: atoms, pairs of terms, and logic variables; (== 5 5) is not a complete miniKanren program: evaluates to a Scheme procedure)  [need to be careful to make a distinction between logic variables and normal Scheme lexical variables]
+** run (interface between Scheme and miniKanren (interface operator, as opposed to logical operator); (run 1 (q) (== 5 5)) => (_.0)   1: number of answers we want (if that many answers exist); q: query variable (could be any identifier, but by convention we tend to use q); body of run (goal constructor); returns a list of answers
+** fresh (introduce logic variables; implicit conjunction in the body)
+** conde (disjunction; resembles Scheme's cond form; actually, disjunction of conjunctions; unlike with cond, all clauses can produce answers; also, nothing special about the first goal-constructing expression (as opposed to conda and condu))
 
-appendo
-  translation from Scheme; 'else' and Dijkstra guards; run backwards; ordering of conjuncts and disjuncts; equivalence of divergence and finite failure; complete search -> will find answers that exist (in theory, at least; might run out of memory, or might take a trilion years)
+* appendo
+** translation from Scheme; 'else' and Dijkstra guards; run backwards; ordering of conjuncts and disjuncts; equivalence of divergence and finite failure; complete search -> will find answers that exist (in theory, at least; might run out of memory, or might take a trilion years)
 
-rembero
-  translation from Scheme; show it working; show the problem; need to guard the second clause (no overlapping principle); =/= to the rescue (should =/= be introduced earlier?  Maybe not.  Might be better to introduce as needed, as long as I have sufficient cross refs throughout book)
+* rembero
+** translation from Scheme; show it working; show the problem; need to guard the second clause (no overlapping principle); =/= to the rescue (should =/= be introduced earlier?  Maybe not.  Might be better to introduce as needed, as long as I have sufficient cross refs throughout book)
 
-Oleg numbers
+* Oleg numbers
   
-mutual recursion & state machines
-Finite Automata
-  Deterministic Finite Automata
-  Non-deterministic Finite Automata
-Context-free Languages
-Pushdown Automata
+* mutual recursion & state machines
+* Finite Automata
+** Deterministic Finite Automata
+** Non-deterministic Finite Automata
+* Context-free Languages
+* Pushdown Automata
 
-environment-passing interpreter  
-  CBV lambda-calculus
-  extend with list and quote
-    99 ways to say (I love you) [pointer to Matt's blog post]
-    quines (thanks Stu!)
-      twines
-      thrines
-  extended interpreter
-    programs that evaluate to 6
-    99 ways to say (I love you), revisited
+* environment-passing interpreter  
+** CBV lambda-calculus
+** extend with list and quote
+*** 99 ways to say (I love you) [pointer to Matt's blog post]
+*** quines (thanks Stu!)
+*** twines
+*** thrines
+** extended interpreter, with Oleg numbers and cons/car/cdr, if, zero?, etc.
+*** programs that evaluate to 6
+*** 99 ways to say (I love you), revisited
 
-combinatory logic
-  combinator synthesis
-    fixpoint combinators
-      U-combinator hint
+* combinatory logic
+** combinator synthesis
+*** fixpoint combinators
+**** U-combinator hint
 
-Type inference
-  type inference
-  type inhabitation
-  Curry-Howard
-  Hindley Milner
-    polymorphic let
-      performance tradeoffs
+* type inference
+** type inhabitation
+** Curry-Howard
+** Hindley Milner
+*** polymorphic let
+**** performance tradeoffs
 
-Playing dirty (conda/condu/project)
-  how to play dirty
-  why playing dirty is nasty
+* playing dirty (conda/condu/project)
+** how to play dirty
+** why playing dirty is nasty
 
-Implementation of mK/uK
+* implementation of mK/uK
 
-Appendix: intro to Scheme
+* Appendix: intro to Scheme
 
 [where should these go?]
   [nominal logic programming?]
   [CLP(fd)?  sodoku?  N-queens?]
   [meta-interpreters]
   [negation]
-
-
-
-
-
-
-
-
-
-
-
-
-
-Peano numbers and arithmetic
-
-
-
-Regular Languages
-
-Finite Automata
-  Deterministic Finite Automata
-  Non-deterministic Finite Automata
-
-
-
-Context-free Languages
-
-Pushdown Automata
-
-
-
-Context-sensitive Languages
-
-Linear bounded Automata
-
-
-
-Unrestricted Languages
-
-Turing Machines
-
-
-
-
-Lambda-calculus
-  small-step reducer
-  big-step reducer
-
-Combinatory Logic
-
-
-
-Interpreters
-  Scheme/C311 stuff
-  CESK
-
-
-Type inference/inhabitation
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%%% old outline
-
-\chapter{Introduction to miniKanren}
-\section{Core miniKanren}
-\section{Constraint Logic Programming}
-\section{Differences between miniKanren and Other Logic Languages}
-
-\chapter{Translating from Scheme to miniKanren}
-\section{A-Normal Form}
-\section{Defunctionalization}
-\section{Pattern Matching}
-
-\chapter{Exploring the Chomsky Hierarchy}
-\section{Regular Expression Matching}
-\section{Deterministic Finite Automata}
-
-\chapter{Relational Exploration of Programming Languages Fundamentals}
-\section{Lexical Scope}
-\section{Relational Program Transformations}
-\subsection{Continuation-Passing Style}
-
-\chapter{Relational Interpreters}
-\section{Relational Scheme Interpreter}
-\subsection{Generating Quines}
-\section{Relational CESK Machine}
-\subsection{Static Analysis using the Relational CESK Machine}
-
-\chapter{Type Inference}
-\section{Type Inhabitation}
-
-\chapter{Probabilistic Logic Programming}
-
-\chapter{Implementing miniKanren}
-\section{Unification}
-\section{An Embedding in Scheme}
-\section{A miniKanren Interpreter}
-\section{A Meta-circular miniKanren Interpreter}
-\section{An Abstract Machine for miniKanren}
-\section{A Relational miniKanren Interpreter}
-
-\chapter{The Future of Relational Programming}
-\section{Open Problems}
-\section{Projects}
-\subsection{Tool Support}
-\subsubsection{Automatic Scheme-to-miniKanren Translation}
-\subsubsection{Debugging Support}
-\subsection{Interpreters}
-\paragraph{Relational Concatenative Interpreter}
-\subsection{Fun Projects}
-\paragraph{Relational 6502 Emulator}
-\paragraph{Relational Atari 2600 Emulator}
-
-
-Meta-interpreters
-
-background chapters on PL theory, etc.
