@@ -51,6 +51,12 @@ combinatory logic
       U-combinator hint
 
 Type inference
+  type inference
+  type inhabitation
+  Curry-Howard
+  Hindley Milner
+    polymorphic let
+      performance tradeoffs
 
 Playing dirty (conda/condu/project)
 
