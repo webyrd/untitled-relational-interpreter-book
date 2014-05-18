@@ -3,11 +3,3 @@ for a chapter on extending miniKanren, or maybe on cKanren
 We make expand, then defense it.
 White Ra
 
-
-
-
-for the utmost in badassery:
-
-I'm getting nerd chills.
-
-Artosis

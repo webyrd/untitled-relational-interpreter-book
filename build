@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BOOK=book
+BOOK=rpim
 
 PATH=./slatex:$PATH
 export PATH

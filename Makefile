@@ -1,4 +1,4 @@
-BOOK=book
+BOOK=rpim
 
 all:
 	./build

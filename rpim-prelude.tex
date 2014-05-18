@@ -1,0 +1,81 @@
+\newcommand{\bookauthor}[0]{William E. Byrd}
+\newcommand{\booktitle}[0]{Relational Programming in miniKanren}
+\newcommand{\bookkeywords}[0]{miniKanren, Relational Programming, Logic Programming}
+
+\newcommand{\wspace}{{\vspace{1em}}}
+
+\usepackage{alltt}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% For the XeLaTeX symbol
+\usepackage{xltxtra}
+
+% Creative Commons license icons
+\usepackage{ccicons}
+
+\usepackage{comment}
+
+\usepackage{float}
+
+% Load Palatino-like fonts
+% from http://tex.stackexchange.com/questions/50586/how-to-use-palatino-like-math-fonts-in-xelatex
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX} % makes this a feature for all selected fonts
+\usepackage{mathpazo}
+\setmainfont
+     [ BoldFont       = texgyrepagella-bold.otf ,
+       ItalicFont     = texgyrepagella-italic.otf ,
+       BoldItalicFont = texgyrepagella-bolditalic.otf ]
+     {texgyrepagella-regular.otf}
+
+\usepackage{hanging}
+
+% Careful: mathbbol apparently doesn't like 11pt
+% The stmryrd error about 11pt is actually caused by mathbbol
+% See http://www.latex-community.org/forum/viewtopic.php?f=4&t=2099
+% 10pt or 12pt are apparently okay, though.
+%\usepackage[cspex,bbgreekl]{mathbbol}
+
+\usepackage{natbib}
+
+\usepackage{slatex}
+\usepackage{stmaryrd}
+\usepackage{textcomp}
+
+% Uncomment to use author-date citation format
+%\bibpunct();A{},
+%\let\cite=\citep
+
+%--------------------------------------------
+
+%%% SLaTeX stuff
+
+% Fake using the Computer Modern font within SLaTeX.
+\newcommand{\cmr}{\fontfamily{lmr}\selectfont}
+
+\def\keywordfont#1{{\cmr{\textbf{#1}}}}
+\def\variablefont#1{{\cmr{\textit{#1}}}}
+\def\constantfont#1{{\cmr{\textsf{#1}}}}
+\let\datafont\constantfont
+
+\defschememathescape{$} % $
+\def\schemecodehook{\setlength{\baselineskip}{0.5\baselineskip}}
+
+% Scheme/mk typesetting
+\setspecialsymbol{lambda}{{\cmr{$\lambda$}}}
+\setspecialsymbol{=>}{$\Rightarrow$}
+
+\def\plusosymbol{$+^{o}$}
+\setspecialsymbol{+o}{{\plusosymbol}}
+
+\def\timesosymbol{$*^{o}$}
+\setspecialsymbol{*o}{{\timesosymbol}}
+
+\def\divosymbol{$/^{o}$}
+\setspecialsymbol{/o}{{\divosymbol}}
+
+
+\def\evalosymbol{{eval$^{\thinspace o}$}}
+\setspecialsymbol{evalo}{{\variablefont{\evalosymbol}}}
