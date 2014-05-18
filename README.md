@@ -11,6 +11,10 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 (CC BY 4.0)  (http://creativecommons.org/licenses/by/4.0/)
 
 
+The PDF file for the book is at:
+
+`latex/rpim.pdf`
+
 
 Build instructions:
 
