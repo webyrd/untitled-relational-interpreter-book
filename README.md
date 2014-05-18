@@ -20,6 +20,8 @@ I'm using SLaTeX (http://www.ccs.neu.edu/home/dorai/slatex/) to typeset Scheme a
 
 Once you have installed your TeX distribution and a Scheme implementation, you should be ready to typeset the book:
 
+`cd latex`
+
 `make squeaky; make`
 
 `make squeaky` removes all generated files, including the PDF of the book.  `make clean` removes temporary files, but not the book PDF.
