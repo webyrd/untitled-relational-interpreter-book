@@ -14,6 +14,32 @@
 % language has changed significantly since TRS.
 % new constraint operators, and a framework for constraint logic programming cKanren.  also, nominal logic programming, tabling, etc.  These topics are too advanced to easily fit into a second edition of TRS, which in MHO should remain focused on traditional logic programming.  Could have The Constrained Schemer could be a little followup, though.
 
+
+
+%% This book is about \emph{relational programming}.  Relational programming
+
+%% why a term to distinguish relational programming from logic programming?
+
+%% erasing the distinction between the inputs to a function, and the function's output
+
+%% no longer distinguish between the inputs and output(s) of a function
+
+
+
+
+%% %
+%% Relational programming is concerned with writing programs as
+%% %
+%% The defining characteristic of relational programming is that
+
+%% several themes [concerns?] will emerge, the most important of which are
+%% \emph{divergence}, and \emph{negation} (which, we will see, are
+%% closely related)
+
+%% %
+
+
+
 This is a book about \emph{relational programming}. 
 %
 Just as functional programs model mathematical functions, relational programs model mathematical relations.
@@ -148,12 +174,17 @@ If you are an experienced functional programmer, but do not know
 The relations in this book are written in \emph{miniKanren}, a language
 designed specifically for relational programming.
 %
+Other languages that appear well-suited to relational programming
+include the logic programming languages
+\lambdaProlog\cite{Miller:2012:PHL} and
+\Godel\cite{Hill:1994:GodelLang}, and the Twelf specification and
+proof language\marginnote{Twelf website: \url{http://twelf.org/}}.
+
 miniKanren was first implemented in Scheme; over the past eight years
-miniKanren has been implemented in Racket,\marginnote{Links to these implementations, and many other
- miniKanren resources, can be found at the official miniKanren
- website: \url{http://minikanren.org/}}
- Clojure, Ruby, Python,
-and many other ``host'' languages.
+miniKanren has been implemented in Racket,\marginnote{Links to these
+  implementations, and many other miniKanren resources, can be found
+  at the official miniKanren website: \url{http://minikanren.org/}}
+Clojure, Ruby, Python, and many other ``host'' languages.
 %
 There are dozens of experimental miniKanren implementations in Scheme
 alone, and several other host languages have more than one miniKanren
@@ -166,10 +197,10 @@ languages.
 This diversity of implementations and host languages has its advantages.
 %
 Interest in miniKanren has largely been driven by the popularity of
-David Nolen's excellent {\tt core.logic}\marginnote{\url{https://github.com/clojure/core.logic}} Clojure library.
+David Nolen's excellent {\tt core.logic}\marginnote{{\tt core.logic}:\\\noindent\url{https://github.com/clojure/core.logic}} Clojure library.
 %
 Claire Alvis continues to add advanced constraint solving features to the
-cKanren\marginnote{\url{https://github.com/calvis/cKanren}}
+cKanren\marginnote{cKanren in Racket:\\\noindent\url{https://github.com/calvis/cKanren}}
 (``constraint Kanren'') Racket library.
 %
 Other researchers and hackers are experimenting with their own
