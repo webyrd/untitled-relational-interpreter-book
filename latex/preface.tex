@@ -40,17 +40,71 @@
 
 
 
-This is a book about \emph{relational programming}. 
+This book is about \emph{relational programming}.
 %
-Just as functional programs model mathematical functions, relational programs model mathematical relations.
+Just as functional programs model mathematical functions, relational
+programs model mathematical relations.
+%
+This relational view of programming erases the distinction between a
+program's inputs and outputs.
+%
+The resulting code is more flexible
+than the functional, imperative, or object-oriented equivalents, often
+in delightfully surprising and enlightening ways.
+%
+For example, we can run a relational program \emph{backwards},
+determining which ``input'' values correspond to a given ``output''
+value.
+
+
+
+% Relational programming is intimately related to both logic programming
+% and relational algebra, the theory behind relational databases.
+%
+
 %
 Relational
-%\marginnote{If you know nothing about logic programming, relational algebra, or databases, \emph{don't panic!} This book only assumes that you can write simple recursive programs in a functional language, and have a reading knowledge of Scheme.  See the \emph{Audience} section below for details.}
-programming is intimately related to both logic programming
-and relational algebra, the theory behind relational databases.
 %
-Relational programs are unusually concise and flexible, often
-displaying behavior that surprises the programmer.
+\marginnote{This means avoiding all ``extra-logical'' operators, such
+  as Prolog's cut ({\tt !}), {\tt assert} and {\tt retract}, {\tt is},
+  and {\tt copy\_term}.}
+%
+programming can be seen as an especially pure form of
+traditional (Prolog-style) logic programming, in which we commit
+completely to the ideal of writing programs as relations.
+%
+We are willing to trade efficiency and expressiveness in favor of
+increased flexibility for the programs we \emph{can} express.
+%
+In order to express more interesting programs, and to regain
+efficiency, we will augment our core relational language with an
+ever-larger set of \emph{constraint operators}.
+%
+For
+%
+\marginnote{Pure Prolog is actually a special case of constraint logic
+  programming, over the domain of trees (CLP(tree)).}
+%
+this reason, our approach is closer to that of constraint logic
+  programming than to traditional logic programming.
+%
+In constrast with other forms of logic programming, we will always
+emphasize the \emph{relational} aspect of our programs.
+%
+Our motto for this book shall be:
+
+\begin{quotation}
+A program that doesn't run backwards isn't worth writing.\marginnote{With apologies to Alan Perlis.}
+\end{quotation}
+
+
+%\marginnote{If you know nothing about logic programming, relational algebra, or databases, \emph{don't panic!} This book only assumes that you can write simple recursive programs in a functional language, and have a reading knowledge of Scheme.  See the \emph{Audience} section below for details.}
+
+
+
+%
+%Relational programs are unusually concise and flexible, often
+%displaying behavior that surprises the programmer.
 %
 % Relational programming is arguably the ultimate approach to
 % declarative programming, and may represent the next step in the
@@ -167,7 +221,7 @@ If you are an experienced functional programmer, but do not know
 
 % github
 
-\newpage
+%\newpage
 
 \section{The Language}\label{sec:preface:language}
 
@@ -347,7 +401,7 @@ This book can therefore be used as an informal introduction to programming langu
 % [Optional]
 % Describe real-world uses of miniKanren.
 
-\newpage
+%\newpage
 
 \section{Margin Notes}\label{sec:preface:margin-notes}
 \marginnote{This book is set using the ``Tufte-Style Book''
