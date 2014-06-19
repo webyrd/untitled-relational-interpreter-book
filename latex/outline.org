@@ -1,5 +1,12 @@
 * Introduction to miniKanren
 ** Core miniKanren
+*** ==
+*** run
+*** fresh
+*** conde
+** Scheme as a Host Language
+*** Values
+*** Fun with Recursion
 ** Translating from Scheme to miniKanren
 *** Simple Examples
 **** append
