@@ -1,4 +1,4 @@
-* Introduction to miniKanren
+* Part I: Introduction to miniKanren
 ** Core miniKanren
 *** ==
 *** run
@@ -8,16 +8,24 @@
 *** Values
 *** Fun with Recursion
 ** Divergence and Negation
-** Translating from Scheme to miniKanren
-*** Simple Examples
-**** append
-**** rember
-**** =/=
+** Translating Simple Scheme Functions to miniKanren Relations [hand-wavy approach]
+*** append
+*** rember [aka, surpriseo!]
+*** [a couple other examples using only core miniKanren]
+** Additional Constraints
+*** =/=
 **** rember Reconsidered
-*** Hueristics
+*** symbolo and numbero
+** Representing Numbers in miniKanren
+*** Peano Arithmetic]
+*** Oleg Numbers
+*** CLP(fd)
+*** Tradeoffs between number systems
+
+** Hueristics for Translating Scheme to miniKanren
 **** Non-overlapping Principle
 **** Translating Predicates
-*** A More Mechanical Approach
+** A More Mechanical Approach
 **** A-Normal Form
 **** Defunctionalization
 **** Pattern Matching
@@ -28,6 +36,7 @@
 **** Examples
 ***** append
 ***** [more interesting examples, including at least one with negation]
+
 * Exploring the Chomsky Hierarchy
 ** Regular Expression Matching
 ** Deterministic Finite Automata
