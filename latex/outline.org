@@ -1,9 +1,14 @@
 * Introduction to miniKanren
 ** Core miniKanren
 ** Translating from Scheme to miniKanren
-*** A-Normal Form
-*** Defunctionalization
-*** Pattern Matching
+*** Simple Examples
+**** append
+**** rember
+***** Disequality Constraints
+*** A More Mechanical Approach
+**** A-Normal Form
+**** Defunctionalization
+**** Pattern Matching
 ** Differences between miniKanren and Other Logic Languages
 * Exploring the Chomsky Hierarchy
 ** Regular Expression Matching
