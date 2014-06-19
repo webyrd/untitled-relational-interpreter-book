@@ -21,6 +21,13 @@
 **** A-Normal Form
 **** Defunctionalization
 **** Pattern Matching
+***** Enforcing non-overlapping
+**** Handling Negation
+***** =/= and other constraints
+***** Helper Relations
+**** Examples
+***** append
+***** [more interesting examples, including at least one with negation]
 * Exploring the Chomsky Hierarchy
 ** Regular Expression Matching
 ** Deterministic Finite Automata
