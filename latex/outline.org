@@ -2,32 +2,24 @@
 ** Core miniKanren
 ** Constraint Logic Programming
 ** Differences between miniKanren and Other Logic Languages
-
 * Translating from Scheme to miniKanren
 ** A-Normal Form
 ** Defunctionalization
 ** Pattern Matching
-
 * Exploring the Chomsky Hierarchy
 ** Regular Expression Matching
 ** Deterministic Finite Automata
-
 * Relational Exploration of Programming Languages Fundamentals
 ** Lexical Scope
 ** Relational Program Transformations
 *** Continuation-Passing Style
-
 * Relational Interpreters
 ** Relational Scheme Interpreter
 *** Generating Quines
 ** Relational CESK Machine
 *** Static Analysis using the Relational CESK Machine
-
 * Type Inference
 ** Type Inhabitation
-
-* Probabilistic Logic Programming
-
 * Implementing miniKanren
 ** Unification
 ** An Embedding in Scheme
@@ -36,18 +28,98 @@
 ** An Abstract Machine for miniKanren
 ** A Relational miniKanren Interpreter
 
-* The Future of Relational Programming
-** Open Problems
-** Projects
-*** Tool Support
-**** Automatic Scheme-to-miniKanren Translation
-**** Debugging Support
-*** Interpreters
-***** Relational Concatenative Interpreter
-*** Fun Projects
-***** Relational 6502 Emulator
-***** Relational Atari 2600 Emulator
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Misc ideas:
+
+Probabilistic Logic Programming
+
+The Future of Relational Programming
+  Open Problems
+  Projects
+    Tool Support
+      Automatic Scheme-to-miniKanren Translation
+      Debugging Support
+    Interpreters
+      Relational Concatenative Interpreter
+   Fun Projects
+     Relational 6502 Emulator
+     Relational Atari 2600 Emulator
 
 Meta-interpreters
 
