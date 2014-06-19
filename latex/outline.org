@@ -21,7 +21,6 @@
 *** Generating Quines
 * Type Inference
 ** Type Inhabitation
-
 * Implementation
 ** Unification and substitutions
 ** Reification
