@@ -23,8 +23,8 @@
 %
 % you can disable letterspacing by adding [nols]:
 %
-% \documentclass[nols]{tufte-book}
-\documentclass{tufte-book} % Use the tufte-book class which in turn uses the tufte-common class
+\documentclass[nols]{tufte-book}
+%\documentclass{tufte-book} % Use the tufte-book class which in turn uses the tufte-common class
 
 \hypersetup{colorlinks} % Comment this line if you don't wish to have colored links
 
@@ -64,17 +64,32 @@
 \input{rpim-prelude.tex}
 
 
+
+\title{Relational Programming in miniKanren}
+
+\author{William E. Byrd}
+
+%\publisher{Publisher Name}
+
+
 \begin{document}
 \begin{schemeregion}
 
 \frontmatter
-\pagenumbering{roman} % Tufte-Style Book uses Arabic numbering for front matter
+%\pagenumbering{roman} % Tufte-Style Book uses Arabic numbering for front matter
 
-\include{halftitle}
 
-\blankpage
 
-\include{title}
+
+\maketitle
+
+
+
+%\include{halftitle}
+
+%\blankpage
+
+%\include{title}
 
 %----------------------------------------------------------------------------------------
 %	COPYRIGHT PAGE
