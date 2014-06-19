@@ -20,107 +20,14 @@
 *** Static Analysis using the Relational CESK Machine
 * Type Inference
 ** Type Inhabitation
-* Implementing miniKanren
-** Unification
-** An Embedding in Scheme
-** A miniKanren Interpreter
-** A Meta-circular miniKanren Interpreter
-** An Abstract Machine for miniKanren
-** A Relational miniKanren Interpreter
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Misc ideas:
-
-Probabilistic Logic Programming
-
-The Future of Relational Programming
-  Open Problems
-  Projects
-    Tool Support
-      Automatic Scheme-to-miniKanren Translation
-      Debugging Support
-    Interpreters
-      Relational Concatenative Interpreter
-   Fun Projects
-     Relational 6502 Emulator
-     Relational Atari 2600 Emulator
-
-Meta-interpreters
-
-background chapters on PL theory, etc.
+* Implementation
+** Unification and substitutions
+** Reification
+** muKanren
+** Building miniKanren on top of muKanren
+** Tabling
+** Adding constraints other than unification
+*** Example 1: Adding disequality constraints
+*** Example 2: Adding symbolo and numbero
+*** Adding other constraints
