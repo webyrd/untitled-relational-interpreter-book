@@ -7,11 +7,16 @@
 ** Scheme as a Host Language
 *** Values
 *** Fun with Recursion
+** Divergence and Negation
 ** Translating from Scheme to miniKanren
 *** Simple Examples
 **** append
 **** rember
-***** Disequality Constraints
+**** =/=
+**** rember Reconsidered
+*** Hueristics
+**** Non-overlapping Principle
+**** Translating Predicates
 *** A More Mechanical Approach
 **** A-Normal Form
 **** Defunctionalization
