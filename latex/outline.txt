@@ -1,3 +1,6 @@
+
+
+
 \chapter{Introduction to miniKanren}
 \section{Core miniKanren}
 \section{Constraint Logic Programming}
