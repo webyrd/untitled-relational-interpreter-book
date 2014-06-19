@@ -1,11 +1,10 @@
 * Introduction to miniKanren
 ** Core miniKanren
-** Constraint Logic Programming
+** Translating from Scheme to miniKanren
+*** A-Normal Form
+*** Defunctionalization
+*** Pattern Matching
 ** Differences between miniKanren and Other Logic Languages
-* Translating from Scheme to miniKanren
-** A-Normal Form
-** Defunctionalization
-** Pattern Matching
 * Exploring the Chomsky Hierarchy
 ** Regular Expression Matching
 ** Deterministic Finite Automata
