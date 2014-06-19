@@ -12,12 +12,9 @@
 * Relational Exploration of Programming Languages Fundamentals
 ** Lexical Scope
 ** Relational Program Transformations
-*** Continuation-Passing Style
 * Relational Interpreters
 ** Relational Scheme Interpreter
 *** Generating Quines
-** Relational CESK Machine
-*** Static Analysis using the Relational CESK Machine
 * Type Inference
 ** Type Inhabitation
 
