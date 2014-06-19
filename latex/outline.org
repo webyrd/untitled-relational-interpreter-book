@@ -16,7 +16,6 @@
 **** A-Normal Form
 **** Defunctionalization
 **** Pattern Matching
-** Differences between miniKanren and Other Logic Languages
 * Exploring the Chomsky Hierarchy
 ** Regular Expression Matching
 ** Deterministic Finite Automata
