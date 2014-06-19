@@ -21,7 +21,6 @@
 *** Oleg Numbers
 *** CLP(fd)
 *** Tradeoffs between number systems
-
 ** Hueristics for Translating Scheme to miniKanren
 **** Non-overlapping Principle
 **** Translating Predicates
