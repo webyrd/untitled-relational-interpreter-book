@@ -26,7 +26,6 @@ miniKanren design decisions and tradeoffs
 *** Values
 *** Fun with recursion
 *** Mixing Scheme and miniKanren
-** Divergence and negation
 ** Translating simple Scheme functions to miniKanren relations [hand-wavy approach]
 *** append
 hello world of logic programming
@@ -48,6 +47,9 @@ reordering of goals
 *** symbolo and numbero
 *** absento
 *** eigen
+** Divergence and negation
+*** Different types of divergence
+*** Techniques and tricks for apparently divergent queries
 ** Representing numbers in miniKanren
 *** Peano arithmetic
 *** Oleg numbers
@@ -70,6 +72,7 @@ reordering of goals
 **** Examples
 ***** append
 ***** [more interesting examples, including at least one with negation]
+** Debugging miniKanren programs
 * Part II: Exploring the Chomsky Hierarchy
 ** Regular expression matching
 ** Deterministic finite automata
