@@ -63,7 +63,9 @@
 
 \input{rpim-prelude.tex}
 
-
+%----------------------------------------------------------------------------------------
+%	BOOK META-INFORMATION
+%----------------------------------------------------------------------------------------
 
 \title{Relational Programming in miniKanren}
 
@@ -79,17 +81,42 @@
 %\pagenumbering{roman} % Tufte-Style Book uses Arabic numbering for front matter
 
 
+%%  Overridden!!
+% Produces a full title page
 
+\renewcommand{\maketitlepage}[0]{%
+  \cleardoublepage%
+  {%
+  \rmfamily%
+  \begin{fullwidth}%
+%  \fontsize{30}{34}\selectfont\par\noindent\textcolor{darkgray}{\thanklesstitle}%
+  \fontsize{36}{38}\selectfont\par\noindent\textcolor{darkgray}{Relational Programming\\\noindent in miniKanren}%    
+  \vspace{3pc}%
+  \sffamily%
+  \fontsize{20}{22}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessauthor}}%   
+  \vfill%  
+  \fontsize{14}{16}\selectfont\par\noindent\allcaps{\thanklesspublisher}%
+  \end{fullwidth}%
+  }
 
-\maketitle
+  \thispagestyle{empty}%
+  \clearpage%
+}
 
+\maketitle % Print the title page
 
+\blankpage
 
-%\include{halftitle}
+\blankpage
 
-%\blankpage
+\blankpage
 
-%\include{title}
+\blankpage
+
+\blankpage
+
+% internal title page
+\include{title}
 
 %----------------------------------------------------------------------------------------
 %	COPYRIGHT PAGE
@@ -125,6 +152,9 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 \end{fullwidth}
 
 
+\tableofcontents
+
+
 %----------------------------------------------------------------------------------------
 %	DEDICATION PAGE
 %----------------------------------------------------------------------------------------
@@ -156,12 +186,11 @@ For my H211 students: \\ Indiana University, Fall 2010 \& 2011, and Team pw0ni3.
 
 \blankpage
 
-\tableofcontents
 
 \include{preface}
 
 \mainmatter
-\pagenumbering{arabic}
+%\pagenumbering{arabic}
 
 \include{introduction}
 
