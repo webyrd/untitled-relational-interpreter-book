@@ -54,7 +54,9 @@ reordering of goals
 *** Peano arithmetic
 *** Oleg numbers
 *** CLP(fd)
+[do we even have an implementation of mK with the other constraints, which also has CLP(fd)?  sigh]
 *** Choosing which number system to use
+[stupid reification of CLP(fd) is part of the problem here--our reifier is too eager]
 ** Hueristics for translating Scheme to miniKanren
 **** Non-overlapping principle
 **** Translating predicates
