@@ -40,10 +40,22 @@ run it backwards, sideways, etc
 divergence!
 reordering of goals
 *** rember [aka, surpriseo!]
+*** member
+**** Rules for translating a predicate
+When translating a predicate, is is usually best to represent true as success, and false as failure
+This means no 'out' argument.  Also, conde clauses that fail can be removed
+member shows similar behavior to rember/surpriseo
+Is is possible to use an 'out' argument to explicitly represent true and false;
+this may be slower, and may make the code longer and more complicated, but has 
+the advantage of being able to synthesize input values that result in false
 *** [a couple other examples using only core miniKanren]
+*** Translating impure Scheme programs
+**** Errors are represented as failure
+*** An informal algorithm for translating Scheme programs to miniKanren
 ** Additional constraints
 *** =/=
 **** rember reconsidered
+can fix member in a similar fashion
 *** symbolo and numbero
 *** absento
 *** eigen
@@ -59,6 +71,7 @@ reordering of goals
 [stupid reification of CLP(fd) is part of the problem here--our reifier is too eager]
 ** Hueristics for translating Scheme to miniKanren
 **** Non-overlapping principle
+**** Conde clauses that always fail can be removed (which may improve divergence behavior for some queries)
 **** Translating predicates
 **** Recursive goals should come last in a fresh or run, or within a conde clause
 **** Non-recursive clauses should come first in a conde
