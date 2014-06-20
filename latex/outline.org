@@ -4,60 +4,70 @@
 *** run
 *** fresh
 *** conde
-** Scheme as a Host Language
+*** Properties of reified answers
+*** Simple examples
+** Scheme as a host language
 *** Values
-*** Fun with Recursion
-** Divergence and Negation
-** Translating Simple Scheme Functions to miniKanren Relations [hand-wavy approach]
+*** Fun with recursion
+*** Mixing Scheme and miniKanren
+** Divergence and negation
+** Translating simple Scheme functions to miniKanren relations [hand-wavy approach]
 *** append
 *** rember [aka, surpriseo!]
 *** [a couple other examples using only core miniKanren]
-** Additional Constraints
+** Additional constraints
 *** =/=
-**** rember Reconsidered
+**** rember reconsidered
 *** symbolo and numbero
 *** absento
 *** eigen
-** Representing Numbers in miniKanren
-*** Peano Arithmetic]
-*** Oleg Numbers
+** Representing numbers in miniKanren
+*** Peano arithmetic
+*** Oleg numbers
 *** CLP(fd)
-*** Tradeoffs between number systems
-** Hueristics for Translating Scheme to miniKanren
-**** Non-overlapping Principle
-**** Translating Predicates
-** A More Mechanical Approach
-**** A-Normal Form
+*** Choosing which number system to use
+** Hueristics for translating Scheme to miniKanren
+**** Non-overlapping principle
+**** Translating predicates
+***** An exception: intentional generating "erroneous" inputs
+** A more mechanical approach
+**** A-Normal form
 **** Defunctionalization
-**** Pattern Matching
+**** Pattern matching
 ***** Enforcing non-overlapping
-**** Handling Negation
+**** Handling negation
 ***** =/= and other constraints
-***** Helper Relations
+***** Helper relations
 **** Examples
 ***** append
 ***** [more interesting examples, including at least one with negation]
-
 * Part II: Exploring the Chomsky Hierarchy
-** Regular Expression Matching
-** Deterministic Finite Automata
-** Relational Exploration of Programming Languages Fundamentals
-*** Lexical Scope
-*** Relational Program Transformations
-** Relational Interpreters
-*** Relational Scheme Interpreter
+** Regular expression matching
+** Deterministic finite automata
+** Relational exploration of programming languages fundamentals
+*** Lexical scope
+*** Relational program transformations
+** Relational interpreters
+*** Relational Scheme interpreter
 **** Generating Quines
-** Type Inference
-*** Type Inhabitation
-
+** Type inference
+*** Type inhabitation
 * Part III: Implementation
 ** Unification and substitutions
 ** Reification
-** muKanren
-** Building miniKanren on top of muKanren
+** microKanren
+** Building miniKanren on top of microKanren
 ** Alternate run interfaces
 ** Tabling
 ** Adding constraints other than unification
 *** Example 1: Adding disequality constraints
 *** Example 2: Adding symbolo and numbero
 *** Adding other constraints
+
+
+
+History of miniKanren
+
+miniKanren resources
+
+miniKanren design decisions and tradeoffs
