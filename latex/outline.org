@@ -1,3 +1,19 @@
+look at: dissertation, papers, summer school, miniKanren.org, blog
+posts, core.logic pages, tutorials, videos of talks I've given, etc.
+
+think about how I normally present these ideas to people
+
+
+[where to put? these]
+
+History of miniKanren
+
+miniKanren resources
+
+miniKanren design decisions and tradeoffs
+
+
+
 * Part I: Introduction to miniKanren
 ** Core miniKanren
 *** ==
@@ -13,6 +29,17 @@
 ** Divergence and negation
 ** Translating simple Scheme functions to miniKanren relations [hand-wavy approach]
 *** append
+hello world of logic programming
+example of append in Scheme
+add an 'o' to the name
+add an 'out' argument (and why this is not the best name)
+cond becomes conde
+(null? l) becomes (== '())
+values that were previously returned are now
+run it forward
+run it backwards, sideways, etc
+divergence!
+reordering of goals
 *** rember [aka, surpriseo!]
 *** [a couple other examples using only core miniKanren]
 ** Additional constraints
@@ -29,6 +56,8 @@
 ** Hueristics for translating Scheme to miniKanren
 **** Non-overlapping principle
 **** Translating predicates
+**** Recursive goals should come last in a fresh or run, or within a conde clause
+**** Non-recursive clauses should come first in a conde
 ***** An exception: intentional generating "erroneous" inputs
 ** A more mechanical approach
 **** A-Normal form
@@ -63,11 +92,3 @@
 *** Example 1: Adding disequality constraints
 *** Example 2: Adding symbolo and numbero
 *** Adding other constraints
-
-
-
-History of miniKanren
-
-miniKanren resources
-
-miniKanren design decisions and tradeoffs
