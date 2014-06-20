@@ -16,6 +16,8 @@
 *** =/=
 **** rember Reconsidered
 *** symbolo and numbero
+*** absento
+*** eigen
 ** Representing Numbers in miniKanren
 *** Peano Arithmetic]
 *** Oleg Numbers
@@ -53,6 +55,7 @@
 ** Reification
 ** muKanren
 ** Building miniKanren on top of muKanren
+** Alternate run interfaces
 ** Tabling
 ** Adding constraints other than unification
 *** Example 1: Adding disequality constraints
