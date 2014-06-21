@@ -1,10 +1,18 @@
 look at: dissertation, papers, summer school, miniKanren.org, blog
 posts, core.logic pages, tutorials, videos of talks I've given, etc.
 
+also create an outline for a minimal book, just introducing the quines-generating interpreter
+
 think about how I normally present these ideas to people
 
+what exercises do I want?
+
+figure out which examples, and what code, goes where
+
+figure out where I
 
 [where to put? these]
+
 
 History of miniKanren
 
@@ -13,7 +21,15 @@ miniKanren resources
 miniKanren design decisions and tradeoffs
 
 
-
+** Preface
+*** Audience
+*** The Language
+*** Goal
+*** Running the code
+*** Typographical conventions
+[can massage the typographical conventions text from my dissertation (section 1.5)]
+*** Margin notes
+*** Acknowledgements
 * Part I: Introduction to miniKanren
 ** Core miniKanren
 *** ==
@@ -87,6 +103,24 @@ can fix member in a similar fashion
 **** Examples
 ***** append
 ***** [more interesting examples, including at least one with negation]
+** Nominal Logic Programming
+*** The notion of alpha-equivalence
+*** Nominal unification
+*** The notion of freshness
+*** alphaKanren
+*** Example: implementing capture-avoiding substitution
+** Impure operators
+*** What it means to be impure
+*** conda and condu
+relationship with Prolog's cut
+using to define 'onceo'
+*** project
+utility in printing the current state of the substitution
+*** copy-termo
+should be defined in the alphaLeanTAP paper
+*** Example: Translating simple Prolog code into miniKanren
+*** When are impure operators useful?
+*** Avoiding impure operators
 ** Debugging miniKanren programs
 * Part II: Exploring the Chomsky Hierarchy
 ** Regular expression matching
