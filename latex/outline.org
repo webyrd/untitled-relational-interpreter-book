@@ -76,7 +76,15 @@ can fix member in a similar fashion
 *** absento
 *** eigen
 ** Divergence and negation
-*** Different types of divergence
+*** Different types of divergence [based on Chapter 5 in my dissertation ('A Slight Divergence')]
+[need to make sure this section very clearly focuses on divergence vs. finite failure;  I'm not sure organization based on 'A Slight Divergence' works best, especially since it depends on detailed knowledge of the implementation, which hasn't been presented yet.  Although the topics discussed in that chapter are important, and should appear in the book]
+could include margin note on how reification can diverge is we allow circularities by removing the occur check in unification
+could then point out how unification could be extended to handle 'rational' trees, in which both unification and the reifier allow circularities without a problem
+also could include margin note on depth-first search being incomplete, and showing an example where that causes divergence
+**** run* with an unbounded number of answers
+**** run n where there are fewer than n answers
+***** Finite failure vs. divergence
+(run 1 (q) (fresh () alwayso fail)) is the canonical example
 *** Techniques and tricks for apparently divergent queries
 ** Representing numbers in miniKanren
 *** Peano arithmetic
