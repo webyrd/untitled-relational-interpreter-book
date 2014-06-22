@@ -1,5 +1,12 @@
 OUTLINE FOR 'SMALL' BOOK--JUST INTRODUCING THE QUINES-GENERATING INTERPRETER
 
+MAJOR QUESTIONS/ISSUES
+
+Do I want to include an mK implementation section?  I think not.  Want
+to keep this a small, very directed book.
+
+
+
 look at: dissertation, papers, summer school, miniKanren.org, blog
 posts, core.logic pages, tutorials, videos of talks I've given, etc.
 
@@ -22,7 +29,7 @@ figure out which examples, and what code, goes where
 *** miniKanren resources
 *** Margin notes
 *** Acknowledgements
-* Part I: Introduction to miniKanren
+* Part I: Introduction to Programming in miniKanren
 ** Core miniKanren
 *** ==
 *** run
@@ -99,10 +106,10 @@ also could include margin note on depth-first search being incomplete, and showi
 ** Debugging miniKanren programs
 
 * Part II: A Simple Scheme Interpreter in Scheme
+** Lexical scope
+**** Free & Bound Variables
+**** Lexical Environments
+** A Simple Scheme Interpreter
 * Part III: Writing an Interpreter in Relational Style
-** Relational exploration of programming languages fundamentals
-*** Lexical scope
-*** Relational program transformations
-** Relational interpreters
-*** Relational Scheme interpreter
+** Relational Scheme interpreter
 **** Generating Quines, Twines and Thrines
