@@ -32,6 +32,9 @@ figure out which examples, and what code, goes where
 
 
 
+Title:
+How to Write a Relational Scheme Interpreter in miniKanren
+
 
 ** Preface
 *** Audience
