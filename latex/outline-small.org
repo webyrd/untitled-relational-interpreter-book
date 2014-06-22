@@ -1,9 +1,21 @@
 OUTLINE FOR 'SMALL' BOOK--JUST INTRODUCING THE QUINES-GENERATING INTERPRETER
 
+THE PRIME DIRECTIVE
+
+Stick to the goal: explaining the relational Scheme interpreter so
+that a reader understands the code, can experiment with it, etc.
+Anything that doesn't advance that goal needs to be cut, put in a
+margin note, made an exercise, or moved to an appendix.
+
 MAJOR QUESTIONS/ISSUES
 
 Do I want to include an mK implementation section?  I think not.  Want
 to keep this a small, very directed book.
+
+Seems like there a tension bewteen an overwhelming amount of detail,
+and too much mystery.  I think I'll err on the too much mystery side
+for now, then add the minimum relevant details once readers start
+giving me feedback.
 
 
 
