@@ -37,14 +37,18 @@ How to Write a Relational Scheme Interpreter in miniKanren
 
 
 ** Preface
-*** Audience
-*** The Language
 *** Goal
 ensure the reader fully understands how the relational interpreter
 works.  in particular, the reader should be able to modify or extend
 the relational interpreter, or implement a relational interpreter for
 another langugae.  Anything that doesn't advance this goal has been
 cut, put in a margin note, made an exercise, or moved to an appendix.
+*** Audience
+for the small book, want to make it as accessible and self-contained
+as possible.  for that reason, will start the book with a brief intro
+to functional programming in Scheme, introducing only the minimal
+aspects of the language needed to write and understand the relational
+interpreter
 *** Running the code
 [especially for this short book, might want to have all code runnable
 online, using Nada's tech.  Could have this code/configuration/etc. in
@@ -54,7 +58,8 @@ Gambit, Chicken, Larceny, etc.  Have compatibility modes for each
 impl.  Might need some infrastructure so I can test code under
 multiple imples from the command line]
 *** Typographical conventions
-[can massage the typographical conventions text from my dissertation (section 1.5)]
+[can massage the typographical conventions text from my dissertation
+(section 1.5)]
 *** miniKanren resources
 *** Margin notes
 *** Acknowledgements
