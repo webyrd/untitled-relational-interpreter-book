@@ -2,10 +2,12 @@ OUTLINE FOR 'SMALL' BOOK--JUST INTRODUCING THE QUINES-GENERATING INTERPRETER
 
 THE PRIME DIRECTIVE
 
-Stick to the goal: explaining the relational Scheme interpreter so
-that a reader understands the code, can experiment with it, etc.
-Anything that doesn't advance that goal needs to be cut, put in a
-margin note, made an exercise, or moved to an appendix.
+Stick to the goal: ensure the reader fully understands how the
+relational interpreter works.  in particular, the reader should be
+able to modify or extend the relational interpreter, or implement a
+relational interpreter for another langugae.  Anything that doesn't
+advance this goal must be cut, put in a margin note, made an exercise,
+or moved to an appendix.
 
 MAJOR QUESTIONS/ISSUES
 
@@ -35,6 +37,11 @@ figure out which examples, and what code, goes where
 *** Audience
 *** The Language
 *** Goal
+ensure the reader fully understands how the relational interpreter
+works.  in particular, the reader should be able to modify or extend
+the relational interpreter, or implement a relational interpreter for
+another langugae.  Anything that doesn't advance this goal has been
+cut, put in a margin note, made an exercise, or moved to an appendix.
 *** Running the code
 *** Typographical conventions
 [can massage the typographical conventions text from my dissertation (section 1.5)]
