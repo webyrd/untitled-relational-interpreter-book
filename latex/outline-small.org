@@ -1,0 +1,111 @@
+OUTLINE FOR 'SMALL' BOOK--JUST INTRODUCING THE QUINES-GENERATING INTERPRETER
+
+look at: dissertation, papers, summer school, miniKanren.org, blog
+posts, core.logic pages, tutorials, videos of talks I've given, etc.
+
+think about how I normally present these ideas to people
+
+what exercises do I want?
+
+figure out which examples, and what code, goes where
+
+figure out where I
+
+[where to put? these]
+
+
+miniKanren resources
+
+
+** Preface
+*** Audience
+*** The Language
+*** Goal
+*** Running the code
+*** Typographical conventions
+[can massage the typographical conventions text from my dissertation (section 1.5)]
+*** Margin notes
+*** Acknowledgements
+* Part I: Introduction to miniKanren
+** Core miniKanren
+*** ==
+*** run
+*** fresh
+*** conde
+*** Properties of reified answers
+*** Simple examples
+** Scheme as a host language
+*** Values
+*** Fun with recursion
+*** Mixing Scheme and miniKanren
+** Translating simple Scheme functions to miniKanren relations [hand-wavy approach]
+*** append
+hello world of logic programming
+example of append in Scheme
+add an 'o' to the name
+add an 'out' argument (and why this is not the best name)
+cond becomes conde
+(null? l) becomes (== '())
+values that were previously returned are now
+run it forward
+run it backwards, sideways, etc
+divergence!
+reordering of goals
+*** rember [aka, surpriseo!]
+*** member
+**** Rules for translating a predicate
+When translating a predicate, is is usually best to represent true as success, and false as failure
+This means no 'out' argument.  Also, conde clauses that fail can be removed
+member shows similar behavior to rember/surpriseo
+Is is possible to use an 'out' argument to explicitly represent true and false;
+this may be slower, and may make the code longer and more complicated, but has 
+the advantage of being able to synthesize input values that result in false
+*** [a couple other examples using only core miniKanren]
+*** Translating impure Scheme programs
+**** Errors are represented as failure
+*** An informal algorithm for translating Scheme programs to miniKanren
+** Additional constraints
+*** =/=
+**** rember reconsidered
+can fix member in a similar fashion
+*** symbolo and numbero
+*** absento
+*** eigen
+** Divergence and negation
+*** Different types of divergence [based on Chapter 5 in my dissertation ('A Slight Divergence')]
+[need to make sure this section very clearly focuses on divergence vs. finite failure;  I'm not sure organization based on 'A Slight Divergence' works best, especially since it depends on detailed knowledge of the implementation, which hasn't been presented yet.  Although the topics discussed in that chapter are important, and should appear in the book]
+could include margin note on how reification can diverge is we allow circularities by removing the occur check in unification
+could then point out how unification could be extended to handle 'rational' trees, in which both unification and the reifier allow circularities without a problem
+also could include margin note on depth-first search being incomplete, and showing an example where that causes divergence
+**** run* with an unbounded number of answers
+**** run n where there are fewer than n answers
+***** Finite failure vs. divergence
+(run 1 (q) (fresh () alwayso fail)) is the canonical example
+*** Techniques and tricks for apparently divergent queries
+** Hueristics for translating Scheme to miniKanren
+**** Non-overlapping principle
+**** Conde clauses that always fail can be removed (which may improve divergence behavior for some queries)
+**** Translating predicates
+**** Recursive goals should come last in a fresh or run, or within a conde clause
+**** Non-recursive clauses should come first in a conde
+***** An exception: intentional generating "erroneous" inputs
+** A more mechanical approach
+**** A-Normal form
+**** Defunctionalization
+**** Pattern matching
+***** Enforcing non-overlapping
+**** Handling negation
+***** =/= and other constraints
+***** Helper relations
+**** Examples
+***** append
+***** [more interesting examples, including at least one with negation]
+** Debugging miniKanren programs
+
+* Part II: Exploring the Chomsky Hierarchy
+** Relational exploration of programming languages fundamentals
+*** Lexical scope
+*** Relational program transformations
+** Relational interpreters
+*** Relational Scheme interpreter
+**** Generating Quines, Twines and Thrines

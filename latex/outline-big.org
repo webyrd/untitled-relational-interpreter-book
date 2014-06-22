@@ -1,3 +1,6 @@
+OUTLINE FOR 'BIG' BOOK--WHAT I KNOW ABOUT RELATIONAL PROGRAMMING
+
+
 look at: dissertation, papers, summer school, miniKanren.org, blog
 posts, core.logic pages, tutorials, videos of talks I've given, etc.
 
