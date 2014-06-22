@@ -9,12 +9,7 @@ what exercises do I want?
 
 figure out which examples, and what code, goes where
 
-figure out where I
 
-[where to put? these]
-
-
-miniKanren resources
 
 
 ** Preface
@@ -24,6 +19,7 @@ miniKanren resources
 *** Running the code
 *** Typographical conventions
 [can massage the typographical conventions text from my dissertation (section 1.5)]
+*** miniKanren resources
 *** Margin notes
 *** Acknowledgements
 * Part I: Introduction to miniKanren
@@ -102,7 +98,8 @@ also could include margin note on depth-first search being incomplete, and showi
 ***** [more interesting examples, including at least one with negation]
 ** Debugging miniKanren programs
 
-* Part II: Exploring the Chomsky Hierarchy
+* Part II: A Simple Scheme Interpreter in Scheme
+* Part III: Writing an Interpreter in Relational Style
 ** Relational exploration of programming languages fundamentals
 *** Lexical scope
 *** Relational program transformations
