@@ -46,6 +46,13 @@ the relational interpreter, or implement a relational interpreter for
 another langugae.  Anything that doesn't advance this goal has been
 cut, put in a margin note, made an exercise, or moved to an appendix.
 *** Running the code
+[especially for this short book, might want to have all code runnable
+online, using Nada's tech.  Could have this code/configuration/etc. in
+a GitHub repo for posterity.  Of course, should also have code by
+itself in a repo.  Ideally code should run under Vicare, Chez, Racket,
+Gambit, Chicken, Larceny, etc.  Have compatibility modes for each
+impl.  Might need some infrastructure so I can test code under
+multiple imples from the command line]
 *** Typographical conventions
 [can massage the typographical conventions text from my dissertation (section 1.5)]
 *** miniKanren resources
@@ -129,9 +136,10 @@ also could include margin note on depth-first search being incomplete, and showi
 
 * Part II: A Simple Scheme Interpreter in Scheme
 ** Lexical scope
-**** Free & Bound Variables
-**** Lexical Environments
+*** Free & Bound Variables
+*** Lexical Environments
 ** A Simple Scheme Interpreter
 * Part III: Writing an Interpreter in Relational Style
 ** Relational Scheme interpreter
-**** Generating Quines, Twines and Thrines
+*** (I love you)
+*** Generating Quines, Twines and Thrines
