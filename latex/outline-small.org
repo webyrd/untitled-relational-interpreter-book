@@ -19,14 +19,29 @@ and too much mystery.  I think I'll err on the too much mystery side
 for now, then add the minimum relevant details once readers start
 giving me feedback.
 
+EXERCISES
+
+extending relational interpreter
+--------------------------------
+
+add null?, cons, car, cdr
+then implement 'append' using Y combinator, and make it run backwards
+
+add if
+
+add letrec
+
+add numbers, sub1, *, and implement factorial using Y combinator
+
+implement an interpreter for a language other than Scheme
+
+=================================
 
 
 look at: dissertation, papers, summer school, miniKanren.org, blog
 posts, core.logic pages, tutorials, videos of talks I've given, etc.
 
 think about how I normally present these ideas to people
-
-what exercises do I want?
 
 figure out which examples, and what code, goes where
 
