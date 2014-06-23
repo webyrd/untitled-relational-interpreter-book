@@ -174,9 +174,16 @@ may improve divergence behavior for some queries
 use Y combinator
 runs backwards, forward, etc
 slower, but with the same divergence behavior as the 'good' version of appendo
-interesting aspect: the relational aspect is in the interpreter, *not* in the definition of append
+interesting aspect: the relational aspect is in the interpreter, not in the definition of append
 * Adding numbers to the interpreter
 ** Oleg numbers
-** Arithmetic operators
+** Arithmetic operators in miniKanren
 ** Divergence behavior of the arithmetic system
-** 
+Hilbert's 10th problem, Peano vs. Presburger (sp?) arithmetic, etc
+** Adding arithmetic to miniKanren
+*** Example: factorial
+*** Example: generating programs that evaluate to 6
+** Alternative approaches to relational arithmetic
+*** Peano representation
+*** CLP(fd)
+* Where to go from here
