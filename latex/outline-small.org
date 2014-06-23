@@ -19,7 +19,7 @@ and too much mystery.  I think I'll err on the too much mystery side
 for now, then add the minimum relevant details once readers start
 giving me feedback.
 
-EXERCISES
+EXERCISES (might just turn some of these into actual sections of the book, with full explanations and derivations)
 
 Scheme
 ------
@@ -161,5 +161,17 @@ may improve divergence behavior for some queries
 ** A Simple Scheme Interpreter
 * Writing an Interpreter in Relational Style
 ** Relational Scheme interpreter
-*** (I love you)
-*** Generating Quines, Twines and Thrines
+* Extending the Relational Interpreter
+** Adding quote
+** Adding list
+** (I love you)
+** Generating Quines, Twines and Thrines
+* Adding pair-related functions
+** Adding null?
+** Adding cons
+** Adding car & cdr
+** Running append backwards
+uses Y combinator
+slower, but with the same divergence behavior as the 'good' version of appendo
+* Adding numbers to the interpreter
+
