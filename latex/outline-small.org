@@ -21,6 +21,12 @@ giving me feedback.
 
 EXERCISES
 
+Scheme
+------
+
+miniKanren
+----------
+
 extending relational interpreter
 --------------------------------
 
@@ -92,7 +98,7 @@ multiple imples from the command line]
 
 [got down to here.  after this, needs to be reworked]
 
-* Translating simple Scheme functions to miniKanren relations [hand-wavy approach]
+* Translating Scheme functions to miniKanren relations
 ** append
 hello world of logic programming
 example of append in Scheme
@@ -138,22 +144,14 @@ also could include margin note on depth-first search being incomplete, and showi
 ** Techniques and tricks for apparently divergent queries
 * Hueristics for translating Scheme to miniKanren
 *** Non-overlapping principle
-*** Conde clauses that always fail can be removed (which may improve divergence behavior for some queries)
+*** Conde clauses that always fail can be removed
+may improve divergence behavior for some queries
 *** Translating predicates
 *** Recursive goals should come last in a fresh or run, or within a conde clause
 *** Non-recursive clauses should come first in a conde
-**** An exception: intentional generating "erroneous" inputs
-* A more mechanical approach
-*** A-Normal form
-*** Defunctionalization
-*** Pattern matching
-**** Enforcing non-overlapping
 *** Handling negation
 **** =/= and other constraints
 **** Helper relations
-*** Examples
-**** append
-**** [more interesting examples, including at least one with negation]
 * Debugging miniKanren programs
 
 * A Simple Scheme Interpreter in Scheme
