@@ -171,7 +171,12 @@ may improve divergence behavior for some queries
 ** Adding cons
 ** Adding car & cdr
 ** Running append backwards
-uses Y combinator
+use Y combinator
+runs backwards, forward, etc
 slower, but with the same divergence behavior as the 'good' version of appendo
+interesting aspect: the relational aspect is in the interpreter, *not* in the definition of append
 * Adding numbers to the interpreter
-
+** Oleg numbers
+** Arithmetic operators
+** Divergence behavior of the arithmetic system
+** 
