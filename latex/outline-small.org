@@ -187,3 +187,7 @@ Hilbert's 10th problem, Peano vs. Presburger (sp?) arithmetic, etc
 *** Peano representation
 *** CLP(fd)
 * Where to go from here
+** Small-step reducer for Scheme
+** Nominal logic programming
+** Type inference
+** Other experiments
