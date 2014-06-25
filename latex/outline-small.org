@@ -98,7 +98,11 @@ multiple imples from the command line]
 ** miniKanren resources
 ** Margin notes
 ** Acknowledgements
+* PART I: INTRODUCTION TO SCHEME AND MINIKANREN
 * Just enough Scheme
+** Lexical scope
+[will need this later for the interpreter]
+*** Free & Bound Variables
 * Introduction to core miniKanren
 ** The core operators
 *** ==
@@ -146,12 +150,14 @@ may improve divergence behavior for some queries
 *** Handling negation
 **** =/= and other constraints
 **** Helper relations
-* A Simple Interpreter in Scheme
-** Lexical scope
-*** Free & Bound Variables
-*** Lexical Environments
-
-** A Simple Scheme Interpreter
+* PART II: WRITING THE RELATIONAL INTERPRETER
+* A Call-by-value Lambda-Calculus Interpreter in Scheme
+** The Call-by-value Lambda Calculus
+the basis for Scheme
+** Lexical Environments
+** A First-order Lambda-Calculus Interpreter
+[show first-order version]
+*** Closures
 
 [introduce LC first? then go to mk, then back to Scheme for list and
 quote, then back to mk?  this would mirror the structure of the scheme
