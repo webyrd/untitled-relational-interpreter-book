@@ -146,39 +146,72 @@ may improve divergence behavior for some queries
 *** Handling negation
 **** =/= and other constraints
 **** Helper relations
-* A Simple Scheme Interpreter in Scheme
+* A Simple Interpreter in Scheme
 ** Lexical scope
 *** Free & Bound Variables
 *** Lexical Environments
+
 ** A Simple Scheme Interpreter
+
+[introduce LC first? then go to mk, then back to Scheme for list and
+quote, then back to mk?  this would mirror the structure of the scheme
+workshop quines paper]
+
+[ugh--these sections don't seem organized correctly]
 * Writing the Interpreter in Relational Style
-** Relational Scheme interpreter
-* Extending the Relational Interpreter
+* A Relational Scheme interpreter
+
+'closure' as a "reserved" tag (using absento)
+need to make sure to put this absento call in the right place
+[arguably should be at the top of eval-expo, and invoked on each
+recursive call; placing the call only in the evalo helper (for
+example) means that direct calls to eval-expo may be incorrect]
+* Beyond the Lambda Calculus
 ** Adding quote
+[need to be very careful once we add quote and list, since we could
+accidentally create lists that look like (and are treated as) lambda
+expressions, etc.  Also, can end up with quoted closures, etc., unless
+we were previously careful to exclude the 'closure' tag from the input
+expression via absento]
 ** Adding list
+[cons is actually simpler to add (since it doesn't require a recursive
+helper, and since it doesn't overlap with the application clause),
+although the quines it produces are longer than those with quote]
 ** (I love you)
 ** Generating Quines, Twines and Thrines
-* Adding pair-related functions
-** Adding null?
-** Adding cons
-** Adding car & cdr
-** Running append backwards
+* Other Extensions to the Relational Interpreter
+** Adding pair-related functions
+*** cons
+*** car & cdr
+*** null?
+*** Running append backwards
 use Y combinator
 runs backwards, forward, etc
 slower, but with the same divergence behavior as the 'good' version of appendo
 interesting aspect: the relational aspect is in the interpreter, not in the definition of append
-* Adding numbers to the interpreter
-** Oleg numbers
-** Arithmetic operators in miniKanren
-** Divergence behavior of the arithmetic system
+** Adding numbers and arithmetic
+*** Number representation
+Oleg Numbers
+little-endian binary lists
+unique representation of each natural number
+convention (not enforced by the arithmetic system): least significant bit is 1
+well-formed/legal and illegal numbers
+*** Arithmetic operators in miniKanren
+*** Divergence behavior of the arithmetic system
 Hilbert's 10th problem, Peano vs. Presburger (sp?) arithmetic, etc
-** Adding arithmetic to miniKanren
-*** Example: factorial
-*** Example: generating programs that evaluate to 6
-** Alternative approaches to relational arithmetic
-*** Peano representation
-*** CLP(fd)
-* Adding multiple-argument and variadic functions to the interpreter
+*** Adding arithmetic to the interpreter
+tagging/untagging/retagging
+ 'intc' (or whatever) as a "reserved" tag
+(using absento) 
+[? can we get away with the same tag for expressions and values?  or
+do we need to make a distinction?  Need to be very careful with
+tagging, especially in the presence of quote and list]
+**** Example: factorial
+**** Example: generating programs that evaluate to 6
+*** Alternative approaches to relational arithmetic
+**** Peano representation
+**** CLP(fd)
+** Adding multiple-argument and variadic functions
 * Where to go from here
 ** Small-step reducer for Scheme
 ** Nominal logic programming
