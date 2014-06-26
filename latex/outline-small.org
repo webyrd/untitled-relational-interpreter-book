@@ -102,6 +102,30 @@ least.  Maybe it's worth exploring in 'Other Extensions'.
 
 
 
+
+
+
+??? Is any of this in scope?
+----------------------------
+call-by-value vs call-by-name vs call-by-need
+alpha-equivalence
+naive vs capture-avoiding substitution
+environments vs substitution
+beta reduction
+eta-expansion/eta-reduction
+----------------------------
+seems like some of these topics are important from a context/design
+decision standpoint.  could potentially include a combinatory logic
+reducer, a CBV small-step reducer for Scheme using naive substitution,
+and the big-step interpreter.  Could even include a big-step
+call-by-name reducer for lambda calculus, using nominal logic.  Is
+this too much?  All of these topics seem related, and to some extent
+you can't fully understand one of these interpreters/reducers without
+understanding the alternatives.  May be too much, though.
+
+
+
+
 Title:
 How to Write a Relational Scheme Interpreter in miniKanren
 
@@ -189,6 +213,7 @@ may improve divergence behavior for some queries
 * A Call-by-value Lambda-Calculus Interpreter in Scheme
 ** The Call-by-value Lambda Calculus
 the basis for Scheme
+call-by-value, call-by-name, call-by-need
 ** Lexical Environments
 ** A First-order Lambda-Calculus Interpreter
 [show first-order version]
