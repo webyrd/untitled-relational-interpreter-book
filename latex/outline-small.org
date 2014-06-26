@@ -67,6 +67,41 @@ list, cons, etc., to the initial environment.  Do I actually know how
 to do this/the right way to do this?
 
 
+Point out that the mk interpreter will fail for Scheme programs that
+would signal errors in Scheme (due to referencing unbound variables,
+dividing by zero, wrong number of arguments to an application, etc.).
+In some cases, programs that would diverge in Scheme will fail
+finitely under the relational interpreter.  For example,
+
+(evalo `(cons ((lambda (x) (x x)) (lambda (x) (x x))) 5) 6)
+
+should fail finitely, since the relational reducer can fail as soon as
+it recognizes that the outermost expression is a call to 'cons', yet
+the output isn't a pair.  So, failure in mk is a proof that the input
+expression cannot evaluate to the specified output value.
+
+
+FAILING FAST BY PEEKING UNDER LAMBDAS
+
+Michael Ballantyne pointed out today (26 June 02014) that we can
+"peek" under the lambda in the interpreter, which can also lead to
+fail-fast behavior.  For example,
+
+(evalo `((lambda (x) 5) ((lambda (x) (x x)) (lambda (x) (x x))) 6)
+
+should fail finitely, if we peek under the lambda in (lambda (x) 5);
+clearly, there is no way the body of this lambda expression can
+evaluate to the specified output value, 6.  Therefore, there is no
+need to evaluate omega before performing the beta step, even under
+call-by-value lambda semantics.
+
+Not sure how much I want to get into the peeking under lambdas
+optimization in the main text.  Would make a good marginnote, at
+least.  Maybe it's worth exploring in 'Other Extensions'.
+
+
+
+
 Title:
 How to Write a Relational Scheme Interpreter in miniKanren
 
@@ -166,7 +201,6 @@ workshop quines paper]
 [ugh--these sections don't seem organized correctly]
 * Writing the Interpreter in Relational Style
 * A Relational Scheme interpreter
-
 'closure' as a "reserved" tag (using absento)
 need to make sure to put this absento call in the right place
 [arguably should be at the top of eval-expo, and invoked on each
