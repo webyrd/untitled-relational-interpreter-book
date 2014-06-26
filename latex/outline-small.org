@@ -249,11 +249,14 @@ although the quines it produces are longer than those with quote]
 *** cons
 *** car & cdr
 *** null?
-*** Running append backwards
+*** Running 'append' backwards
 use Y combinator
 runs backwards, forward, etc
 slower, but with the same divergence behavior as the 'good' version of appendo
 interesting aspect: the relational aspect is in the interpreter, not in the definition of append
+**** Adding a knowledge base to contain recursive hypotheses
+***** Proving the 'append' definition satisfies the specification
+***** Synthesizing 'append' from the specification
 ** Adding numbers and arithmetic
 *** Number representation
 Oleg Numbers
