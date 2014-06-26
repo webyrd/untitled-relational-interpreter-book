@@ -3,11 +3,11 @@ OUTLINE FOR 'SMALL' BOOK--JUST INTRODUCING THE QUINES-GENERATING INTERPRETER
 THE PRIME DIRECTIVE
 
 Stick to the goal: ensure the reader fully understands how the
-relational interpreter works.  in particular, the reader should be
-able to modify or extend the relational interpreter, or implement a
-relational interpreter for another langugae.  Anything that doesn't
-advance this goal must be cut, put in a margin note, made an exercise,
-or moved to an appendix.
+big-step relational interpreter works.  in particular, the reader
+should be able to modify or extend the relational interpreter, or
+implement a relational interpreter for another langugae.  Anything
+that doesn't advance this goal must be cut, put in a margin note, made
+an exercise, or moved to an appendix.
 
 MAJOR QUESTIONS/ISSUES
 
@@ -244,6 +244,33 @@ helper, and since it doesn't overlap with the application clause),
 although the quines it produces are longer than those with quote]
 ** (I love you)
 ** Generating Quines, Twines and Thrines
+*** Why is quine generation so fast?
+**** Two forms of "pruning"
+[1: in some case we can represent infinitely many Scheme expressions
+using a single mk term; for example, `(lambda (,x) ,e) + (symbolo x)
+represents all possible lambda expressions (perhaps "pruning" isn't
+the right word for this)] 
+
+[2: the connection between the input expression and expected output
+value allows miniKanren to fail-fast when searching for quines.]
+
+Seems like 1 and 2 work together to some extent.  For example, the
+relational reducer can reject all lambda expressions as possible
+quines, since all infinitely many lambda expressions can be
+represented as `(lambda (,x) ,e) + (symbolo x), and since the
+interpreter clause for lambda enforces that the output value must be a
+tagged closure, which cannot unify with a lambda expression.  So we
+can reject infinitely-many candidates by only looking at one top-level
+term. 
+
+This connection between input and output arguments is critical to
+performance, and (in some cases) to failing finitely versus diverging.
+Compare (fresh (in out) (== in out) (evalo in out)) vs. (fresh (in
+out) (evalo in out) (== in out)) to see the difference in performance
+(something like 5ms versus 5s, a 1000x difference).  Also easy to set
+up examples which diverge versus failing finitely, depending on
+whether (== in out) comes before or after the evalo call.
+
 * Other Extensions to the Relational Interpreter
 ** Adding pair-related functions
 *** cons
@@ -255,6 +282,7 @@ runs backwards, forward, etc
 slower, but with the same divergence behavior as the 'good' version of appendo
 interesting aspect: the relational aspect is in the interpreter, not in the definition of append
 **** Adding a knowledge base to contain recursive hypotheses
+***** Representing universal quantification using 'eigen'
 ***** Proving the 'append' definition satisfies the specification
 ***** Synthesizing 'append' from the specification
 ** Adding numbers and arithmetic
