@@ -11,6 +11,10 @@ an exercise, or moved to an appendix.
 
 MAJOR QUESTIONS/ISSUES
 
+How much Scheme do I want to introduce?  Do I want to try to teach
+Scheme?  Or rather review Scheme fundamentals, and make sure the
+reader understands quasiquote, pattern matching, lexical scope?
+
 Do I want to include an mK implementation section?  I think not.  Want
 to keep this a small, very directed book.
 
@@ -24,6 +28,7 @@ list, even though the generated quine is somewhat longer, since
 handling cons doesn't require recursion.  Also, adding cons naturally
 leads to adding car, cdr, and null?.  Those, plus 'if' and 'equal?', are
 sufficient to express append, member?, rember, etc.
+
 
 
 ??? is it possible to express equal? vs eqv? vs eq? in the
@@ -177,7 +182,28 @@ multiple imples from the command line]
 ** Acknowledgements
 * PART I: INTRODUCTION TO SCHEME AND MINIKANREN
 * Just enough Scheme
+[hmmm maybe should introduce Scheme more informally, using examples,
+rather than trying to enumerate the forms] [Do I really want to
+introduce Scheme?  Maybe more like a Scheme refresher/make sure I
+cover topics that trip people up (quasiquote, pattern matching,
+lexical scope, etc.)]
+** Evaulating expressions at the REPL
+5
+(+ 3 4)
+#t
+** Truth
+** lambda expressions
+** building lists
+** variables
+** S-expressions
+** define
+** let
+** letrec
+** quote
+** quasiquote
+** pattern matching
 ** Lexical scope
+** set!
 [will need this later for the interpreter]
 *** Free & Bound Variables
 * Introduction to core miniKanren
