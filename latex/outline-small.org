@@ -193,14 +193,21 @@ lexical scope, etc.)]
 #t
 ** arithmetic
 ** lambda expressions
-** building lists
+** pairs and lists
 ** variables
 ** S-expressions
 ** define
 ** conditionals
 ** truth
-** factorial
+** equality
+** recursion
+** writing recursive functions
+** examples
+*** factorial
 the hello world of functional programming
+*** member
+*** rember
+*** append
 ** let
 ** lexical scope and shadowing
 ** letrec
