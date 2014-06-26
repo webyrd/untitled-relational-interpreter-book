@@ -191,19 +191,24 @@ lexical scope, etc.)]
 5
 (+ 3 4)
 #t
-** Truth
+** arithmetic
 ** lambda expressions
 ** building lists
 ** variables
 ** S-expressions
 ** define
+** conditionals
+** truth
+** factorial
+the hello world of functional programming
 ** let
+** lexical scope and shadowing
 ** letrec
 ** quote
 ** quasiquote
 ** pattern matching
-** Lexical scope
 ** set!
+** macros
 [will need this later for the interpreter]
 *** Free & Bound Variables
 * Introduction to core miniKanren
