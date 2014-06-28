@@ -153,6 +153,54 @@ Title:
 How to Write a Relational Scheme Interpreter in miniKanren
 
 
+
+
+Alternate approach to structuring the book, the Scheme
+intro/refresher, etc., would be to lead with a Scheme interpreter
+written in Scheme.  Then introduce miniKanren, and then create the
+relational interpreter in miniKanren.
+
+PART I: WRITING A SCHEME INTERPRETER IN SCHEME
+PART II: INTRODUCTION TO PROGRAMMING IN MINIKANREN
+PART III: WRITING A SCHEME INTERPRETER IN MINIKANREN
+
++ would get Schemely stuff, lexical scope, environments, closures,
+  etc., out of the way at the beginning, and would ensure the reader
+  understood enough about Scheme (how to use Scheme, Scheme semantics,
+  etc.) to read the rest of the book
+- the reader who just wants to understand the relational interpreter
+  would need more patience before getting to the payoff.
+  Although...someone already familiar with Scheme and how to write
+  interpreters in Scheme could just skip to Part II.
+
+If I used this approach, what would I assume regarding knowledge of
+Scheme?  I could do the C311 thing, and basically include everything,
+including an intro to thinking recursively, how to write programs that
+recur over lists, etc.
+
+Alternatively, I could assume the reader knows basic Scheme and
+recursion (maybe give a super-fast refresher, which would also help
+Clojurers with things like cons/pairs vs. proper lists, etc.).  Then,
+I could move on to lexical scope, environments, and the interpreter.
+
+Maybe best to break up the Scheme and interpreter parts, to make it
+easier for someone to jump to the part that is useful to them:
+
+PART I: SCHEME REFRESHER
+PART II: WRITING A SCHEME INTERPRETER IN SCHEME
+PART III: INTRODUCTION TO PROGRAMMING IN MINIKANREN
+PART IV: WRITING A SCHEME INTERPRETER IN MINIKANREN
+
+In Part I I could introduce lexical scope and shadowing, and make sure
+readers are familiar with cons/pairs, quote, quasiquote/unquote,
+letrec, Y combinator, and pattern matching.  If I decide to show
+set!/store-passing style for the relational reducer, I could mention
+set! here as well.
+
+In Part II I could introduce Lambda Calculus, CBV vs Call-by-name, environments
+
+
+
 * Preface
 ** Goal
 ensure the reader fully understands how the relational interpreter
@@ -273,6 +321,7 @@ call-by-value, call-by-name, call-by-need
 ** Lexical Environments
 ** A First-order Lambda-Calculus Interpreter
 *** Closures
+
 * Writing the Lambda-Calculus Interpreter in Relational Style
 'closure' as a "reserved" tag (using absento)
 need to make sure to put this absento call in the right place
