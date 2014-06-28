@@ -192,12 +192,17 @@ PART III: INTRODUCTION TO PROGRAMMING IN MINIKANREN
 PART IV: WRITING A SCHEME INTERPRETER IN MINIKANREN
 
 In Part I I could introduce lexical scope and shadowing, and make sure
-readers are familiar with cons/pairs, quote, quasiquote/unquote,
-letrec, Y combinator, and pattern matching.  If I decide to show
-set!/store-passing style for the relational reducer, I could mention
-set! here as well.
+readers are familiar with cons/pairs, lambda, let, cond, truthiness,
+quote, quasiquote/unquote, letrec, Y combinator, and pattern matching.
+If I decide to show set!/store-passing style for the relational
+reducer, I could mention set! here as well.
 
-In Part II I could introduce Lambda Calculus, CBV vs Call-by-name, environments
+In Part II I could introduce Lambda Calculus, alpha-equivalence, beta,
+eta, CBV vs Call-by-name, environments, higher-order and first-order
+versions of the CBV LC interpreter, big-step vs. small-step, extend
+the interpreter to support factorial, extend it to support list
+operations, implement append, etc.  Could potentially show
+set! and store-passing style as well.
 
 
 
