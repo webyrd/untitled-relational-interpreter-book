@@ -152,6 +152,12 @@ least.  Maybe it's worth exploring in 'Other Extensions'.
 Title:
 How to Write a Relational Scheme Interpreter in miniKanren
 
+Writing Relational Interpreters in miniKanren
+
+Writing Interpreters in Relational Style
+
+Writing Relational-Style Interpreters in miniKanren
+
 
 
 
@@ -195,7 +201,9 @@ In Part I I could introduce lexical scope and shadowing, and make sure
 readers are familiar with cons/pairs, lambda, let, cond, truthiness,
 quote, quasiquote/unquote, letrec, Y combinator, and pattern matching.
 If I decide to show set!/store-passing style for the relational
-reducer, I could mention set! here as well.
+reducer, I could mention set! here as well.  Make sure to include
+factorial, member, rember, and append as examples, using define,
+letrec, and Y combinator.
 
 In Part II I could introduce Lambda Calculus, alpha-equivalence, beta,
 eta, CBV vs Call-by-name, environments, higher-order and first-order
@@ -203,6 +211,18 @@ versions of the CBV LC interpreter, big-step vs. small-step, extend
 the interpreter to support factorial, extend it to support list
 operations, implement append, etc.  Could potentially show
 set! and store-passing style as well.
+
+Might want to break PART II into two parts: a little PL theory,
+followed by the Scheme interpreter in Scheme.  The theory part might
+then contain the notions of free vs. bound variables, naive
+vs. capture avoiding substitution, etc.
+
+PART I: SCHEME REFRESHER
+PART II: A LITTLE PROGRAMMING LANGUAGES THEORY
+PART III: WRITING A SCHEME INTERPRETER IN SCHEME
+PART IV: INTRODUCTION TO PROGRAMMING IN MINIKANREN
+PART V: WRITING A SCHEME INTERPRETER IN MINIKANREN
+
 
 
 
