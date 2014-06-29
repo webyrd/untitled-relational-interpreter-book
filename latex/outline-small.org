@@ -226,6 +226,122 @@ PART V: WRITING A SCHEME INTERPRETER IN MINIKANREN
 
 
 
+
+
+this may be the ticket.  try fleshing this out
+
+I like this approach due to the symmetry between parts:
+
+PART I & PART IV
+PART II & PART V
+PART III & PART VI
+
+Also, people who know Scheme/program transformations/interpreters can
+skip to the parts that interest them.
+
+This feels pretty good!
+
+
+PART I: SCHEME [just the parts we'll need]
+the core language
+define
+variables
+lambda
+application
+S-expressions
+expressions & values
+numbers
+arithmetic
+pairs and lists
+truthiness
+conditionals
+equality
+type predicates
+varargs
+let
+letrec
+eval and apply
+quote
+quasiquote & unquote
+continuations & call/cc
+syntactic extensions via macros
+  pattern matching
+  embedded domain-specific languages
+PART II: TRANSFORMING SCHEME PROGRAMS [just the ones we'll need]
+representation-independence
+defunctionalization
+cps
+PART III: WRITING INTERPRETERS IN SCHEME
+CBV lambda-calculus
+  CBV vs. CBN
+  alpha-equivalence
+  LC is Turing-complete [a bit ironic to say it that way]
+direct-style environment-passing interpreter
+  higher-order
+  first order
+adding list and quote
+  can run quines
+adding pair operators
+adding 'if'
+  'append' using Y combinator
+store-passing style & set!
+cps & call/cc
+PART IV: MINIKANREN
+the core language
+append
+rember/surpriseo
+=/= extension
+symbolo & numbero
+absento
+PART V: TRANSFORMING SCHEME TO MINIKANREN
+an example
+the steps
+defunctionalization [miniKanren's unification is first-order]
+why cps is problematic
+PART VI: WRITING INTERPRETERS IN MINIKANREN
+big-step CBV lambda calculus interpreter
+adding list and quote
+  (I love you)
+  quines, twines, and thrines
+adding pair operations
+adding 'if'
+  'append' using Y combinator; running 'append' backwards
+adding set! using store-passing style
+
+
+
+
+* PART I: SCHEME REFRESHER [seems more like a chapter than an entire Part]
+make sure readers are familiar with cons/pairs, lambda, let, cond,
+truthiness, quote, quasiquote/unquote, letrec, Y combinator, and
+pattern matching
+
+lexical scope and shadowing
+
+factorial, member, rember, and append as examples, using
+define, letrec, and Y combinator
+* PART II: WRITING A SCHEME INTERPRETER IN SCHEME [what are the chapters?]
+Lambda Calculus, alpha-equivalence, beta, eta
+
+CBV vs Call-by-name
+
+substitution vs. environment-based
+
+environments, higher-order and first-order versions of the CBV LC
+interpreter, big-step vs. small-step
+
+extend the interpreter to support factorial, extend it to support list
+operations, implement append, etc.
+* PART III: INTRODUCTION TO PROGRAMMING IN MINIKANREN [what are the chapters?]
+
+* PART IV: WRITING A SCHEME INTERPRETER IN MINIKANREN [what are the chapters?]
+
+
+
+
+
+%%%%%%%%%%%%%%%%
+
 * Preface
 ** Goal
 ensure the reader fully understands how the relational interpreter
