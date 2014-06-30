@@ -264,28 +264,77 @@ eval and apply
 quote
 quasiquote & unquote
 continuations & call/cc
+recursion
+tail recursion
 syntactic extensions via macros
   pattern matching
   embedded domain-specific languages
 PART II: TRANSFORMING SCHEME PROGRAMS [just the ones we'll need]
-representation-independence
-defunctionalization
-cps
-PART III: WRITING INTERPRETERS IN SCHEME
-CBV lambda-calculus
-  CBV vs. CBN
+consistent renaming of variables
   alpha-equivalence
+  must respect lexical scope & avoid variable capture
+  point out nominal unification in margin note
+eta expansion/contraction
+  can change divergence behavior
+  careful to avoid variable capture
+  watch the number of arguments when playing with variadic procedures, such as +
+    for variadic functions, can use varargs:
+    > ((lambda args (apply + args)) 3 4 5)
+    12
+representation-independence
+  higher-order vs. first-order representation
+   tagged lists vs a-lists vs. other DS representations (for example, records)
+     [when we go to mk, we'll need to stick to first-order representations that we can 
+      compare with Scheme's equal?, since miniKanren uses first-order unification, 
+      which is a syntactic equality constraint]
+defunctionalization
+a-normal form
+  [we'll be using a similar transformation when we start translating Scheme code to miniKanren]
+  [make sure to use the real anf, not the pseudo-anf we use for
+  miniKanren translation (difference shows up in append, for example); true anf can introduce lets
+  on the RHS of a let binding]
+cps
+  gateway drug of program transformations
+  show aps as part of the description
+  stack vs heap
+  properties of cps'd code
+    tail calls
+PART III: WRITING INTERPRETERS IN SCHEME
+lambda-calculus
+  syntax
+  alpha-conversion
+  beta reduction
+    substitution
+      naive vs capture-avoidance
+  eta reduction/expansion
   LC is Turing-complete [a bit ironic to say it that way]
-direct-style environment-passing interpreter
-  higher-order
-  first order
+  undecidability of term equivalence under beta-reduction
+  confluence
+  combinators & combinatory logic
+  call-by-name vs. call-by-need vs. call-by-value
+a big-step direct-style environment-passing interpreter for the CBV LC
+  big-step vs. small-step
+  environments vs substitution
+  higher-order version
+  first order version
 adding list and quote
+  99 ways to say (I love you), inspired by Matt's blog post
   can run quines
 adding pair operators
+  more ways to say (I love you)
+adding booleans
+  [not strictly necessary]
 adding 'if'
   'append' using Y combinator
-store-passing style & set!
-cps & call/cc
+adding numbers
+adding sub1 and *
+  factorial
+Exercise: to add other primitive functions and forms to the interpreter
+Exercise: add built-in procedures to the environment rather than hard-coding them in the interpreter
+  [I should play around with this myself, and see how this works in miniKanren-land.  
+   Is this approach even possible for a small-step reducer?]
+adding set! using store-passing style
+adding call/cc using cps
 PART IV: MINIKANREN
 the core language
 append
