@@ -241,35 +241,56 @@ skip to the parts that interest them.
 
 This feels pretty good!
 
+Keep thinking about how I teach people these ideas in person.
 
-PART I: SCHEME [just the parts we'll need]
-the core language
-define
-variables
-lambda
-application
-S-expressions
-expressions & values
+** Intro
+* PART I: SCHEME [the parts we'll need]
+[this order of presentation seems friendly to newbies]
+[could probably use this presentation order for the Hangouts]
+the REPL
 numbers
-arithmetic
-pairs and lists
-truthiness
+arithmetic [show big numbers and all of that!!]
+expressions vs values
+quote & symbols [point out the beauty/power of symbolic data]
+pairs and lists [point out that nested lists represent tree structures]
+define [define gives a name to a value]
+variables
+boolean constants
 conditionals
-equality
+Scheme's notion of truth
+equality predicates
 type predicates
-varargs
-let
-letrec
-eval and apply
-quote
-quasiquote & unquote
-continuations & call/cc
+lambda & procedures
+procedure application
+S-expressions [point out that in Scheme parens are always significant]
+Scheme's evaluation rules [call-by-value & special forms]
+redefining Scheme's built-in procedures [point out that procedure application
+ can't be redefined, and numbers can't be redefined, although the arithmetic 
+ procedures can be redefined; is redefinition a good thing?  scares lots of 
+ programmers; Joe A: laguage tradeoffs, does the language design hang together, 
+ in light of those tradeoffs?]
 recursion
-tail recursion
-syntactic extensions via macros
-  pattern matching
+writing simple recursive programs & thinking recursively
+  length
+  member
+  rember
+  append
+  factorial
+  fib
+natural (direct-style) recursion vs tail recursion
+mutual recursion
+other useful and interesting parts of Scheme
+  quasiquote & unquote
+  let
+  letrec
+  varargs
+  apply
+  eval 
+  continuations & call/cc
+syntactic extension
+  pattern matching [what did I mean by this?  pmatch?]
   embedded domain-specific languages
-PART II: TRANSFORMING SCHEME PROGRAMS [just the ones we'll need]
+* PART II: TRANSFORMING SCHEME PROGRAMS [just the transformations we'll need]
 consistent renaming of variables
   alpha-equivalence
   must respect lexical scope & avoid variable capture
@@ -299,7 +320,7 @@ cps
   stack vs heap
   properties of cps'd code
     tail calls
-PART III: WRITING INTERPRETERS IN SCHEME
+* PART III: WRITING INTERPRETERS IN SCHEME
 lambda-calculus
   syntax
   alpha-conversion
@@ -312,6 +333,7 @@ lambda-calculus
   confluence
   combinators & combinatory logic
   call-by-name vs. call-by-need vs. call-by-value
+  aside: Church encoding
 a big-step direct-style environment-passing interpreter for the CBV LC
   big-step vs. small-step
   environments vs substitution
@@ -335,19 +357,20 @@ Exercise: add built-in procedures to the environment rather than hard-coding the
    Is this approach even possible for a small-step reducer?]
 adding set! using store-passing style
 adding call/cc using cps
-PART IV: MINIKANREN
+* PART IV: MINIKANREN
 the core language
 append
 rember/surpriseo
 =/= extension
+rembero reconsidered
 symbolo & numbero
 absento
-PART V: TRANSFORMING SCHEME TO MINIKANREN
+* PART V: TRANSFORMING SCHEME TO MINIKANREN
 an example
 the steps
 defunctionalization [miniKanren's unification is first-order]
 why cps is problematic
-PART VI: WRITING INTERPRETERS IN MINIKANREN
+* PART VI: WRITING INTERPRETERS IN MINIKANREN
 big-step CBV lambda calculus interpreter
 adding list and quote
   (I love you)
