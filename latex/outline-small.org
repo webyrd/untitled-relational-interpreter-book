@@ -247,6 +247,10 @@ Keep thinking about how I teach people these ideas in person.
 * PART I: SCHEME [the parts we'll need; keep as concrete and programmy as possible]
 [this order of presentation seems friendly to newbies]
 [could probably use this presentation order for the Hangouts]
+[an intro to Scheme, but definitely from the perspective of an
+implementer and user of pure logic programming languages; for example,
+we could completely leave out I/O and effects without significantly
+altering the rest of the book]
 ** Scheme Fundamentals
 the REPL
 numbers
@@ -292,6 +296,9 @@ letrec
 varargs
 apply
 eval
+input and output [tells the reader something about the perspective of
+ this book that I initially forgot to include input/output in the
+ intro to programming in Scheme]
 set!
 set-car! & set-cdr!
 vectors
