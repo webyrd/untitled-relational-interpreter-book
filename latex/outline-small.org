@@ -321,16 +321,6 @@ eta expansion/contraction
     for variadic functions, can use varargs:
     > ((lambda args (apply + args)) 3 4 5)
     12
-representation-independence
-  higher-order vs. first-order representation
-   tagged lists vs a-lists vs. other DS representations (for example, records)
-     [when we go to mk, we'll need to stick to first-order representations that we can 
-      compare with Scheme's equal?, since miniKanren uses first-order unification, 
-      which is a syntactic equality constraint]
-defunctionalization
-  [especially useful when porting code to a spartan host like C, 
-    for debugging (can print the representation of a procedure, for example), 
-    or when using pattern-matching (or unification!)]
 a-normal form
   [we'll be using a similar transformation when we start translating Scheme code to miniKanren]
   [make sure to use the real anf, not the pseudo-anf we use for
@@ -342,6 +332,18 @@ cps
   stack vs heap
   properties of cps'd code
     tail calls
+representation-independence
+  [careful with terminology:  RI *wrt* continuations/procedures/environments/etc.]
+  higher-order vs. first-order representation
+   tagged lists vs a-lists vs. other DS representations (for example, records)
+     [when we go to mk, we'll need to stick to first-order representations that we can 
+      compare with Scheme's equal?, since miniKanren uses first-order unification, 
+      which is a syntactic equality constraint]
+defunctionalization
+  [especially useful when porting code to a spartan host like C, 
+    for debugging (can print the representation of a procedure, for example), 
+    serialization,
+    or when using pattern-matching (or unification!)]
 * PART III: WRITING INTERPRETERS IN SCHEME
 lambda-calculus
   syntax
