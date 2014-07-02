@@ -243,8 +243,9 @@ This feels pretty good!
 
 Keep thinking about how I teach people these ideas in person.
 
+** Preface
 ** Intro
-* PART I: SCHEME [the parts we'll need]
+* PART I: SCHEME [the parts we'll need; keep as concrete and programmy as possible]
 [this order of presentation seems friendly to newbies]
 [could probably use this presentation order for the Hangouts]
 the REPL
@@ -253,12 +254,14 @@ arithmetic [show big numbers and all of that!!]
 expressions vs values
 quote & symbols [point out the beauty/power of symbolic data]
 pairs and lists [point out that nested lists represent tree structures]
-define [define gives a name to a value]
-variables
+  box & pointers
+  inductive definition of a proper list
 boolean constants
 conditionals
 Scheme's notion of truth
 equality predicates
+define [define gives a name to a value]
+variables
 type predicates
 lambda & procedures
 procedure application
@@ -285,11 +288,15 @@ other useful and interesting parts of Scheme
   letrec
   varargs
   apply
-  eval 
+  eval
+  set!
+  set-car! & set-cdr!
   continuations & call/cc
 syntactic extension
-  pattern matching [what did I mean by this?  pmatch?]
-  embedded domain-specific languages
+  syntax-rules/syntax-case/syntax-parse (Racket)
+  examples
+    pattern matching (pmatch/match)
+    embedded domain-specific languages
 * PART II: TRANSFORMING SCHEME PROGRAMS [just the transformations we'll need]
 consistent renaming of variables
   alpha-equivalence
