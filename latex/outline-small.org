@@ -243,11 +243,11 @@ This feels pretty good!
 
 Keep thinking about how I teach people these ideas in person.
 
-** Preface
 ** Intro
 * PART I: SCHEME [the parts we'll need; keep as concrete and programmy as possible]
 [this order of presentation seems friendly to newbies]
 [could probably use this presentation order for the Hangouts]
+** Scheme Fundamentals
 the REPL
 numbers
 arithmetic [show big numbers and all of that!!]
@@ -273,25 +273,29 @@ redefining Scheme's built-in procedures [point out that procedure application
  programmers; Joe A: laguage tradeoffs, does the language design hang together, 
  in light of those tradeoffs?]
 recursion
-writing simple recursive programs & thinking recursively
-  length
-  member
-  rember
-  append
-  factorial
-  fib
+** Writing Recursive Procedures
+[writing simple recursive programs & thinking recursively]
+the wishful thinking approach to thinking recursively
+length
+member
+rember
+append
+factorial
+fib
 natural (direct-style) recursion vs tail recursion
+  visualizing recursion
 mutual recursion
-other useful and interesting parts of Scheme
-  quasiquote & unquote
-  let
-  letrec
-  varargs
-  apply
-  eval
-  set!
-  set-car! & set-cdr!
-  continuations & call/cc
+** Other Useful Aspects of Scheme
+quasiquote & unquote
+let
+letrec
+varargs
+apply
+eval
+set!
+set-car! & set-cdr!
+vectors
+continuations & call/cc
 syntactic extension
   syntax-rules/syntax-case/syntax-parse (Racket)
   examples
