@@ -308,13 +308,14 @@ syntactic extension
   examples
     pattern matching (pmatch/match)
     embedded domain-specific languages
-* PART II: TRANSFORMING SCHEME PROGRAMS [just the transformations we'll need]
+* PART II: TRANSFORMING SCHEME PROGRAMS [just the transformations useful for what we'll be doing]
 consistent renaming of variables
-  alpha-equivalence
+  alpha-equivalence [as we'll see in Part III]
   must respect lexical scope & avoid variable capture
   point out nominal unification in margin note
 eta expansion/contraction
-  can change divergence behavior
+  add1 vs. (lambda (x) (add1 x)) is probably the easiest example to keep in mind
+  can change divergence behavior (for example, Z vs Y combinator)
   careful to avoid variable capture
   watch the number of arguments when playing with variadic procedures, such as +
     for variadic functions, can use varargs:
@@ -327,6 +328,9 @@ representation-independence
       compare with Scheme's equal?, since miniKanren uses first-order unification, 
       which is a syntactic equality constraint]
 defunctionalization
+  [especially useful when porting code to a spartan host like C, 
+    for debugging (can print the representation of a procedure, for example), 
+    or when using pattern-matching (or unification!)]
 a-normal form
   [we'll be using a similar transformation when we start translating Scheme code to miniKanren]
   [make sure to use the real anf, not the pseudo-anf we use for
@@ -350,6 +354,7 @@ lambda-calculus
   undecidability of term equivalence under beta-reduction
   confluence
   combinators & combinatory logic
+    Y combinator
   call-by-name vs. call-by-need vs. call-by-value
   aside: Church encoding
 a big-step direct-style environment-passing interpreter for the CBV LC
