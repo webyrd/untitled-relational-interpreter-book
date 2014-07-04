@@ -84,6 +84,11 @@ syntactic extension
     pattern matching (pmatch/match)
     embedded domain-specific languages
 * PART II: TRANSFORMING SCHEME PROGRAMS [just the transformations useful for doing (or understanstanding) transformations for our interpreters]
+[many people think of program transformations as something done by a
+computer program; they can also be performed by hand, either because a
+program might need human guidance (as in making code RI, for example),
+or just because transforming by hand gives us an unprecedented level
+of control and insight]
 ** Variable Renaming and eta-Expansion/Contraction
 *** Consistent Renaming of Variables
 a.k.a. alpha conversion
@@ -104,9 +109,16 @@ careful with the number of arguments when playing with variadic procedures, such
 [make sure to use the real anf, not the pseudo-anf we use for
  miniKanren translation (difference shows up in append, for example); true anf can introduce lets
  on the RHS of a let binding]
+[essence of compiling with continuations]
 *** Contintuation-Passing Style
+[tie to a normal-form]
+[present before RI & defunctionalization, so we'll have examples to
+practice on before we get to the interpreter; is there a better way to
+do this?  RI/defunctionalize something else?  I could do environment
+lookup/extension, for example, but this seems unmotivated at this
+point in the book.]
 gateway drug of program transformations
-show aps as part of the description
+show aps as part of the description: factorial in direct-style, aps, and cps, with the tradeoffs
 stack vs heap
 properties of cps'd code
   tail calls
@@ -123,11 +135,15 @@ distinction between higher-order vs. first-order representations
      mechanically transform higher-order representations into
      first-order representations, going through an intermediate stage
      of making the code RI wrt whatever we want to defunctionalize]
+[demonstrate on continuations in CPSed code; will demonstrate for
+environments and procedures in the interpreter]
 *** Defunctionalization
 [especially useful when porting code to a spartan host like C, 
 for debugging (can print the representation of a procedure, for example), 
 serialization,
 or when using pattern-matching (or unification!)]
+[demonstrate on continuations in CPSed code; will demonstrate for
+environments and procedures in the interpreter]
 * PART III: WRITING INTERPRETERS IN SCHEME
 lambda-calculus
   syntax
