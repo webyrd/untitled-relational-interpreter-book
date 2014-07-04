@@ -130,6 +130,7 @@ properties of cps'd code
 *** Representation-independence
 [careful with terminology:  RI *wrt* continuations/procedures/environments/whatever.]
 distinction between higher-order vs. first-order representations
+  [terinology: DS = FO representation; HO rep]
   higher-order rep
   DS representations tagged lists vs a-lists vs. other (for example, records)
     [when we go to mk, we'll need to stick to first-order representations that we can 
@@ -146,6 +147,12 @@ environments and procedures in the interpreter]
 for debugging (can print the representation of a procedure, for example), 
 serialization,
 or when using pattern-matching (or unification!)]
+[personal usage: often I find difficult or complex ideas easiest to
+express using HO representation. I might then defunctionalize the code
+for debugging/visualization/serialization/whatever.  I might switch
+between representations multiple times during the development of a
+complex program. (In miniKanren, though, I almost always stick to DS
+rep)]
 [demonstrate on continuations in CPSed code; will demonstrate for
 environments and procedures in the interpreter]
 * PART III: WRITING INTERPRETERS IN SCHEME
@@ -168,8 +175,9 @@ lambda-calculus
     Z combinator
   aside: Church encoding
 a big-step direct-style environment-passing interpreter for the CBV LC
-  big-step vs. small-step
-  environments vs substitution
+  context
+    big-step interpreter vs. small-step reducer [reference EOPL and PLT Redex books]
+    environments vs substitution
   higher-order version
   first order version
 adding list and quote
