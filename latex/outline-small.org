@@ -95,7 +95,7 @@ a.k.a. alpha conversion
 based on the notion of alpha-equivalence from lambda-calculus [as we'll see in Part III]
 must respect lexical scope & avoid variable capture [give examples showing the problems]
 point out nominal unification in margin note
-*** eta Expansion/Contraction
+*** eta-Expansion/Contraction
 add1 vs. (lambda (x) (add1 x)) is probably the easiest example to keep in mind
 can change divergence behavior (for example, Z vs Y combinator) [give examples]
 careful to avoid variable capture [give example]
@@ -110,6 +110,7 @@ careful with the number of arguments when playing with variadic procedures, such
  miniKanren translation (difference shows up in append, for example); true anf can introduce lets
  on the RHS of a let binding]
 [essence of compiling with continuations]
+serious vs simple expressions
 *** Contintuation-Passing Style
 [tie to a normal-form]
 [present before RI & defunctionalization, so we'll have examples to
@@ -119,9 +120,12 @@ lookup/extension, for example, but this seems unmotivated at this
 point in the book.]
 gateway drug of program transformations
 show aps as part of the description: factorial in direct-style, aps, and cps, with the tradeoffs
-stack vs heap
+  stack vs heap usage
+  tracing of program execution
 properties of cps'd code
-  tail calls
+  all series calls are in tail position
+  all arguments to calls are simple
+[margin note--CPSing miniKanren relations in a way that preserves "running backwards" efficiently is still an open problem]
 ** Representation-independence and Defunctionalization
 *** Representation-independence
 [careful with terminology:  RI *wrt* continuations/procedures/environments/whatever.]
@@ -204,6 +208,5 @@ adding pair operations
 adding 'if'
   'append' using Y combinator; running 'append' backwards
 adding set! using store-passing style
-
-
-
+* PART VII: Open Problems
+** CPSing miniKanren relations in a way that preserves "running backwards" efficiently
