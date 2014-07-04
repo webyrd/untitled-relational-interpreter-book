@@ -151,7 +151,7 @@ environments and procedures in the interpreter]
 * PART III: WRITING INTERPRETERS IN SCHEME
 lambda-calculus
   syntax
-  alpha-conversion
+  alpha-conversion [we've seen this before in Part II]
   beta reduction
     substitution
       naive vs capture-avoidance
@@ -160,8 +160,12 @@ lambda-calculus
   undecidability of term equivalence under beta-reduction
   confluence
   combinators & combinatory logic
+    S,K,I combinators
+    bases
+    single-combinator bases [point to Okasaki paper]
     Y combinator
   call-by-name vs. call-by-need vs. call-by-value
+    Z combinator
   aside: Church encoding
 a big-step direct-style environment-passing interpreter for the CBV LC
   big-step vs. small-step
