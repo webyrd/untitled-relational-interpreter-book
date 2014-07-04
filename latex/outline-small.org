@@ -1,12 +1,11 @@
 OUTLINE FOR 'SMALL' BOOK
 
+(See old-outline-small.org for older outline material for a small book.)
+
 This book is "small" in that it concentrates on interpreters, as
 opposed to relational programming in general.  But within the scope of
 relational interpreters, the book is medium sized, if not relatively
 large.
-
-See old-outline-small.org for older outline material for a small book.
-
 
 I like this approach due to the symmetry between parts:
 
@@ -14,10 +13,8 @@ PART I & PART IV
 PART II & PART V
 PART III & PART VI
 
-Also, people who know Scheme/program transformations/interpreters can
-skip to the parts that interest them.
-
-This feels pretty good!
+Also, this structure allows people who know Scheme/program
+transformations/interpreters to skip intro sections of the book.
 
 Keep thinking about how I teach people these ideas in person.
 
