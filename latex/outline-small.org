@@ -83,18 +83,18 @@ syntactic extension
   examples
     pattern matching (pmatch/match)
     embedded domain-specific languages
-* PART II: TRANSFORMING SCHEME PROGRAMS [just the transformations useful for what we'll be doing]
-** Variable Renaming and eta Expansion/Contraction
-*** Consistent Renaming of Variables  
+* PART II: TRANSFORMING SCHEME PROGRAMS [just the transformations useful for doing (or understanstanding) transformations for our interpreters]
+** Variable Renaming and eta-Expansion/Contraction
+*** Consistent Renaming of Variables
 a.k.a. alpha conversion
-alpha-equivalence [as we'll see in Part III]
-must respect lexical scope & avoid variable capture
+based on the notion of alpha-equivalence from lambda-calculus [as we'll see in Part III]
+must respect lexical scope & avoid variable capture [give examples showing the problems]
 point out nominal unification in margin note
 *** eta Expansion/Contraction
 add1 vs. (lambda (x) (add1 x)) is probably the easiest example to keep in mind
-can change divergence behavior (for example, Z vs Y combinator)
-careful to avoid variable capture
-watch the number of arguments when playing with variadic procedures, such as +
+can change divergence behavior (for example, Z vs Y combinator) [give examples]
+careful to avoid variable capture [give example]
+careful with the number of arguments when playing with variadic procedures, such as +
   for variadic functions, can use varargs:
   > ((lambda args (apply + args)) 3 4 5)
   12
@@ -112,12 +112,17 @@ properties of cps'd code
   tail calls
 ** Representation-independence and Defunctionalization
 *** Representation-independence
-[careful with terminology:  RI *wrt* continuations/procedures/environments/etc.]
-higher-order vs. first-order representation
-  tagged lists vs a-lists vs. other DS representations (for example, records)
+[careful with terminology:  RI *wrt* continuations/procedures/environments/whatever.]
+distinction between higher-order vs. first-order representations
+  higher-order rep
+  DS representations tagged lists vs a-lists vs. other (for example, records)
     [when we go to mk, we'll need to stick to first-order representations that we can 
      compare with Scheme's equal?, since miniKanren uses first-order unification, 
      which is a syntactic equality constraint]
+    [defunctionalization in the next sub-section will allow us to
+     mechanically transform higher-order representations into
+     first-order representations, going through an intermediate stage
+     of making the code RI wrt whatever we want to defunctionalize]
 *** Defunctionalization
 [especially useful when porting code to a spartan host like C, 
 for debugging (can print the representation of a procedure, for example), 
