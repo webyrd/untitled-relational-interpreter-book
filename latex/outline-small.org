@@ -20,205 +20,211 @@ Keep thinking about how I teach people these ideas in person.
 
 ** Intro
 * PART I: SCHEME [the parts we'll need; keep as concrete and programmy as possible]
-[this order of presentation seems friendly to newbies]
-[could probably use this presentation order for the Hangouts]
-[an intro to Scheme, but definitely from the perspective of an
-implementer and user of pure logic programming languages; for example,
-we could completely leave out I/O and effects without significantly
-altering the rest of the book]
+  [this order of presentation seems friendly to newbies]
+  [could probably use this presentation order for the Hangouts]
+  [an intro to Scheme, but definitely from the perspective of an
+  implementer and user of pure logic programming languages; for example,
+  we could completely leave out I/O and effects without significantly
+  altering the rest of the book]
 ** Scheme Fundamentals
-the REPL
-numbers
-arithmetic [show big numbers and all of that!!]
-expressions vs values
-quote & symbols [point out the beauty/power of symbolic data]
-pairs and lists [point out that nested lists represent tree structures]
-  box & pointers
-  inductive definition of a proper list
-boolean constants
-conditionals
-Scheme's notion of truth
-equality predicates
-define [define gives a name to a value]
-variables
-type predicates
-lambda & procedures
-procedure application
-S-expressions [point out that in Scheme parens are always significant]
-Scheme's evaluation rules [call-by-value & special forms]
-redefining Scheme's built-in procedures [point out that procedure application
- can't be redefined, and numbers can't be redefined, although the arithmetic 
- procedures can be redefined; is redefinition a good thing?  scares lots of 
- programmers; Joe A: laguage tradeoffs, does the language design hang together, 
- in light of those tradeoffs?]
-recursion
+*** the REPL
+*** numbers
+*** arithmetic [show big numbers and all of that!!]
+*** expressions vs values
+*** quote & symbols [point out the beauty/power of symbolic data]
+*** pairs and lists [point out that nested lists represent tree structures]
+**** box & pointers
+**** inductive definition of a proper list
+*** boolean constants
+*** conditionals
+*** Scheme's notion of truth
+*** equality predicates
+*** define [define gives a name to a value]
+*** variables
+*** type predicates
+*** lambda & procedures
+*** procedure application
+*** S-expressions [point out that in Scheme parens are always significant]
+*** Scheme's evaluation rules [call-by-value & special forms]
+*** redefining Scheme's built-in procedures [point out that procedure application
+    can't be redefined, and numbers can't be redefined, although the arithmetic 
+    procedures can be redefined; is redefinition a good thing?  scares lots of 
+    programmers; Joe A: laguage tradeoffs, does the language design hang together, 
+    in light of those tradeoffs?]
+*** recursion
 ** Writing Recursive Procedures
-[writing simple recursive programs & thinking recursively]
-the wishful thinking approach to thinking recursively
-length
-member
-rember
-append
-factorial
-fib
-natural (direct-style) recursion vs tail recursion
-  visualizing recursion
-mutual recursion
+   [writing simple recursive programs & thinking recursively]
+*** the wishful thinking approach to thinking recursively
+*** length
+*** member
+*** rember
+*** append
+*** factorial
+*** fib
+*** natural (direct-style) recursion vs tail recursion
+**** visualizing recursion
+*** mutual recursion
+**** even & odd
 ** Other Useful Aspects of Scheme
-quasiquote & unquote
-let
-letrec
-varargs
-apply
-eval
-input and output [tells the reader something about the perspective of
- this book that I initially forgot to include input/output in the
- intro to programming in Scheme]
-set!
-set-car! & set-cdr!
-vectors
-continuations & call/cc
-syntactic extension
-  syntax-rules/syntax-case/syntax-parse (Racket)
-  examples
-    pattern matching (pmatch/match)
-    embedded domain-specific languages
+*** quasiquote & unquote
+*** let
+*** letrec
+*** varargs
+*** apply
+*** eval
+*** input and output [tells the reader something about the perspective of
+    this book that I initially forgot to include input/output in the
+    intro to programming in Scheme]
+*** set!
+*** set-car! & set-cdr!
+*** vectors
+*** continuations & call/cc
+*** syntactic extension
+**** syntax-rules/syntax-case/syntax-parse (Racket)
+**** examples
+***** pattern matching (pmatch/match)
+***** embedded domain-specific languages
 * PART II: TRANSFORMING SCHEME PROGRAMS [just the transformations useful for doing (or understanstanding) transformations for our interpreters]
-[many people think of program transformations as something done by a
-computer program; they can also be performed by hand, either because a
-program might need human guidance (as in making code RI, for example),
-or just because transforming by hand gives us an unprecedented level
-of control and insight]
+  [many people think of program transformations as something done by a
+  computer program; they can also be performed by hand, either because a
+  program might need human guidance (as in making code RI, for example),
+  or just because transforming by hand gives us an unprecedented level
+  of control and insight]
 ** Variable Renaming and eta-Expansion/Contraction
 *** Consistent Renaming of Variables
-a.k.a. alpha conversion
-based on the notion of alpha-equivalence from lambda-calculus [as we'll see in Part III]
-must respect lexical scope & avoid variable capture [give examples showing the problems]
-point out nominal unification in margin note
+    [a.k.a. alpha conversion]
+**** based on the notion of alpha-equivalence from lambda-calculus [as we'll see in Part III]
+**** must respect lexical scope & avoid variable capture [give examples showing the problems]
+     [point out nominal unification in margin note]
 *** eta-Expansion/Contraction
-add1 vs. (lambda (x) (add1 x)) is probably the easiest example to keep in mind
-can change divergence behavior (for example, Z vs Y combinator) [give examples]
-careful to avoid variable capture [give example]
-careful with the number of arguments when playing with variadic procedures, such as +
-  for variadic functions, can use varargs:
-  > ((lambda args (apply + args)) 3 4 5)
-  12
+**** add1 vs. (lambda (x) (add1 x)) is probably the easiest example to keep in mind
+**** can change divergence behavior (for example, Z vs Y combinator) [give examples]
+**** careful to avoid variable capture [give example]
+**** careful with the number of arguments when playing with variadic procedures, such as +
+***** for variadic functions, can use varargs
+      [ ((lambda args (apply + args)) 3 4 5) => 12 ]
 ** A-Normal Form and Contintuation-Passing Style
 *** A-Normal Form
-[we'll be using a similar transformation when we start translating Scheme code to miniKanren]
-[make sure to use the real anf, not the pseudo-anf we use for
- miniKanren translation (difference shows up in append, for example); true anf can introduce lets
- on the RHS of a let binding]
-[essence of compiling with continuations]
-serious vs simple expressions
+    [we'll be using a similar transformation when we start translating Scheme code to miniKanren]
+    [make sure to use the real anf, not the pseudo-anf we use for
+    miniKanren translation (difference shows up in append, for example); true anf can introduce lets
+    on the RHS of a let binding]
+    [essence of compiling with continueations]
+    [which examples to use? factorial, append]
+**** serious vs simple expressions
 *** Contintuation-Passing Style
-[tie to a normal-form]
-[present before RI & defunctionalization, so we'll have examples to
-practice on before we get to the interpreter; is there a better way to
-do this?  RI/defunctionalize something else?  I could do environment
-lookup/extension, for example, but this seems unmotivated at this
-point in the book.]
-gateway drug of program transformations
-show aps as part of the description: factorial in direct-style, aps, and cps, with the tradeoffs
-  stack vs heap usage
-  tracing of program execution
-properties of cps'd code
-  all series calls are in tail position
-  all arguments to calls are simple
-[margin note--CPSing miniKanren relations in a way that preserves "running backwards" efficiently is still an open problem]
+    [tie to a normal-form]
+    [present before RI & defunctionalization, so we'll have examples to
+    practice on before we get to the interpreter; is there a better way to
+    do this?  RI/defunctionalize something else?  I could do environment
+    lookup/extension, for example, but this seems unmotivated at this
+    point in the book.]
+**** gateway drug of program transformations
+**** show aps as part of the description: factorial in direct-style, aps, and cps, with the tradeoffs
+***** stack vs heap usage
+***** tracing of program execution
+**** formal rules for cps
+**** properties of cps'd code
+***** lambda expressions take an extra argument
+***** all series calls are in tail position
+***** all arguments to calls are simple
+***** fixes order of evaluation
+**** can CPS code multiple times
+     [margin note--CPSing miniKanren relations in a way that preserves "running backwards" efficiently is still an open problem]
+     [execise: write a CPSer in Scheme]
 ** Representation-independence and Defunctionalization
 *** Representation-independence
-[careful with terminology:  RI *wrt* continuations/procedures/environments/whatever.]
-distinction between higher-order vs. first-order representations
-  [terinology: DS = FO representation; HO rep]
-  higher-order rep
-  DS representations tagged lists vs a-lists vs. other (for example, records)
-    [when we go to mk, we'll need to stick to first-order representations that we can 
-     compare with Scheme's equal?, since miniKanren uses first-order unification, 
-     which is a syntactic equality constraint]
-    [defunctionalization in the next sub-section will allow us to
-     mechanically transform higher-order representations into
-     first-order representations, going through an intermediate stage
-     of making the code RI wrt whatever we want to defunctionalize]
-[demonstrate on continuations in CPSed code; will demonstrate for
-environments and procedures in the interpreter]
+    [careful with terminology:  RI *wrt* continuations/procedures/environments/whatever.]
+**** distinction between higher-order vs. first-order representations
+     [terinology: DS = FO representation; HO rep]
+***** higher-order rep
+***** DS representations tagged lists vs a-lists vs. other (for example, records)
+      [when we go to mk, we'll need to stick to first-order representations that we can 
+      compare with Scheme's equal?, since miniKanren uses first-order unification, 
+      which is a syntactic equality constraint]
+      [defunctionalization in the next sub-section will allow us to
+      mechanically transform higher-order representations into
+      first-order representations, going through an intermediate stage
+      of making the code RI wrt whatever we want to defunctionalize]
+      [demonstrate on continuations in CPSed code; will demonstrate for
+      environments and procedures in the interpreter]
 *** Defunctionalization
-[especially useful when porting code to a spartan host like C, 
-for debugging (can print the representation of a procedure, for example), 
-serialization,
-or when using pattern-matching (or unification!)]
-[personal usage: often I find difficult or complex ideas easiest to
-express using HO representation. I might then defunctionalize the code
-for debugging/visualization/serialization/whatever.  I might switch
-between representations multiple times during the development of a
-complex program. (In miniKanren, though, I almost always stick to DS
-rep)]
-[demonstrate on continuations in CPSed code; will demonstrate for
-environments and procedures in the interpreter]
+    [especially useful when porting code to a spartan host like C, for
+    debugging (can print the representation of a procedure, for
+    example), serialization, or when using pattern-matching (or
+    unification!)]
+    [personal usage: often I find difficult or complex ideas easiest to
+    express using HO representation. I might then defunctionalize the code
+    for debugging/visualization/serialization/whatever.  I might switch
+    between representations multiple times during the development of a
+    complex program. (In miniKanren, though, I almost always stick to DS
+    rep)]
+    [demonstrate on continuations in CPSed code; will demonstrate for
+    environments and procedures in the interpreter]
 * PART III: WRITING INTERPRETERS IN SCHEME
-lambda-calculus
-  syntax
-  alpha-conversion [we've seen this before in Part II]
-  beta reduction
-    substitution
-      naive vs capture-avoidance
-  eta reduction/expansion
-  LC is Turing-complete [a bit ironic to say it that way]
-  undecidability of term equivalence under beta-reduction
-  confluence
-  combinators & combinatory logic
-    S,K,I combinators
-    bases
-    single-combinator bases [point to Okasaki paper]
-    Y combinator
-  call-by-name vs. call-by-need vs. call-by-value
-    Z combinator
-  aside: Church encoding
-a big-step direct-style environment-passing interpreter for the CBV LC
-  context
-    big-step interpreter vs. small-step reducer [reference EOPL and PLT Redex books]
-    environments vs substitution
-  higher-order version
-  first order version
-adding list and quote
-  99 ways to say (I love you), inspired by Matt's blog post
-  can run quines
-adding pair operators
-  more ways to say (I love you)
-adding booleans
-  [not strictly necessary]
-adding 'if'
-  'append' using Y combinator
-adding numbers
-adding sub1 and *
-  factorial
-Exercise: to add other primitive functions and forms to the interpreter
-Exercise: add built-in procedures to the environment rather than hard-coding them in the interpreter
-  [I should play around with this myself, and see how this works in miniKanren-land.  
+** lambda-calculus
+*** syntax
+*** alpha-conversion [we've seen this before in Part II]
+*** beta reduction
+**** substitution
+***** naive vs capture-avoidance
+*** eta reduction/expansion
+*** LC is Turing-complete [a bit ironic to say it that way]
+*** undecidability of term equivalence under beta-reduction
+*** confluence
+*** combinators & combinatory logic
+**** S,K,I combinators
+**** bases
+***** single-combinator bases [point to Okasaki paper]
+**** Y combinator
+*** call-by-name vs. call-by-need vs. call-by-value
+**** Z combinator
+*** aside: Church encoding
+** a big-step direct-style environment-passing interpreter for the CBV LC
+*** context
+**** big-step interpreter vs. small-step reducer [reference EOPL and PLT Redex books]
+**** environments vs substitution
+*** higher-order version
+*** first order version
+** adding list and quote
+*** 99 ways to say (I love you), inspired by Matt's blog post
+*** can run quines
+** adding pair operators
+*** more ways to say (I love you)
+** adding booleans
+   [not strictly necessary]
+** adding 'if'
+*** 'append' using Y combinator
+** adding numbers
+** adding sub1 and *
+*** factorial
+** adding set! using store-passing style
+** adding call/cc using cps
+** Exercise: add other primitive functions and forms to the interpreter
+** Exercise: add built-in procedures to the environment rather than hard-coding them in the interpreter
+   [I should play around with this myself, and see how this works in miniKanren-land.  
    Is this approach even possible for a small-step reducer?]
-adding set! using store-passing style
-adding call/cc using cps
 * PART IV: MINIKANREN
-the core language
-append
-rember/surpriseo
-=/= extension
-rembero reconsidered
-symbolo & numbero
-absento
+** the core language
+** append
+** rember/surpriseo
+** =/= extension
+** rembero reconsidered
+** symbolo & numbero
+** absento
 * PART V: TRANSFORMING SCHEME TO MINIKANREN
-an example
-the steps
-defunctionalization [miniKanren's unification is first-order]
-why cps is problematic
+** an example
+** the steps
+** defunctionalization [miniKanren's unification is first-order]
+** why cps is problematic
 * PART VI: WRITING INTERPRETERS IN MINIKANREN
-big-step CBV lambda calculus interpreter
-adding list and quote
-  (I love you)
-  quines, twines, and thrines
-adding pair operations
-adding 'if'
-  'append' using Y combinator; running 'append' backwards
-adding set! using store-passing style
+** big-step CBV lambda calculus interpreter
+** adding list and quote
+*** (I love you)
+*** quines, twines, and thrines
+** adding pair operations
+** adding 'if'
+*** 'append' using Y combinator; running 'append' backwards
+** adding set! using store-passing style
 * PART VII: Open Problems
 ** CPSing miniKanren relations in a way that preserves "running backwards" efficiently
