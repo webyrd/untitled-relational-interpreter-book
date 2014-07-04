@@ -5,6 +5,28 @@ by
 
 William E. Byrd
 
+-------------------------------------------------------------------
+
+I'm currently (as of July 4th, 2014) working on a detailed outline for
+the book:
+
+https://github.com/webyrd/relational-programming-in-miniKanren/blob/master/outline.org
+
+I'll begin writing prose in earnest once the outline is complete.  I
+expect to be finished with the outline by mid-August, 2014.
+
+Before writing prose, I might first use the outline as a basis for a
+Google-Hangout based mini-course on relational programming.  This
+mini-course would help me flesh out examples, help me understand where
+people get confused, and help ensure the structure and order of
+presentation makes sense.  Anyone interested in such a course can
+email me at `webyrd@gmail.com`.
+
+Cheers,
+
+--Will
+
+-------------------------------------------------------------------
 
 
 This work is licensed under a Creative Commons Attribution 4.0 International License.
