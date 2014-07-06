@@ -1,11 +1,24 @@
-OUTLINE FOR 'SMALL' BOOK
+[need to be careful to fight against scope creep!  maybe...]
 
-(See old-outline-small.org for older outline material for a small book.)
+[who exactly is my audience?  Am I going to try to teach someone new
+to both functional programming and logic programming enough to do
+research in mk?  Seems like a tall order.]
 
-This book is "small" in that it concentrates on interpreters, as
-opposed to relational programming in general.  But within the scope of
-relational interpreters, the book is medium sized, if not relatively
-large.
+[could work backwards: write "Volume III" first, which would assume
+that the reader knew about Scheme and functional programming ("Volume
+I", equivalent to C211/Scheme and the Art/HtDP/whatever), and also
+about program transformations and interpreters ("Volume
+II"--equivalent to EOPL, or first half of C311/B521))]
+
+[Should I strip down this material to a truly minimal version?  For
+example, do I really need to get into details of lambda calculus,
+capture-avoiding substitution, and call-by-need in order to show the
+miniKanren big-step interpreter?  Not necessarily.  Of course, leaving
+out those ideas removes much of the context and space to explore.  I
+need to think more about this.]
+
+
+
 
 I like this approach due to the symmetry between parts:
 
