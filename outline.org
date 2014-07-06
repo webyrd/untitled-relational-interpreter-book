@@ -1,3 +1,26 @@
+[Another possible way to write the book, that I have thought about
+before and should seriously consider: teach C311 through miniKanren.
+Start with the miniKanren language, trivial programs, simple recursive
+programs like append and member, introduce necessary constraints, then
+introduce concepts like free and bound variables, lexical scope,
+shadowing, etc.  Then move to interpreters.
+
+This would avoid some of the issues with background knowledge, and
+would make everything much more self contained.  The tradeoff, I
+think, is that these ideas may be harder to first understand in the
+context of miniKanren/relational programming than they are in Scheme,
+for example.  Also, miniKanren is always embedded in a host language,
+so I'd still want to teach some Scheme.  And, finally, if we are
+exploring and interpreting a programming language, like Scheme, seems
+important to have a good grasp of Scheme first.  Although, I could
+start more basic, with LC, and maybe even CL before that, and then
+build towards Scheme that way.  Hmmm--that sounds like an interesting
+approach.  Although I'm not sure if I'll be able to pull off
+Call-by-name LC without nominal logic programming, which seems like a
+lot to introduce at the beginning.]
+
+
+
 [need to be careful to fight against scope creep!  maybe...]
 
 [An explicit goal: after reading the book, the reader should be able
@@ -288,6 +311,15 @@ Keep thinking about how I teach people these ideas in person.
      [this doesn't necessarily result in the fastest behavior for any
      given mode, however!]
 ** rember/surpriseo
+   [different from 'append' in that we need to actually look at the
+   values of the elements, to see if an element of the list is indeed
+   the element we are looking for]
+
+   [can easily express that 'x' and an element of 'ls' are
+   syntactically equal, using ==; how do we express that two terms are
+   not equal???  Punt for now.]
+
+   [Shows damage of cond/else to declarativeness.  Dijkstra guard!]
 ** =/= extension
 ** rembero reconsidered
 ** symbolo & numbero
