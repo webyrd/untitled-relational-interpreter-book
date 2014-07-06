@@ -17,7 +17,17 @@ start more basic, with LC, and maybe even CL before that, and then
 build towards Scheme that way.  Hmmm--that sounds like an interesting
 approach.  Although I'm not sure if I'll be able to pull off
 Call-by-name LC without nominal logic programming, which seems like a
-lot to introduce at the beginning.]
+lot to introduce at the beginning.
+
+What I *could* do is use a modified version of this approach, assuming
+that the reader already knows how to write recursive Scheme programs.
+So, basically the second or third week of C311, up through
+store-passing interpreters.
+
+Or...I could use a more Chomskyesh approach.  Assume the reader knows
+Scheme.  Show how to encode DFAs, NFAs, PDAs, linear bounded automata,
+etc, up to Turing machines and interpreters.  All of this stuff is fun
+and cool.]
 
 
 
