@@ -273,6 +273,8 @@ Keep thinking about how I teach people these ideas in person.
    need to have a general discussion of the problem, and of our
    efforts to remediate the problem]
 * PART VI: WRITING INTERPRETERS IN MINIKANREN
+  [do I want to show: CL reducer; Call-by-name LC reducer in nominal
+  logic; small-step reducer?]
 ** big-step CBV lambda calculus interpreter
 ** adding list and quote
 *** (I love you)
