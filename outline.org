@@ -320,7 +320,11 @@ Keep thinking about how I teach people these ideas in person.
 
      [this doesn't necessarily result in the fastest behavior for any
      given mode, however!]
-** rember/surpriseo
+** member/rember/surpriseo
+   [could call this section "Too many secrets", and have a list
+   containing (or generated to contain) multiple occurrences of the
+   symbol 'secret]
+
    [different from 'append' in that we need to actually look at the
    values of the elements, to see if an element of the list is indeed
    the element we are looking for]
@@ -331,7 +335,13 @@ Keep thinking about how I teach people these ideas in person.
 
    [Shows damage of cond/else to declarativeness.  Dijkstra guard!]
 ** =/= extension
+   [need to be careful to describe exactly what the constraint means,
+   and give examples showing the tricky corner cases]
+
+   [very limited form of negation; for example, can't express
+   'not-pair']
 ** rembero reconsidered
+   [no many surprises]
 ** symbolo & numbero
 ** absento
 * PART V: TRANSFORMING SCHEME TO MINIKANREN
