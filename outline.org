@@ -1,5 +1,9 @@
 [need to be careful to fight against scope creep!  maybe...]
 
+[An explicit goal: after reading the book, the reader should be able
+to pick up a paper on miniKanren, and understand/implement/experiment
+with the ideas and code in the paper.]
+
 [who exactly is my audience?  Am I going to try to teach someone new
 to both functional programming and logic programming enough to do
 research in mk?  Seems like a tall order.]
@@ -16,6 +20,12 @@ capture-avoiding substitution, and call-by-need in order to show the
 miniKanren big-step interpreter?  Not necessarily.  Of course, leaving
 out those ideas removes much of the context and space to explore.  I
 need to think more about this.]
+
+[One (test) audience for a "Volume III" would be IU students who have
+finished the first half of C311/B521.  Or students at Utah who have
+taken an interpreters course, although I'm not sure they learn about
+defunctionalization/etc.]
+
 
 
 
@@ -261,7 +271,22 @@ Keep thinking about how I teach people these ideas in person.
    reducer?]
 * PART IV: MINIKANREN
 ** the core language
-** append
+** append & appendo
+*** reordering of clauses and goals
+**** swappendo works because of miniKanren's complete search
+     [would diverge in Prolog with DFS, for example, if the first list
+     and the output argument were fresh, since there would be nothing
+     to cut off the recursion; in fact, if the first and last args
+     aren't fresh, but aren't length instantiated, could still
+     diverge! (double check that I'm right about divergence with this
+     specific case--would be nice to have a DFS miniKanren for playing
+     around with these examples!)]
+**** reordering the conjuncts isn't as forgiving!  
+     [For best divergence behavior, simple goals should come before
+     serious goals]
+
+     [this doesn't necessarily result in the fastest behavior for any
+     given mode, however!]
 ** rember/surpriseo
 ** =/= extension
 ** rembero reconsidered
