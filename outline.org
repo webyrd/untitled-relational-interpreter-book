@@ -123,18 +123,7 @@ Keep thinking about how I teach people these ideas in person.
      [such as +]
 ***** for variadic functions, can use varargs
       [((lambda args (apply + args)) 3 4 5) => 12]
-** A-Normal Form and Contintuation-Passing Style
-*** A-Normal Form
-    [we'll be using a similar transformation when we start translating Scheme code to miniKanren]
-
-    [make sure to use the real anf, not the pseudo-anf we use for
-    miniKanren translation (difference shows up in append, for
-    example); true anf can introduce lets on the RHS of a let binding]
-
-    [essence of compiling with continueations]
-
-    [which examples to use? factorial, append]
-**** serious vs simple expressions
+** Contintuation-Passing Style and A-Normal Form
 *** Continuation-Passing Style
     [tie to a normal-form]
 
@@ -144,6 +133,8 @@ Keep thinking about how I teach people these ideas in person.
     environment lookup/extension, for example, but this seems
     unmotivated at this point in the book.]
 **** gateway drug of program transformations
+     [because of the properties of the resulting code]
+**** serious vs simple expressions
 **** show aps as part of the description: factorial in direct-style, aps, and cps, with the tradeoffs
 ***** stack vs heap usage
 ***** tracing of program execution
@@ -158,6 +149,20 @@ Keep thinking about how I teach people these ideas in person.
      "running backwards" efficiently is still an open problem]
 
      [execise: write a CPSer in Scheme]
+*** A-Normal Form
+    [essence of compiling with continuations]
+    
+    [gives us similar properties for the resulting code, but without
+    the overhead of explicit continuations (can all the C311/521
+    program transformations be based on ANF rather than CPS?)]
+
+    [real reason to look a ANF, from the perspective of this book:
+    we'll be using a similar transformation when we start translating
+    Scheme code to miniKanren]
+
+    [which examples to use? factorial, append]
+**** formal rules for anf
+**** properties of code in ANF
 ** Representation-independence and Defunctionalization
 *** Representation-independence
     [careful with terminology: RI *wrt*
@@ -254,7 +259,19 @@ Keep thinking about how I teach people these ideas in person.
 ** the steps
 ** defunctionalization 
    [especially important because miniKanren's unification is first-order]
-** why cps is problematic
+** cps is problematic
+   [one of several ways to "break the wires"]
+
+   [probably keep this section as short as possible, and just point to
+   the relevant Open Problems section]
+
+   [not sure this is the right way/place to introduce the problem,
+   since breaking the wires via CPS appears to be just one example of
+   a larger class of problems; for example, the transitive closure of
+   small-step calls in a small-step interpreter also seems to break
+   the wires.  Maybe 'breaking the wires' needs to be a section, and
+   need to have a general discussion of the problem, and of our
+   efforts to remediate the problem]
 * PART VI: WRITING INTERPRETERS IN MINIKANREN
 ** big-step CBV lambda calculus interpreter
 ** adding list and quote
@@ -265,4 +282,9 @@ Keep thinking about how I teach people these ideas in person.
 *** 'append' using Y combinator; running 'append' backwards
 ** adding set! using store-passing style
 * PART VII: Open Problems
-** CPSing miniKanren relations in a way that preserves "running backwards" efficiently
+** Reconnecting Broken Wires
+   [as I said above, this problem is more about "breaking the wires"
+   than about CPS; this is also an issue with the transitive closure
+   of the step operator of a small-step interpeter (as opposed to the
+   equivalent termination/pruning behavior of an equivalent big-step
+   interpreter)]
