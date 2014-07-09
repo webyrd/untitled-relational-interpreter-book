@@ -48,7 +48,11 @@ factorial
 -----------------------
 set! and store-passing style
 continuations and cps
-
+-----------------------
+adding set! in miniKanren
+CPS--seems like a troublemaker!!
+----------------------
+open problems
 
 
 
