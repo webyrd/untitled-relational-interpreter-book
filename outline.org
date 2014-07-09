@@ -6,6 +6,8 @@ Quasiquote
 Simple recursive functions
   factorial
   fib
+    naive vs smart
+    memoing/tabling
   length
   member
   rember
@@ -58,6 +60,17 @@ continuations and cps
 -----------------------
 adding set! in miniKanren
 CPS--seems like a troublemaker!!
+----------------------
+call-by-name LC
+  capture-avoiding substition
+----------------------
+nominal logic programming
+----------------------
+combinatory logic
+----------------------
+CL in miniKanren
+eigen
+fixpoint combinator synthesis
 ----------------------
 open problems
 
