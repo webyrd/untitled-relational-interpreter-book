@@ -31,6 +31,11 @@ and cool.]
 
 
 
+[lots to learn from append: appendo/reordering/divergence/swappendo
+and append within the relational interpreter]
+
+
+
 [need to be careful to fight against scope creep!  maybe...]
 
 [An explicit goal: after reading the book, the reader should be able
@@ -59,6 +64,15 @@ finished the first half of C311/B521.  Or students at Utah who have
 taken an interpreters course, although I'm not sure they learn about
 defunctionalization/etc.]
 
+
+
+
+[what about the implementation of mk?  seems like lots of people want
+to understand the implementation, which is both fun to understand, and
+might make the behavior of the programs easier to understand.  Could
+I *start* with the implementation of micro/mini-on-micro, maybe after
+a brief intro to relational programming?  Then move on to more
+advanced mk programming?]
 
 
 
