@@ -1,3 +1,57 @@
+Think about how I'd do this for a web-based, Google Hangout tutorial
+series.  One approach (very 311-like):
+
+Intro to Scheme
+Quasiquote
+Simple recursive functions
+Lexical scope
+Pattern matching/pmatch
+-----------------------
+core miniKanren
+simple recursive relations in miniKanren (appendo, rembero/surpriseo, etc)
+=/=
+rembero revisited
+symbolo/numbero
+Oleg numbers
+CLP(fd)
+absento
+-----------------------
+Environments
+Different Ways to Represent Environments: higher-order, DS
+CBV Lambda Calculus
+  alpha-equivalence/alpha-conversion
+  eta
+  CBV/CB name/CB need
+Higher-order 3x5 card interpreter
+Extend to handle factorial
+  numbers
+  zero?
+  sub1
+  *
+  if
+RI
+Defunctionalization/DS version of interpreter (procedures/environments)
+lexical vs dynamic scope
+adding quote/list/cons/car/cdr/etc
+-----------------------
+environment lookup in miniKanren
+DS CBV LC interpeter
+adding quote
+adding cons/car/cdr/null?
+(I love you)
+fun with quines
+adding if
+running append in the interpreter
+adding list
+adding numbers
+factorial
+-----------------------
+set! and store-passing style
+continuations and cps
+
+
+
+
 [Another possible way to write the book, that I have thought about
 before and should seriously consider: teach C311 through miniKanren.
 Start with the miniKanren language, trivial programs, simple recursive
