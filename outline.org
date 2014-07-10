@@ -1,7 +1,9 @@
 Think about how I'd do this for a web-based, Google Hangout tutorial
 series.  One approach (very 311-like):
 
-Intro to Scheme
+INTRO TO SCHEME
+The REPL
+[take intro to Scheme from outline below!]
 Quasiquote
 Simple recursive functions
   factorial
@@ -16,7 +18,7 @@ Simple recursive functions
 Lexical scope
 Pattern matching/pmatch
 -----------------------
-Intro to miniKanren
+INTRO TO MINIKANREN
 core miniKanren
   ==
   run
@@ -31,8 +33,10 @@ simple recursive relations in miniKanren
     can't express not-pairo
   rembero revisited 
 symbolo/numbero
-Oleg numbers
-CLP(fd)
+Representing numbers/arithmetic
+  Peano representation
+  Oleg numbers
+  CLP(fd)
 absento
 -----------------------
 Environments
