@@ -23,7 +23,7 @@ INTRO TO SCHEME
 *** type predicates
 *** lambda & procedures
 *** procedure application
-*** S-expressions 
+*** S-expressions
     [point out that in Scheme parens are always significant]
 *** Scheme's evaluation rules 
     [call-by-value & special forms]
