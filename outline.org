@@ -3,6 +3,10 @@ series.  One approach (very 311-like):
 
 INTRO TO SCHEME
 *** the REPL
+    [Do we want to show how to start the REPL for vicare, petite,
+    etc.?  How to run the interpreter within Emacs?  How to
+    install/compile vicare/etc.?  Should probably create a little web
+    page with this sort of information]
 *** numbers
 *** define 
     [define gives a name to a value]
