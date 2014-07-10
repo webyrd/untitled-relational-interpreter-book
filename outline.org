@@ -16,10 +16,20 @@ Simple recursive functions
 Lexical scope
 Pattern matching/pmatch
 -----------------------
+Intro to miniKanren
 core miniKanren
-simple recursive relations in miniKanren (appendo, rembero/surpriseo, etc)
+  ==
+  run
+  fresh
+  conde
+simple recursive relations in miniKanren
+  appendo
+    goal ordering & divergence vs. finite failure
+  rembero/surpriseo
 =/=
-rembero revisited
+  examples, gotchas, and limitations
+    can't express not-pairo
+  rembero revisited 
 symbolo/numbero
 Oleg numbers
 CLP(fd)
