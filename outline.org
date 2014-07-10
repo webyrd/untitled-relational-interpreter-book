@@ -2,21 +2,76 @@ Think about how I'd do this for a web-based, Google Hangout tutorial
 series.  One approach (very 311-like):
 
 INTRO TO SCHEME
-The REPL
-[take intro to Scheme from outline below!]
-Quasiquote
-Simple recursive functions
-  factorial
-  fib
-    naive vs smart
-    memoing/tabling
-  length
-  member
-  rember
-  append
-  deep recursion
-Lexical scope
-Pattern matching/pmatch
+*** the REPL
+*** numbers
+*** define 
+    [define gives a name to a value]
+*** variables
+*** arithmetic 
+    [show big numbers and all of that!!]
+*** expressions vs values
+*** quote & symbols 
+    [point out the beauty/power of symbolic data]
+*** pairs and lists 
+    [point out that nested lists represent tree structures]
+**** box & pointers
+**** inductive definition of a proper list
+*** boolean constants
+*** conditionals
+*** Scheme's notion of truth
+*** equality predicates
+*** type predicates
+*** lambda & procedures
+*** procedure application
+*** S-expressions 
+    [point out that in Scheme parens are always significant]
+*** Scheme's evaluation rules 
+    [call-by-value & special forms]
+*** redefining Scheme's built-in procedures 
+    [point out that procedure application
+    can't be redefined, and numbers can't be redefined, although the arithmetic 
+    procedures can be redefined; is redefinition a good thing?  scares lots of 
+    programmers; Joe A: laguage tradeoffs, does the language design hang together, 
+    in light of those tradeoffs?]
+*** recursion
+** Writing Recursive Procedures
+   [writing simple recursive programs & thinking recursively]
+*** the wishful thinking approach to thinking recursively
+*** length
+*** member
+*** rember
+*** append
+*** factorial
+*** fib
+*** natural (direct-style) recursion vs tail recursion
+**** visualizing recursion
+*** deep recursion
+*** mutual recursion
+**** even & odd
+** Other Useful Aspects of Scheme
+*** quasiquote & unquote
+*** let
+**** let in terms of lambda & application
+**** lexical scope & shadowing
+*** letrec
+*** varargs
+*** apply
+*** eval
+*** input and output 
+    [tells the reader something about the perspective of
+    this book that I initially forgot to include input/output in the
+    intro to programming in Scheme]
+*** set!
+*** set-car! & set-cdr!
+*** vectors
+*** continuations & call/cc
+*** syntactic extension
+**** syntax-rules/syntax-case/syntax-parse (Racket)
+**** examples
+***** pattern matching (pmatch/match) 
+      [we'll be using pattern matching in our Scheme interpreter, and
+      a similar pattern-matching syntax in miniKanren]
+***** embedded domain-specific languages
 -----------------------
 INTRO TO MINIKANREN
 core miniKanren
