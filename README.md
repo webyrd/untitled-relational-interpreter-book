@@ -53,8 +53,9 @@ Special thanks to Stu Halloway for his quines observation, which has
 driven my research (and my sleep patterns) for the past three years.
 Thanks also to Stu and Joey for their amazing hospitality.
 
-Special thanks to Rich Hickey, Lynn Grogan, Alex Miller, and the
-Clojure community for being so welcoming.
+Special thanks to Rich Hickey, Lynn Grogan, Alex Miller, Nada Amin,
+Bodil Stokke, Fogus, and the rest of the Clojure community for being
+so welcoming.
 
 Special thanks to Andy Lumsdaine and Rebecca Schmidt for their
 tremendous support -- and their friendship -- while I was at the
