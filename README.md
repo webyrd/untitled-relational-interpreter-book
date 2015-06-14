@@ -1,4 +1,4 @@
-Relational Programming in miniKanren
+Untitled Relational Interpreter Book
 ====================================
 
 by
@@ -6,6 +6,61 @@ by
 William E. Byrd
 
 -------------------------------------------------------------------
+
+Update (July 14th, 02015):
+
+I've changed the name of the book/repository too many times, so I'll
+just call the repo 'untitled-relational-interpreter-book' for now.
+
+The working title of the book is:
+
+  'Playing with Relational Interpreters'
+
+I hope I can capture the sense of play and excitement
+I get from playing with the relational interpreter.
+
+My current plan is to write a *thin*, very focused book on relational
+interpreters, with all non-awesomeness removed.  I want the book to be
+readable by as general an audience as possible.  Narrow focus, wide
+audience.
+
+I'm working on a new outline (`outline.txt`).  I've moved the old
+outlines to the `old-outlines` directory.
+
+I've been moderating/hosting a series of weekly miniKanren "uncourse"
+Hangouts
+(https://www.youtube.com/playlist?list=PLO4TbomOdn2cks2n5PvifialL8kQwt0aW).
+These hangouts have been extremely helpful for helping me understand
+how to teach relational interpreters.  Many thanks to everyone who has
+participated!
+
+Special thanks to Celeste Hollenbeck for pushing me to keep working on
+this book, Michael Ballantyne for close collaboration on miniKanren
+and relational interpreters, Matt Might, who has made this
+collaboration possible, and my other colleagues in the U Combinator
+lab and at University of Utah.
+
+Special thanks to David Nolen for porting my dissertation to Clojure.
+I doubt I would have had the courage to continue working on miniKanren
+otherwise.
+
+Special thanks to Stu Halloway for his quines observation, which has
+driven my research (and my sleep patterns) for the past three years.
+Thanks also to Stu and Joey for the amazing hospitality.
+
+Special thanks to Rich Hickey, Lynn Grogan, Alex Miller, and the
+Clojure community for being so welcoming.
+
+And, of course, thanks to the usual suspects -- all the people who
+have developed and improved miniKanren and its variants and ports.
+Special thanks to my 'Reasoned Schemer' co-authors Dan Friedman and
+Oleg Kiselyov.  I'm not going to try to name anyone else, since I know
+I'll accidentally leave people out.  I'll try to thank everyone
+properly in the book.  I fear this is already an impossible task.
+
+-------------------------------------------------------------------
+
+Old, hilariously optimistic update:
 
 I'm currently (as of July 4th, 2014) working on a detailed outline for
 the book:
