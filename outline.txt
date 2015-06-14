@@ -1,3 +1,79 @@
+*** CRITICAL DECISIONS ***
+
+===============
+
+PRIMARY GOAL: Get the reader to the point where they can start modifying, experimenting with, extending the relational interpreter.
+
+SECONDARY GOAL: Inspire the reader, making them want to to explore/play with the relational interpreter, relational programming, miniKanren.
+
+I want to maintain laser-like focus on these goals.  Divergence from these goals is permissible only in footnotes.
+
+===============
+
+BOOK SIZE: Thin.  Everything in the book has to advance the relational interpreter story.
+
+The point of the book is to teach the reader what they need to know to start working with/playing with/extending the relational interpreter on their own.  The point of the book is *not* to teach the reader everything I know about relational interpreters, relational programming, miniKanren, programming languages, whatever.
+
+===============
+
+AUDIENCE:  As wide as possible.
+
+I'm *not* going to assume the audience knows Scheme, interpreters, logic programming, functional programming, or miniKanren.
+
+===============
+
+GUIDING PRINCIPLE: Keep the scope narrow and the audience wide.
+
+===============
+
+LANGUAGE: Scheme
+
+It's the language I know best, the language I use, the language of most of the research papers and TRS.  It's a very small language, and compatible with Racket.  Should be easy for Clojurers and others to pick up.
+
+===============
+
+WRITING STYLE: Begin with a bang.
+
+Remove the boring/irrelevant parts.
+
+Should be able to stamp the cover with: "All non-awesomeness has been removed from this book."
+
+Introduce Scheme/PL/mk/interpreter concepts just-in-time when possible.
+
+Get to the mind-blowing stuff as soon as possible.
+
+Make the excitement and enthusiasm I feel personally shine through.
+
+===============
+
+THINGS TO INCLUDE IN THE BOOK: So the reader can stand on their own when investigating relational interpreters.
+
+* Just enough Scheme
+* Just enough logic programming
+* Just enough PL theory
+
+===============
+
+THINGS *NOT* TO INCLUDE IN THE BOOK:  (Unless I directly relate them to the relational interpreter.)
+
+* Sodoku
+* SEND MORE MONEY
+* CLP(FD)
+* Zebra
+* conda/condu/once/project
+* C311/PL material not absolutely required
+* general logic programming
+* Prolog, Curry, Mercury, Godel, Oz, etc.
+
+===============
+
+WORKING TITLE: Playing with Relational Interpreters
+
+'Play' is the critical aspect.  Can I capture the feeling of play that I enjoy so much?
+
+===============
+
+
 High Level
 -----------
 
@@ -24,4 +100,9 @@ Cool examples of the relational interpreter at work:
 * symbolic/concolic execution
 
 * test generation
+
+These things are what I want to show off, talk about, explore.
+
+Want to show the reader *how* to write relational interpreters.
+
 
