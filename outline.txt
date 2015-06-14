@@ -1,0 +1,27 @@
+High Level
+-----------
+
+The relational interpreter is the really amazing thing, which can apparently be pushed much further.  First-class macros, use the Chez macro expander to expand to the core language rewrite the relational interp to primitives in the environment, specialization, effects, monads, program synthesis, symbolic execution, test generation, other languages, etc.
+
+Cool examples of the relational interpreter at work:
+
+* Quines
+
+* programs that evaluate to (I love you)
+
+* programs that evaluate to 6
+
+* example-based synthesis
+
+* running 'append' in the relational interpreter
+
+* mutually-recursive functions encoding a state machine, in the relational interpreter
+
+* theorem prover, from running a proof checker in the relational interpreter
+
+* higher-order Scheme interpreter (3x5 card from C311), in the relational interpreter
+
+* symbolic/concolic execution
+
+* test generation
+
