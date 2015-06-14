@@ -59,9 +59,8 @@ Clojure community for being so welcoming.
 Special thanks to Andy Lumsdaine and Rebecca Schmidt for their
 tremendous support -- and their friendship -- while I was at the
 Center for Research in Extreme Scale Technologies (CREST).  And thanks
-to all the other CREST researchers and employees, who I'll not even
-try to name here for fear of leaving someone out.  I'll save it for
-the book.
+to all the other CREST researchers and employees, whom I'll not try to
+name here for fear of leaving someone out.  I'll save it for the book.
 
 Special thanks to Alan Sherman at UMBC for his support and mentorship
 over the years.
