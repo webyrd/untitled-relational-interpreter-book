@@ -110,10 +110,10 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 The PDF file for the book is at:
 
-`latex/rpim.pdf`
+`latex/urib.pdf`
 
 
-Build instructions:
+Build instructions (somewhat out of date, but should still work; as of 14 June 02015 I'm using a new laptop with Mac OS 10.10.3 and a later TeX distro):
 
 I build the book under Mac OS 10.8 using the MacTeX-2012 Distribution of TeX Live. (http://tug.org/mactex/) For some bizarre reason, you need to be careful when downloading the `MacTeX.pkg` file, or it will be corrupted; one safe way to download the file is to use Safari.  I'm typesetting the book using XeLaTeX, which should be included in any modern TeX distribution.
 
