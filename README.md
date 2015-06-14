@@ -34,11 +34,16 @@ These hangouts have been extremely helpful for helping me understand
 how to teach relational interpreters.  Many thanks to everyone who has
 participated!
 
-Special thanks to Celeste Hollenbeck for pushing me to keep working on
-this book, Michael Ballantyne for close collaboration on miniKanren
-and relational interpreters, Matt Might, who has made this
-collaboration possible, and my other colleagues in the U Combinator
-lab and at University of Utah.
+Special thanks to: Celeste Hollenbeck for pushing me to keep working
+on this book; Michael Ballantyne for close collaboration on miniKanren
+and relational interpreters; Matt Might, who has made this
+collaboration possible; Michael Adams, for collaboration on tree
+automata for miniKanren, and countless helpful conversations; Celeste
+Hollenbeck and Maria Jenkins for helping figure out how to teach a
+minimal introduction to Scheme; Tom Gilray for explorations in 0-CFA
+in miniKanren; and all my other colleagues in the U Combinator lab and
+at University of Utah for creating an intellectually stimulating
+environment.
 
 Special thanks to David Nolen for porting my dissertation to Clojure.
 I doubt I would have had the courage to continue working on miniKanren
@@ -51,12 +56,25 @@ Thanks also to Stu and Joey for their amazing hospitality.
 Special thanks to Rich Hickey, Lynn Grogan, Alex Miller, and the
 Clojure community for being so welcoming.
 
+Special thanks to Andy Lumsdaine and Rebecca Schmidt for their
+tremendous support -- and their friendship -- while I was at the
+Center for Research in Extreme Scale Technologies (CREST).  And thanks
+to all the other CREST researchers and employees, who I'll not even
+try to name here for fear of leaving someone out.  I'll save it for
+the book.
+
+Special thanks to Alan Sherman at UMBC for his support and mentorship
+over the years.
+
 And, of course, thanks to the usual suspects -- all the people who
 have developed and improved miniKanren and its variants and ports.
 Special thanks to my 'Reasoned Schemer' co-authors Dan Friedman and
 Oleg Kiselyov.  I'm not going to try to name anyone else, since I know
 I'll accidentally leave people out.  I'll try to thank everyone
 properly in the book.  I fear this is already an impossible task.
+
+Special thanks to my H211/C211/C311 students, and to my teaching
+assistants: Lindsey Kuper, Michael Adams, and Abdulaziz Ghuloum.
 
 Finally, a very special thanks to my family for your love and support.
 
