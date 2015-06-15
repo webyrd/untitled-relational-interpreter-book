@@ -197,4 +197,11 @@ to write an interpreter for mk, using a small enough subset of Scheme
 that itself can be expressed in the rel Scheme interp.
 
 Could try the Nada "tag everything and just use ==" approach to
-writing relational Scheme interps.  This would have 
+writing relational Scheme interps.  This would have the advantage of
+only requiring the impl of ==, rather than also =/=, symbolo, absento,
+and maybe numbero.  I wonder what the corresponding fully-tagged
+Scheme interp would look like.
+
+Could potentially disallow shadowing of built-ins in both Scheme
+interps and rel interp, although this doesn't seem very classy.  I'd
+prefer to put primitives in the environment.
