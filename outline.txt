@@ -294,9 +294,21 @@ top-level mk as the usual embedding:
 
 
 What would be involved in writing an mk interp?  Can we write
-something minimal, in the C311 Scheme interp spirit?
+something minimal, in the C311 Scheme interp spirit?  We would
+probably need:
 
-[figure]
+fresh
+conde
+==
+=/=
+symbolo
+absento (possibly restricted to a ground atom as first arg)
+run
+
+and the reifier...
+
+Could we get away without numbero?  Do we need project?
+
 
 Seems like the viability of this entire approach rests on the ability
 to write an interpreter for mk, using a small enough subset of Scheme
