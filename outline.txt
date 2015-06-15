@@ -179,7 +179,67 @@ the Scheme interp in the Scheme interp, used *that* interp to impl mk
 (perhaps as an interpreter??), then used mk to impl the rel interp,
 which is then used to impl the Scheme interp.
 
-[figure]
+For example (where all 'Scheme interp' are identical impls of the same
+language):
+
+---------------------
+|   Scheme interp   | 
+---------------------
+         |
+---------------------
+|   Scheme interp   | 
+---------------------
+         |
+---------------------
+|      mk impl      | 
+---------------------
+         |
+---------------------
+| rel Scheme interp | 
+---------------------
+         |
+---------------------
+|   Scheme interp   | 
+---------------------
+         |
+---------------------
+|    Scheme expr    | 
+---------------------
+
+
+At the possible cost of not keeping ourselves honest, we can simplify
+this picture by removing the second Schem interp:
+
+---------------------
+|   Scheme interp   | 
+---------------------
+         |
+---------------------
+|      mk impl      | 
+---------------------
+         |
+---------------------
+| rel Scheme interp | 
+---------------------
+         |
+---------------------
+|   Scheme interp   | 
+---------------------
+         |
+---------------------
+|    Scheme expr    | 
+---------------------
+
+We might want to make the mk impl an interp, which conceptually would
+keep the book, and this nested models, about interpreters all the way
+through.
+
+We may need to use partial evaluation to speed up this stack.
+However, to some extent we are just trying to show the relationship
+between these pieces, so it probably doesn't matter that this would
+run super slow.
+
+
 
 Could we impl mk as an interp?  And if we can, what happens when we rn
 the mk interp in the rel Scheme interp?  This sounds awesome and worth
