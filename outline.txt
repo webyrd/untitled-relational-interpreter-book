@@ -166,3 +166,35 @@ interp.  Might start first with environ helpers or whatever.
 Could potentially play w/Scheme interp implemented in the rel interp
 before trying to implement 'evalo'!
 
+How would I put the above into practice?
+
+This all depends on the pieces fitting together, which I'm not sure I
+can pull off.
+
+[figure]
+
+I would certainly keep myself honest if I wrote the Scheme interp
+first (using primitives stored in the environment, probably), then ran
+the Scheme interp in the Scheme interp, used *that* interp to impl mk
+(perhaps as an interpreter??), then used mk to impl the rel interp,
+which is then used to impl the Scheme interp.
+
+[figure]
+
+Could we impl mk as an interp?  And if we can, what happens when we rn
+the mk interp in the rel Scheme interp?  This sounds awesome and worth
+doing.
+
+[figure]
+
+What would be involved in writing an mk interp?  Can we write
+something minimal, in the C311 Scheme interp spirit?
+
+[figure]
+
+Seems like the viability of this entire approach rests on the ability
+to write an interpreter for mk, using a small enough subset of Scheme
+that itself can be expressed in the rel Scheme interp.
+
+Could try the Nada "tag everything and just use ==" approach to
+writing relational Scheme interps.  This would have 
