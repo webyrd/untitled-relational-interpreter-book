@@ -245,7 +245,53 @@ Could we impl mk as an interp?  And if we can, what happens when we rn
 the mk interp in the rel Scheme interp?  This sounds awesome and worth
 doing.
 
-[figure]
+We would end up with something like this:
+
+---------------------
+|       Scheme      | 
+---------------------
+         |
+-----------------------
+| mk interp in Scheme | 
+-----------------------
+         |
+---------------------
+| rel Scheme interp | 
+---------------------
+         |
+-----------------------
+| mk interp in Scheme | 
+-----------------------
+         |
+---------------------
+|      mk expr      | 
+---------------------
+
+We should end up with higher-order predicates in the mk interp running
+in the relational Scheme interp.  Really, could also keep the
+top-level mk as the usual embedding:
+
+
+---------------------
+|       Scheme      | 
+---------------------
+         |
+-----------------------
+| usual mk embedding | 
+-----------------------
+         |
+---------------------
+| rel Scheme interp | 
+---------------------
+         |
+-----------------------
+| mk interp in Scheme | 
+-----------------------
+         |
+---------------------
+|      mk expr      | 
+---------------------
+
 
 What would be involved in writing an mk interp?  Can we write
 something minimal, in the C311 Scheme interp spirit?
