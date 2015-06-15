@@ -145,3 +145,24 @@ another pass that adds details, repeat. ]
 Even More Detail
 ----------------
 
+What would be awesome: Scheme interp, mk interp matches the same
+language, which is the language I teach, and also the language used to
+impl. the Scheme interp. *and* the mk impl.
+
+After learning Scheme and a tiny bit of mk by playing with the
+rel. interp, show how to write a Scheme interp.  No need to teach how
+to impl. 'append', or other examples of Scheme programming, since we
+learned all this by playing with the interpreter!!
+
+After we impl the standard interp, time to learn mk.  I think we'll
+need to learn 'appendo', translation, etc.  However, before hand we
+can have played with 'append' in the rel interp, for example.  Once we
+know how to write 'append', we can run it in the regular interp and
+play with it in the mk interp.
+
+After we have learned enough mk programming, start writing the rel
+interp.  Might start first with environ helpers or whatever.
+
+Could potentially play w/Scheme interp implemented in the rel interp
+before trying to implement 'evalo'!
+
