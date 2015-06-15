@@ -106,3 +106,42 @@ These things are what I want to show off, talk about, explore.
 Want to show the reader *how* to write relational interpreters.
 
 
+
+More Detail
+-----------
+
+Start with a bang -- try to immediately start showing what the
+rel. interp. can do.  How can I show this off to a non-expert in way
+a they can immediately appreciate?
+
+Show the reader something jaw-dropping.  Promise that they will be
+able to understand and contribute to the state of the art of research
+in this area by the time they finish the book.  As a side-effect they
+will also know something about Scheme, FP, LP, RP, interpreters,
+PL/DSL implementation, etc.  These are bonuses -- the main focus is
+the rel. interp.
+
+Teach minimal mk and Scheme needed to play with the rel. interp.  The
+playing should come first.  Really only need to teach 'run' and the
+call to 'evalo' to get fairly far with the rel. interp.  Can introduce
+==, =/=, fresh, etc., later.
+
+Probably want to provide an equivalent Scheme interp, to "normalize"
+over the 'eval' interface, so we can keep the language of
+rel. interp. and of Scheme in synch.  Then we can make sure calls to
+'eval' mirror calls to 'evalo', the same language is supported, etc.
+
+Could try to teach Scheme through this interp.  Then can introduce
+re. interp. whenever it feels right.  The start playing.
+
+
+
+[ Meta comment: Celeste mentioned the "snowflake" approach to an
+outline - go all the way through at a high level, go back and do
+another pass that adds details, repeat. ]
+
+
+
+Even More Detail
+----------------
+
