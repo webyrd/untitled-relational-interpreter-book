@@ -5,9 +5,26 @@ by
 
 William E. Byrd
 
+
 -------------------------------------------------------------------
 
-Update (July 14th, 02015):
+Update (June 23rd, 02015):
+
+New working title:
+
+  'Playing with Executable Semantics in miniKanren'
+
+My current thinking is to show how to encode a number of formal
+systems in miniKanren, ideally directly from the semantics.  This
+would include interpreters for both a Scheme-like language and the
+'While' imperative language, along with other formal systems and
+languages.
+
+I'm therefore working on yet another new outline (`outline.txt`).
+
+-------------------------------------------------------------------
+
+Update (June 14th, 02015):
 
 I've changed the name of the book/repository too many times, so I'll
 just call the repo 'untitled-relational-interpreter-book' for now.
